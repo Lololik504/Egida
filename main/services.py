@@ -22,3 +22,9 @@ def get_schools_by_district(district):
     schools = School.objects.all()
     schools = filter((lambda f: f.district == district), schools)
     return schools
+
+
+def get_school_by_id(id):
+    schools = School.objects.all()
+    school = next(filter((lambda f: f.id == id), schools))
+    return school

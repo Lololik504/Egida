@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='start_page'),
-    re_path('district/', views.district, name='district')
+    path('district/<str:url>', views.district, name='district'),
+    path('district/<str:url>/<int:id>', views.school, name='school')
 ]

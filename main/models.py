@@ -1,7 +1,40 @@
+from datetime import date
+from .translit import latinizator
 from django.db import models
+from django.utils import timezone
 
 
 # Create your models here.
+
+class District(models.Model):
+    name = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = "Район"
+        verbose_name_plural = "Районы"
+
+    def __str__(self):
+        return self.name
+
+
+class School(models.Model):
+    name = models.CharField(max_length=100)
+    district = models.ForeignKey(District, on_delete=models.CASCADE, default=None)
+
+    # building_constructions = models.ForeignKey(BuildingConstructions, on_delete=models.CASCADE,
+    # default=None, blank=True, null=True)
+    #     engineering_structures = models.ForeignKey(EngineeringStructures, on_delete=models.CASCADE)
+    #     indoor_spaces = models.ForeignKey(IndoorSpaces, on_delete=models.CASCADE)
+    #     safety_system = models.ForeignKey(SafetySystem, on_delete=models.CASCADE)
+    #     landscaping = models.ForeignKey(Landscaping, on_delete=models.CASCADE)
+    #     sports_facilietes = models.ForeignKey(SportsFacilietes, on_delete=models.CASCADE)
+    class Meta:
+        verbose_name = "Школа"
+        verbose_name_plural = "Школы"
+
+    def __str__(self):
+        return self.name
+
 
 # ----------------For Entity-------------------
 #
@@ -32,8 +65,7 @@ from django.db import models
 # # ----------------For buildings characters-----------------
 
 
-class BuildingConstructions(models.Model):
-    title = models.CharField(max_length=100)
+
 
 
 # class EngineeringStructures(models.Model):
@@ -57,39 +89,12 @@ class BuildingConstructions(models.Model):
 #
 
 class Temperatures(models.Model):
-    coolent_temp = models.IntegerField()
-    air_temp = models.IntegerField()
+    school = models.ForeignKey(School, on_delete=models.CASCADE, default='')
+    coolent_temp: int = models.IntegerField(blank=True, default=1)
+    air_temp: int = models.IntegerField(blank=True, default=15)
+    date: date = models.DateField(auto_now=True)
 
+    def __str__(self):
+        return self.date
 
 # -----------------Schools and districts---------------
-
-
-class District(models.Model):
-    name = models.CharField(max_length=50)
-    url = models.CharField(max_length=50, default='')
-
-    class Meta:
-        verbose_name = "Район"
-        verbose_name_plural = "Районы"
-
-    def __str__(self):
-        return self.name
-
-
-class School(models.Model):
-    name = models.CharField(max_length=100)
-    district = models.ForeignKey(District, on_delete=models.CASCADE, default=None)
-    # building_constructions = models.ForeignKey(BuildingConstructions, on_delete=models.CASCADE, default=None, blank=True, null=True)
-    # temperatures = models.ForeignKey(Temperatures, on_delete=models.CASCADE, default=None, blank=True, null=True)
-
-    #     engineering_structures = models.ForeignKey(EngineeringStructures, on_delete=models.CASCADE)
-    #     indoor_spaces = models.ForeignKey(IndoorSpaces, on_delete=models.CASCADE)
-    #     safety_system = models.ForeignKey(SafetySystem, on_delete=models.CASCADE)
-    #     landscaping = models.ForeignKey(Landscaping, on_delete=models.CASCADE)
-    #     sports_facilietes = models.ForeignKey(SportsFacilietes, on_delete=models.CASCADE)
-    class Meta:
-        verbose_name = "Школа"
-        verbose_name_plural = "Школы"
-
-    def __str__(self):
-        return self.name

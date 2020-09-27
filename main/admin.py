@@ -12,7 +12,6 @@ admin.site.register(School)
 # admin.site.register(DeputiesOrders)
 # admin.site.register(Documentation)
 #
-admin.site.register(BuildingConstructions)
 # admin.site.register(EngineeringStructures)
 # admin.site.register(IndoorSpaces)
 # admin.site.register(SafetySystem)
