@@ -66,7 +66,7 @@ class Temperatures(models.Model):
 
 class District(models.Model):
     name = models.CharField(max_length=50)
-
+    url = models.CharField(max_length=50, default='')
 
     class Meta:
         verbose_name = "Район"
@@ -79,8 +79,8 @@ class District(models.Model):
 class School(models.Model):
     name = models.CharField(max_length=100)
     district = models.ForeignKey(District, on_delete=models.CASCADE, default=None)
-    building_constructions = models.ForeignKey(BuildingConstructions, on_delete=models.CASCADE, default=None)
-    temperatures = models.ForeignKey(Temperatures, on_delete=models.CASCADE, default=None)
+    # building_constructions = models.ForeignKey(BuildingConstructions, on_delete=models.CASCADE, default=None, blank=True, null=True)
+    # temperatures = models.ForeignKey(Temperatures, on_delete=models.CASCADE, default=None, blank=True, null=True)
 
     #     engineering_structures = models.ForeignKey(EngineeringStructures, on_delete=models.CASCADE)
     #     indoor_spaces = models.ForeignKey(IndoorSpaces, on_delete=models.CASCADE)

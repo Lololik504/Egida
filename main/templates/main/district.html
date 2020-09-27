@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if district %}
+    <h1>{{ district.name }}</h1>
+    <ul>
+        {% for school in schools %}
+            <li>
+                <a href='/district/{{ school.id }}'>{{ school.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+</body>
+</html>
