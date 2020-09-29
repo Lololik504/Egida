@@ -90,8 +90,8 @@ class School(models.Model):
 
 class Temperatures(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE, default='')
-    coolent_temp: int = models.IntegerField(blank=True, default=1)
-    air_temp: int = models.IntegerField(blank=True, default=15)
+    coolent_temp = models.IntegerField(blank=True, default=15)
+    air_temp = models.IntegerField(blank=True, default=15)
     date: date = models.DateField(auto_now=True)
 
     def __str__(self):

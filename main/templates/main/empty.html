@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.js"></script>
+</head>
+<body>
+{% verbatim %}
+
+<div class="container" id="main_app">
+    <div class="menu-list" v-for="district in districts">
+        <ul>
+            <li>
+                <a :href="'district/'+district.name" class="active">{{district.name}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+{% endverbatim %}
+
+<script src="static/main/main.js"></script>
+</body>
+</html>

@@ -69,8 +69,7 @@ legend = {
 }
 
 
-def latinizator(word):
-    for letter in word:
-        for i, j in legend.items():
-            letter = letter.replace(i, j)
-    return word
+def latinizator(letter):
+    for i, j in legend.items():
+        letter = letter.replace(i, j)
+    return letter

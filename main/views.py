@@ -1,5 +1,9 @@
 from django.shortcuts import render, HttpResponse
+from django.http import JsonResponse
+from rest_framework.viewsets import ModelViewSet
+
 from .models import District, School
+from .serializers import MainSerializer
 from .services import *
 from .translit import latinizator
 
@@ -10,6 +14,7 @@ def index(request):
     districts = District.objects.all()
     urls = []
     for district in districts:
+        print(districts)
         urls.append(latinizator(district.name))
     context = {
         'districts': districts,
@@ -19,12 +24,7 @@ def index(request):
 
 
 def district(request, url):
-    districts = District.objects.all()
-    require_list = list(filter((lambda f: f.name == url), districts))
-    if len(require_list) == 1:
-        require_dist = require_list[0]
-    else:
-        return render(request, 'main/index.html')
+    require_dist = District.objects.filter(name=url)[0]
     schools = get_schools_by_district(require_dist)
     context = {
         'district': require_dist,
@@ -39,3 +39,12 @@ def school(request, url, id):
         'school': school
     }
     return render(request, 'main/school.html', context)
+
+
+class HomeView(ModelViewSet):
+    queryset = District.objects.all()
+    serializer_class = MainSerializer
+
+
+def district_app(request):
+    return render(request, 'main/empty.html')
