@@ -65,9 +65,6 @@ class School(models.Model):
 # # ----------------For buildings characters-----------------
 
 
-
-
-
 # class EngineeringStructures(models.Model):
 #     title = models.CharField(max_length = 100)
 #

@@ -5,6 +5,5 @@ from rest_framework.routers import SimpleRouter
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='start_page'),
-    path('api/', include('main.api_urls'))
+    path('districts/', views.district_app)
 ]

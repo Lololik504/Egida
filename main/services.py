@@ -1,3 +1,5 @@
+import json
+
 from django.urls import resolve
 from .models import School, District
 
@@ -28,3 +30,8 @@ def get_school_by_id(id):
     schools = School.objects.all()
     school = next(filter((lambda f: f.id == id), schools))
     return school
+
+def get_all_districts():
+    schools = School.objects.all()
+    return schools
+
