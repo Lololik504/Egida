@@ -26,18 +26,12 @@ def index(request):
     return render(request, 'main/index.html', context)
 
 
-class DistrictsApi(ModelViewSet):
-    queryset = District.objects.all()
-    serializer_class = DistrictsSerializer
-
-
-class SchoolsApi(ModelViewSet):
-    queryset = School.objects.all()
-    serializer_class = SchoolsSerializer
-
-
-
-def district_app(request):
+def districts_api(request):
     districts = DistrictsSerializer(District.objects.all(), many=True).data
-    print(districts)
     return JsonResponse({'districts': districts})
+
+
+def schools_in_district_api(request, district_name):
+    schools = list(filter(lambda school: school.district.name == district_name, School.objects.all()))
+    schools = SchoolsSerializer(schools, many=True).data
+    return JsonResponse({'schools': schools})

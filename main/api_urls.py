@@ -5,5 +5,6 @@ from rest_framework.routers import SimpleRouter
 from . import views
 
 urlpatterns = [
-    path('districts/', views.district_app)
+    path('districts/', views.districts_api),
+    path('districts/<str:district_name>/', views.schools_in_district_api)
 ]
