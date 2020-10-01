@@ -6,7 +6,7 @@ from main.models import District, School
 class DistrictsSerializer(ModelSerializer):
     class Meta:
         model = District
-        fields = ['name']
+        fields = ['id', 'name']
 
 
 class SchoolsSerializer(ModelSerializer):
