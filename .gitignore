@@ -127,5 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/Egida/local_settings.py
 /venv/
-Egida/local_settings.py
+
