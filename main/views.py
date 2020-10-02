@@ -1,9 +1,10 @@
 from django.core import serializers
 from django.shortcuts import render, HttpResponse
 from django.http import JsonResponse
+from rest_framework import permissions
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import APIView
 
 from .models import District, School
 from .serializers import DistrictsSerializer, SchoolsSerializer
@@ -12,6 +13,21 @@ from .translit import latinizator
 
 
 # Create your views here.
+
+class Districts(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        districts = District.objects.all()
+        serializer = DistrictsSerializer(districts, many=True)
+        return Response(serializer.data)
+
+
+class Schools(APIView):
+    def get(self, reauest):
+        schools = School.objects.all()
+        serializer = SchoolsSerializer(schools, many=True)
+
 
 def index(request):
     districts = District.objects.all()
