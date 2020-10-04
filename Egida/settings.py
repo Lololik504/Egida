@@ -153,7 +153,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
-try:
-    from .local_settings import *
-except ImportError:
-    from .prod_settings import *
+from .prod_settings import *
+
+# try:
+#     from .local_settings import *
+# except ImportError:
+#     from .prod_settings import *

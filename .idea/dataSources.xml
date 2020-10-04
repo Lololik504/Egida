@@ -13,5 +13,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/egida</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="lzuzjmjy@satao.db.elephantsql.com" uuid="48e87ba7-276b-4dc8-8feb-521a448a5b20">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://satao.db.elephantsql.com:5432/lzuzjmjy</jdbc-url>
+    </data-source>
   </component>
 </project>
