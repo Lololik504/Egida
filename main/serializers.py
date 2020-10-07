@@ -10,6 +10,11 @@ class DistrictsSerializer(ModelSerializer):
 
 
 class SchoolsSerializer(ModelSerializer):
+    # Сериализация ForeignKey
+    district = DistrictsSerializer()
+
     class Meta:
         model = School
-        fields = ['name', 'district']
+        fields = ['name', 'shortname', 'phone', 'district']
+
+

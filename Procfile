@@ -1,0 +1,1 @@
+web: gunicorn Egida.wsgi:application —log-file -

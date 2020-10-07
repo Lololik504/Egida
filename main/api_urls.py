@@ -5,5 +5,6 @@ from . import views
 
 urlpatterns = [
     path('districts/', views.Districts.as_view()),
-    path('districts/<str:district_name>/', views.schools_in_district_api)
+    path('school/<int:INN>', views.School.as_view()),
+    path('districts/<str:district_name>/', views.Schools.as_view())
 ]

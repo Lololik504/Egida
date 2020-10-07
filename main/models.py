@@ -18,11 +18,13 @@ class District(models.Model):
 
 
 class School(models.Model):
-    name = models.CharField(max_length=100)
+    INN = models.CharField(max_length=13, default='')
+    name = models.CharField(max_length=100, default='')
+    shortname = models.CharField(max_length=50, default='')
+    phone = models.CharField(max_length=20, default='')
     district = models.ForeignKey(District, on_delete=models.CASCADE, default=None)
 
-    # building_constructions = models.ForeignKey(BuildingConstructions, on_delete=models.CASCADE,
-    # default=None, blank=True, null=True)
+
     #     engineering_structures = models.ForeignKey(EngineeringStructures, on_delete=models.CASCADE)
     #     indoor_spaces = models.ForeignKey(IndoorSpaces, on_delete=models.CASCADE)
     #     safety_system = models.ForeignKey(SafetySystem, on_delete=models.CASCADE)
@@ -34,6 +36,33 @@ class School(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Director(models.Model):
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    patronymic = models.CharField(max_length=30)
+    school = models.ForeignKey(School, on_delete=models.DO_NOTHING, default=None)
+
+    class Meta:
+        verbose_name = "Директор"
+        verbose_name_plural = "Директоры"
+
+    def __str__(self):
+        return self.last_name + self.first_name + self.patronymic
+
+class Adress(models.Model):
+    street = models.CharField(max_length=50)
+    build_number = models.CharField(max_length=50)
+    school = models.ForeignKey(School, on_delete=models.DO_NOTHING, default=None)
+
+    class Meta:
+        verbose_name = "Адрес"
+        verbose_name_plural = "Адреса"
+
+    def __str__(self):
+        return self.street + self.build_number
+
 
 
 # ----------------For Entity-------------------
@@ -62,7 +91,9 @@ class School(models.Model):
 #     is_municipal = models.BooleanField('Муниципальное здание')
 #
 #
-# # ----------------For buildings characters-----------------
+
+
+#  ----------------For buildings characters-----------------
 
 
 # class EngineeringStructures(models.Model):
@@ -93,5 +124,3 @@ class Temperatures(models.Model):
 
     def __str__(self):
         return self.date
-
-# -----------------Schools and districts---------------
