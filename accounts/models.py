@@ -16,7 +16,7 @@ class Permissions(enum.Enum):
 
 class SchoolUser(User):
     #Модель пользователя
-    school = models.ForeignKey(School, on_delete=models.DO_NOTHING,default=None)
+    school = models.OneToOneField(School, on_delete=models.DO_NOTHING,default=None)
     permission = models.IntegerField(default=Permissions.school.value)
 
     class Meta:

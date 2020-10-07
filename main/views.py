@@ -1,13 +1,13 @@
 from django.shortcuts import render, HttpResponse
 from django.http import JsonResponse
-from rest_framework import permissions
+from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import District, School
-from accounts.models import SchoolUser
+from django.contrib.auth.models import User
 from accounts.serializers import UserSerialiaer
-from accounts.license import IsSchoolProfile, IsDistrictProfile
+from accounts.license import Permissions
+from accounts.models import SchoolUser
 from .serializers import *
 from .services import *
 from .translit import latinizator
@@ -32,18 +32,31 @@ class Schools(APIView):
 
 
 class School(APIView):
-    permission_classes = [IsSchoolProfile, permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, INN):
-        asker = request.headers.get('username')
-        user = list(filter(lambda school: school.username == asker, SchoolUser.objects.all()))
-        if len(user) == 1:
-            user = user[0]
-            user_serializer = UserSerialiaer(user, many=False)
-            return Response({'user': user_serializer.data})
-        else:
-            response = Response(status=405)
-            return response
+        data = request.headers
+        username = data['username']
+        INN = data['INN']
+        token = data['Authorization']
+        token = token.split()[1]
+        try:
+            user = User.objects.get(username=username)
+            if user.auth_token.key == token:
+                user = get_user_class(username)
+                if user.permission == Permissions.school.value:
+                    school = user.school
+                else:
+                    try:
+                        school = School.objects.get(INN=INN)
+                    except:
+                        return Response(status=status.HTTP_401_UNAUTHORIZED)
+                school_serialiser = SchoolsSerializer(school, many=False)
+                return Response({'school': school_serialiser.data})
+            else:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
+        except:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
 def index(request):

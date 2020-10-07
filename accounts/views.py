@@ -11,7 +11,6 @@ from rest_framework import permissions, status
 
 class UserLogin(APIView):
     permission_classes = [permissions.AllowAny]
-
     def post(self, request):
         """
         Try to login a customer (food orderer)
@@ -24,17 +23,16 @@ class UserLogin(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         print(username, password)
         try:
-            user = User.objects.all()
-            print(user)
-            user = list(filter(lambda user: user.username == username & user.password == password, user))
-            print(user)
+            user = User.objects.get(username=username, password=password)
         except:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
-        print(user)
         try:
             user_token = user.auth_token.key
         except:
             user_token = Token.objects.create(user=user)
-
-        data = {'token': user_token}
+        user = SchoolUser.objects.get(username=username)
+        user_serializer = UserSerialiaer(user, many=False)
+        data = {'token': user_token,
+                'user': user_serializer.data}
         return Response(data=data, status=status.HTTP_200_OK)
+
