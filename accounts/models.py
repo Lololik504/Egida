@@ -4,8 +4,7 @@ import jwt
 from django.db import models
 
 from Egida import settings
-from accounts.managers import MyUserManager
-from main.models import School
+from main.models import School, District
 from django.contrib.auth.models import AbstractUser, User
 
 
@@ -19,52 +18,14 @@ class Permissions(enum.Enum):
 
 
 class MyUser(User):
-    """
-    Определяет наш пользовательский класс User.
-    Требуется имя пользователя, адрес электронной почты и пароль.
-    """
-
-    permission = models.IntegerField(default=Permissions.school.value)
-
-    objects = MyUserManager()
+    permission = models.IntegerField(null=False)
 
     def __str__(self):
-        """
-        Возвращает строковое представление этого `User`.
-        Эта строка используется, когда в консоли выводится `User`.
-        """
         return self.username
 
     @property
     def token(self):
-        """
-        Позволяет нам получить токен пользователя, вызвав `user.token` вместо
-        `user.generate_jwt_token().
-
-        Декоратор `@property` выше делает это возможным.
-        `token` называется «динамическим свойством ».
-        """
         return self._generate_jwt_token()
-
-    def get_full_name(self):
-        """
-        Этот метод требуется Django для таких вещей,
-        как обработка электронной почты.
-        Обычно это имя и фамилия пользователя.
-        Поскольку мы не храним настоящее имя пользователя,
-        мы возвращаем его имя пользователя.
-        """
-        return self.username
-
-    def get_short_name(self):
-        """
-        Этот метод требуется Django для таких вещей,
-        как обработка электронной почты.
-        Как правило, это будет имя пользователя.
-        Поскольку мы не храним настоящее имя пользователя,
-        мы возвращаем его имя пользователя.
-        """
-        return self.username
 
     def _generate_jwt_token(self):
 
@@ -83,13 +44,26 @@ class MyUser(User):
         return user
 
 class SchoolUser(MyUser):
-    # Модель пользователя
+    # Модель пользователя школы
     school = models.OneToOneField(School, on_delete=models.CASCADE, default=None)
-    # REQUIRED_FIELDS = (['school'])
 
     class Meta:
         verbose_name = "Пользователь школы"
         verbose_name_plural = "Пользователи школ"
+
+    def create(self, **kwargs):
+        pass
+
+    def __str__(self):
+        return self.username
+
+class DistrictUser(MyUser):
+    # Пользователь района
+    district = models.OneToOneField(District, on_delete=models.CASCADE, default=None)
+
+    class Meta:
+        verbose_name = "Пользователь района"
+        verbose_name_plural = "Пользователи района"
 
     def __str__(self):
         return self.username

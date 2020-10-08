@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .serializers import *
-from .services import *
+from accounts.services import *
 from .translit import latinizator
 from accounts import excel
 

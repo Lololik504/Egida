@@ -6,7 +6,7 @@ from django.db.utils import IntegrityError
 
 
 def create_new_schools_and_users_from_excel():
-    dir = settings.BASE_DIR.__str__() + "\\Spisok_OU_06_10_20.xlsx"
+    dir = settings.BASE_DIR.__str__() + """/Spisok_OU_06_10_20.xlsx"""
     rb = xlrd.open_workbook(dir)
     sheet = rb.sheet_by_index(0)
     for i in range(4, sheet.nrows):
@@ -35,7 +35,7 @@ def create_new_schools_and_users_from_excel():
 
 
 def update_schools_from_excel():
-    dir = settings.BASE_DIR.__str__() + "\\Spisok_OU_06_10_20.xlsx"
+    dir = settings.BASE_DIR.__str__() + "\Spisok_OU_06_10_20.xlsx"
     rb = xlrd.open_workbook(dir)
     sheet = rb.sheet_by_index(0)
     for i in range(4, sheet.nrows):

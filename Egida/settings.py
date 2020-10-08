@@ -162,9 +162,9 @@ STATIC_URL = '/static/'
 # ]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-from .prod_settings import *
+# from .prod_settings import *
 
-# try:
-#     from .local_settings import *
-# except ImportError:
-#     from .prod_settings import *
+try:
+    from .local_settings import *
+except ImportError:
+    from .prod_settings import *
