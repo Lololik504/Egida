@@ -2,19 +2,24 @@
 
 
 {% block fbody %}
-<h1>
-    Районы
-</h1>
-{% if districts %}
-    <ul>
+    <h1>
+        Районы
+    </h1>
+    {% if districts %}
+        <ul>
         {% for district in districts %}
             <li>
                 {{ district.name }}
             </li>
         {% endfor %}
     {% endif %}
-            <li>
-                <a href="admin/">admin</a>
-            </li>
-    </ul>
+<li>
+    <a href="/admin">admin</a>
+</li>
+</ul>
+    {% csrf_token %}
+    <form action="{% url 'test' %}" method="POST">
+    {% csrf_token %}
+        <input type="submit" value="Click"/>
+    </form>
 {% endblock %}

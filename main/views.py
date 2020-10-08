@@ -1,16 +1,14 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.urls import reverse
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from django.contrib.auth.models import User
-from accounts.serializers import UserSerialiaer
-from accounts.license import Permissions
-from accounts.models import SchoolUser
 from .serializers import *
 from .services import *
 from .translit import latinizator
+from accounts import excel
 
 
 # Create your views here.
@@ -35,7 +33,10 @@ class School(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, INN):
+        print(request)
         data = request.headers
+        print(data)
+        print(request.headers)
         username = data['username']
         INN = data['INN']
         token = data['Authorization']
@@ -59,11 +60,14 @@ class School(APIView):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
+def test(request):
+    excel.create_new_schools_and_users_from_excel()
+    return redirect(reverse('start_page'))
+
 def index(request):
     districts = District.objects.all()
     urls = []
     for district in districts:
-        print(districts)
         urls.append(latinizator(district.name))
     context = {
         'districts': districts,

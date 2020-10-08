@@ -18,12 +18,12 @@ class District(models.Model):
 
 
 class School(models.Model):
-    INN = models.CharField(max_length=13, default='')
-    name = models.CharField(max_length=100, default='')
-    shortname = models.CharField(max_length=50, default='')
-    phone = models.CharField(max_length=20, default='')
+    INN = models.CharField(max_length=13, default='', unique=True)
+    name = models.CharField(max_length=300, default='', unique=True)
+    shortname = models.CharField(max_length=100, default='', unique=True)
+    phone = models.CharField(max_length=100, default='', unique=True)
+    adress = models.CharField(max_length=300, default='', unique=False)
     district = models.ForeignKey(District, on_delete=models.CASCADE, default=None)
-
 
     #     engineering_structures = models.ForeignKey(EngineeringStructures, on_delete=models.CASCADE)
     #     indoor_spaces = models.ForeignKey(IndoorSpaces, on_delete=models.CASCADE)
@@ -51,18 +51,18 @@ class Director(models.Model):
     def __str__(self):
         return self.last_name + self.first_name + self.patronymic
 
-class Adress(models.Model):
-    street = models.CharField(max_length=50)
-    build_number = models.CharField(max_length=50)
-    school = models.ForeignKey(School, on_delete=models.DO_NOTHING, default=None)
 
-    class Meta:
-        verbose_name = "Адрес"
-        verbose_name_plural = "Адреса"
-
-    def __str__(self):
-        return self.street + self.build_number
-
+# class Adress(models.Model):
+#     street = models.CharField(max_length=50)
+#     build_number = models.CharField(max_length=50)
+#     school = models.ForeignKey(School, on_delete=models.DO_NOTHING, default=None)
+#
+#     class Meta:
+#         verbose_name = "Адрес"
+#         verbose_name_plural = "Адреса"
+#
+#     def __str__(self):
+#         return self.street + self.build_number
 
 
 # ----------------For Entity-------------------
