@@ -15,4 +15,4 @@ class SchoolsSerializer(ModelSerializer):
 
     class Meta:
         model = School
-        fields = ['INN', 'name', 'shortname', 'phone', 'district']
+        fields = ['INN', 'name', 'shortname', 'phone', "adress", 'district']
