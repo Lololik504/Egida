@@ -35,7 +35,7 @@ class UserLogin(APIView):
             Token.objects.create(user=user)
             user_token = user.auth_token.key
         user = MyUser.objects.get(username=username)
-        user_serializer = UserSerialiaer(user, many=False)
+        user_serializer = UserSerializer(user, many=False)
         data = {'token': user_token,
                 'user': user_serializer.data}
         return Response(data=data, status=status.HTTP_200_OK)
@@ -58,9 +58,13 @@ class LoginAPIView(APIView):
         print(data)
         serializer = self.serializer_class(data=data)
         serializer.is_valid(raise_exception=True)
-        ask = serializer.login(data)
-
-        return Response(ask, status=status.HTTP_200_OK)
+        token_user = serializer.login(data)
+        token = token_user['token']
+        user = token_user['user']
+        user = UserSerializer(user).data
+        ans = {'token': token,
+               'user': user}
+        return Response(ans, status=status.HTTP_200_OK)
 
 
 class GetUserByTokenApi(APIView):
@@ -69,5 +73,5 @@ class GetUserByTokenApi(APIView):
     def get(self, request):
         data = MyAuthentication.authenticate(MyAuthentication(), request)
         user = data[0]
-        serializer = UserSerialiaer(user)
+        serializer = UserSerializer(user)
         return Response(serializer.data)

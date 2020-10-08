@@ -14,11 +14,9 @@ class MyAuthentication(authentication.BaseAuthentication):
     authentication_header_prefix = 'auth'
 
     def authenticate(self, request):
-        print("R")
         request.user = None
 
         auth_header = authentication.get_authorization_header(request).split()
-        print(auth_header)
         auth_header_prefix = self.authentication_header_prefix.lower()
 
         if not auth_header:
@@ -82,6 +80,7 @@ class LoginSerializer(serializers.Serializer):
     def login(self, data):
         username = data['username']
         password = data['password']
+        print(data)
         user = MyUser.authenticate(username=username, password=password)
         if user is None:
             raise serializers.ValidationError(
@@ -95,4 +94,5 @@ class LoginSerializer(serializers.Serializer):
 
         return {
             'token': user.token,
+            'user': user
         }
