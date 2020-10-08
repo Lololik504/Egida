@@ -42,20 +42,11 @@ class UserLogin(APIView):
 
 
 class LoginAPIView(APIView):
-    """
-    Logs in an existing user.
-    """
     permission_classes = [permissions.AllowAny]
     serializer_class = LoginSerializer
 
     def post(self, request):
-        """
-        Checks is user exists.
-        Email and password are0 required.
-        Returns a JSON web token.
-        """
         data = request.data
-        print(data)
         serializer = self.serializer_class(data=data)
         serializer.is_valid(raise_exception=True)
         token_user = serializer.login(data)
