@@ -3,5 +3,8 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register(SchoolUser)
 admin.site.register(MyUser)
+admin.site.register(SchoolUser)
+admin.site.register(DistrictUser)
+admin.site.register(DepartamentUser)
+admin.site.register(AdminUser)

@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from .models import *
-from main.serializers import SchoolsSerializer, DistrictsSerializer
+from main.serializers import SchoolAllInfoSerializer, DistrictsSerializer
 from rest_framework import serializers
 from .models import MyUser
 
@@ -12,7 +12,7 @@ class UserSerializer(ModelSerializer):
 
 
 class SchoolUserSerializer(ModelSerializer):
-    school = SchoolsSerializer
+    school = SchoolAllInfoSerializer
 
     class Meta:
         model = SchoolUser

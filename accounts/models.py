@@ -28,8 +28,7 @@ class MyUser(User):
         return self._generate_jwt_token()
 
     def _generate_jwt_token(self):
-
-        dt = datetime.now() + timedelta(days=60)
+        dt = datetime.now() + timedelta(minutes=15)
 
         token = jwt.encode({
             'id': self.pk,
@@ -42,6 +41,7 @@ class MyUser(User):
     def authenticate(cls, username, password):
         user = MyUser.objects.get(username=username, password=password)
         return user
+
 
 class SchoolUser(MyUser):
     # Модель пользователя школы
@@ -57,6 +57,7 @@ class SchoolUser(MyUser):
     def __str__(self):
         return self.username
 
+
 class DistrictUser(MyUser):
     # Пользователь района
     district = models.OneToOneField(District, on_delete=models.CASCADE, default=None)
@@ -64,6 +65,24 @@ class DistrictUser(MyUser):
     class Meta:
         verbose_name = "Пользователь района"
         verbose_name_plural = "Пользователи района"
+
+    def __str__(self):
+        return self.username
+
+
+class DepartamentUser(MyUser):
+    class Meta:
+        verbose_name = "Пользователь департамента"
+        verbose_name_plural = "Пользователи департамента"
+
+    def __str__(self):
+        return self.username
+
+
+class AdminUser(MyUser):
+    class Meta:
+        verbose_name = "Админ сайта"
+        verbose_name_plural = "Админы сайта"
 
     def __str__(self):
         return self.username

@@ -5,4 +5,5 @@ from . import views
 
 urlpatterns = [
     path('school/<int:INN>', views.SchoolInfo.as_view()),
+    path('districts/', views.DistrictsInfo.as_view())
 ]

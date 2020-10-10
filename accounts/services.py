@@ -8,14 +8,24 @@ from .models import SchoolUser, District
 
 
 def get_user_class(user):
-    if user.permission == 15:
+    if user.permission == Permissions.school.value:
         try:
             return SchoolUser.objects.get(pk=user.pk)
         except:
             return None
-    elif user.permission == 10:
+    elif user.permission == Permissions.district.value:
         try:
-            return District.objects.get(pk=user.pk)
+            return DistrictUser.objects.get(pk=user.pk)
+        except:
+            return None
+    elif user.permission == Permissions.departament.value:
+        try:
+            return DepartamentUser.objects.get(pk=user.pk)
+        except:
+            return None
+    elif user.permission == Permissions.admin.value:
+        try:
+            return AdminUser.objects.get(pk=user.pk)
         except:
             return None
 
