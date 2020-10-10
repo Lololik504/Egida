@@ -10,15 +10,14 @@ from django.contrib.auth.models import AbstractUser, User
 
 # Create your models here.
 
-class Permissions(enum.Enum):
-    admin = 1
-    departament = 5
-    district = 10
-    school = 15
-
 
 class MyUser(User):
-    permission = models.IntegerField(null=False)
+    class Permissions(models.IntegerChoices):
+        ADMIN = 1
+        DEPARTAMENT = 5
+        DISTRICT = 10
+        SCHOOL = 15
+    permission = models.IntegerField(null=False, choices=Permissions.choices)
 
     def __str__(self):
         return self.username

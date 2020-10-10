@@ -4,26 +4,26 @@ from django.urls import resolve
 from accounts.models import *
 from accounts.serializers import *
 
-from .models import SchoolUser, District
+from .models import MyUser
 
 
 def get_user_class(user):
-    if user.permission == Permissions.school.value:
+    if user.permission == MyUser.Permissions.SCHOOL.value:
         try:
             return SchoolUser.objects.get(pk=user.pk)
         except:
             return None
-    elif user.permission == Permissions.district.value:
+    elif user.permission == MyUser.Permissions.DISTRICT.value:
         try:
             return DistrictUser.objects.get(pk=user.pk)
         except:
             return None
-    elif user.permission == Permissions.departament.value:
+    elif user.permission == MyUser.Permissions.DEPARTAMENT.value:
         try:
             return DepartamentUser.objects.get(pk=user.pk)
         except:
             return None
-    elif user.permission == Permissions.admin.value:
+    elif user.permission == MyUser.Permissions.ADMIN.value:
         try:
             return AdminUser.objects.get(pk=user.pk)
         except:

@@ -1,5 +1,5 @@
+import datetime
 from datetime import date
-from .translit import latinizator
 from django.db import models
 from django.utils import timezone
 
@@ -50,6 +50,41 @@ class Director(models.Model):
 
     def __str__(self):
         return self.last_name + self.first_name + self.patronymic
+
+
+class Building(models.Model):
+    school = models.ForeignKey(School, on_delete=models.CASCADE, default=None)
+    address = models.CharField(max_length=350)
+
+    class TYPE(models.TextChoices):
+        FREE_STANDING = "Отдельно стоящее"
+        BUILD_INTO_APART = "Встроенное в многоквартирный дом"
+        ATTACHED_TO_APART = "Пристроенное к многоквартирному дому"
+
+    type = models.CharField(max_length=50, choices=TYPE.choices)
+    YEAR_CHOICES = []
+    for r in range(1900, (datetime.datetime.now().year + 1)):
+        YEAR_CHOICES.append((r, r))
+    construction_year = models.IntegerField(verbose_name="Год", choices=YEAR_CHOICES)
+    building_square = models.IntegerField(verbose_name="Площадь здания")
+    land_square = models.IntegerField(verbose_name="Площадь земельного участка")
+    number_of_storeys = models.IntegerField(verbose_name="Этажность")
+    build_height = models.IntegerField(verbose_name="Высота здания")
+    build_configure = models.ImageField(verbose_name="Конфигурация здания")
+    occupancy_proj = models.IntegerField(verbose_name="Наполняемость проектная")
+    occupancy_fact = models.IntegerField(verbose_name="Наполняемость фактическая")
+    arend_square = models.IntegerField(verbose_name="Площадь зданий/помещений, сдаваемых в аренду")
+    arend_use_type = models.CharField(verbose_name="Вид исспользования", max_length=50)
+    unused_square = models.IntegerField(verbose_name="Площадь неиспользуемых зданий/помещений м.кв")
+    repair_need_square = models.IntegerField(verbose_name="Площадь, требующая ремонта")
+
+    class TECHNICAL_CONDITION(models.TextChoices):
+        WORKING = "Работоспособное"
+        LIMITED_WORKING = "Ограниченно-работоспособное"
+        EMERGENCY = "Аварийное"
+
+    technical_condition = models.CharField(max_length=50, choices=TECHNICAL_CONDITION.choices)
+    last_repair_year = models.IntegerField(choices=YEAR_CHOICES)
 
 
 # class Adress(models.Model):

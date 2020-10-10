@@ -8,9 +8,9 @@ from rest_framework.views import APIView
 
 from accounts.backends import MyAuthentication
 from accounts.services import *
-from .translit import latinizator
+from .allows import *
+from .services import update_school
 from accounts import excel
-from accounts import services
 from .serializers import *
 
 
@@ -19,32 +19,37 @@ class SchoolInfo(APIView):
 
     def get(self, request, INN):
         data = request.headers
-        print(data)
         INN = data['INN']
         user_token = MyAuthentication.authenticate(MyAuthentication(), request)
         user = user_token[0]
-        user = services.get_user_class(user)
-        print(user.__class__)
-        print(isinstance(user, SchoolUser))
+        user = get_user_class(user)
         try:
-            if isinstance(user, SchoolUser):
-                school = user.school
-                if INN != school.INN:
-                    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                                    headers={'detail: you dont have permission to do this'})
-            elif user.permission <= Permissions.school.value:
-                try:
-                    school = School.objects.get(INN=INN)
-                except:
-                    return Response(status=status.HTTP_401_UNAUTHORIZED,
-                                    headers={'detail: school with this INN does not exist'})
-            else:
-                return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                                headers={'detail: you dont have permission to do this'})
-            school_serializer = SchoolAllInfoSerializer(school, many=False)
-            return Response({'school': school_serializer.data})
+            school = School.objects.get(INN=INN)
         except:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={'detail': 'Cant find school with this INN'})
+        if not school_allow(user, school):
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+                            data={'detail': 'You dont have permission to do this'})
+        school_serializer = SchoolAllInfoSerializer(school, many=False)
+        return Response({'school': school_serializer.data})
+
+    def post(self, request):
+        data = request.headers
+        INN = data['INN']
+        user_token = MyAuthentication.authenticate(MyAuthentication(), request)
+        user = user_token[0]
+        user = get_user_class(user)
+        try:
+            school = School.objects.get(INN=INN)
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={'detail': 'Cant find school with this INN'})
+        if not school_allow(user, school):
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+                            data={'detail': 'You dont have permission to do this'})
+        update_school(school, data)
+        return Response(status=status.HTTP_200_OK)
 
 
 class DistrictsInfo(APIView):
@@ -53,8 +58,8 @@ class DistrictsInfo(APIView):
     def get(self, request):
         user_token = MyAuthentication.authenticate(MyAuthentication(), request)
         user = user_token[0]
-        user = services.get_user_class(user)
-        if user.permission <= 5:
+        user = get_user_class(user)
+        if user.permission <= Permissions.departament.value:
             districts = District.objects.all()
             schools = School.objects.all()
             district_serializer = DistrictsSerializer(districts, many=True)
@@ -66,7 +71,7 @@ class DistrictsInfo(APIView):
             return Response(ans)
         else:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                            headers={'detail: you dont have permission to do this'})
+                            data={'detail': 'You dont have permission to do this'})
 
 
 class OneDistrictInfo(APIView):
@@ -75,15 +80,15 @@ class OneDistrictInfo(APIView):
     def get(self, request: Request):
         user_token = MyAuthentication.authenticate(MyAuthentication(), request)
         user = user_token[0]
-        user = services.get_user_class(user)
+        user = get_user_class(user)
         district_name = request.headers['district']
-        if user.permission <= 10:
+        if user.permission <= Permissions.district.value:
             try:
                 if isinstance(user, DistrictUser):
                     district = user.district
                     if district_name != district.name:
                         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                                        headers={'detail: you dont have permission to do this'})
+                                        data={'detail': 'You dont have permission to do this'})
                 else:
                     district = District.objects.get(name=district_name)
                 schools = School.objects.get(district=district)
@@ -107,7 +112,7 @@ def index(request):
     districts = District.objects.all()
     urls = []
     for district in districts:
-        urls.append(latinizator(district.name))
+        urls.append(district.name)
     context = {
         'districts': districts,
         'urls': urls
