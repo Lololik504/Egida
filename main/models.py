@@ -62,6 +62,13 @@ class Building(models.Model):
         ATTACHED_TO_APART = "Пристроенное к многоквартирному дому"
 
     type = models.CharField(max_length=50, choices=TYPE.choices)
+
+    class PURPOSE(models.TextChoices):
+        FREE_STANDING = "Отдельно стоящее"
+        BUILD_INTO_APART = "Встроенное в многоквартирный дом"
+        ATTACHED_TO_APART = "Пристроенное к многоквартирному дому"
+
+    purpose = models.CharField(max_length=50, choices=PURPOSE.choices)
     YEAR_CHOICES = []
     for r in range(1900, (datetime.datetime.now().year + 1)):
         YEAR_CHOICES.append((r, r))
@@ -70,7 +77,7 @@ class Building(models.Model):
     land_square = models.IntegerField(verbose_name="Площадь земельного участка")
     number_of_storeys = models.IntegerField(verbose_name="Этажность")
     build_height = models.IntegerField(verbose_name="Высота здания")
-    build_configure = models.ImageField(verbose_name="Конфигурация здания")
+    # build_configure = models.ImageField(verbose_name="Конфигурация здания")
     occupancy_proj = models.IntegerField(verbose_name="Наполняемость проектная")
     occupancy_fact = models.IntegerField(verbose_name="Наполняемость фактическая")
     arend_square = models.IntegerField(verbose_name="Площадь зданий/помещений, сдаваемых в аренду")
