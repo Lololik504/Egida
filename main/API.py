@@ -52,7 +52,7 @@ class SchoolInfo(APIView):
         return Response({'school': school_serializer.data})
 
     def put(self, request):
-        data = request.headers
+        data: dict = request.data
         INN = data['INN']
         user_token = MyAuthentication.authenticate(MyAuthentication(), request)
         user = user_token[0]
@@ -66,7 +66,11 @@ class SchoolInfo(APIView):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
         try:
-            school.update(data)
+            if "Inn" in data:
+                data.pop("Inn")
+            for k, v in data.items():
+                setattr(school, k, v)
+            school.save()
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': 'Error with update method'})
@@ -81,14 +85,16 @@ class DistrictsInfo(APIView):
         user = user_token[0]
         user = get_user_class(user)
         if departament_allow(user):
-            ans = {}
             districts = District.objects.all()
             schools = School.objects.all()
+            ans = []
             for district in districts:
                 dist_schools = list(filter(lambda school: school.district == district, schools))
-                ans[district.name] = {
+                ans.append( {
+                    'name' : DistrictsSerializer(district, many=False).data,
                     'schools': SchoolInfoSerializer(dist_schools, many=True).data
-                }
+                })
+
             return Response(ans)
         else:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,

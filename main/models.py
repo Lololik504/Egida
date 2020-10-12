@@ -56,6 +56,10 @@ class Director(models.Model):
 
 
 class Building(models.Model):
+
+    TYEPS = (
+        ()
+    )
     school = models.ForeignKey(School, on_delete=models.CASCADE, default=None)
     address = models.CharField(verbose_name="Адрес", max_length=350)
 
@@ -71,11 +75,11 @@ class Building(models.Model):
         BUILD_INTO_APART = "Встроенное в многоквартирный дом"
         ATTACHED_TO_APART = "Пристроенное к многоквартирному дому"
 
-    purpose = models.CharField(max_length=50, choices=PURPOSE.choices)
+    purpose = models.CharField(max_length=50, choices=PURPOSE.choices, default=PURPOSE.FREE_STANDING)
     YEAR_CHOICES = []
     for r in range(1900, (datetime.datetime.now().year + 1)):
         YEAR_CHOICES.append((r, r))
-    construction_year = models.IntegerField(verbose_name="Год", choices=YEAR_CHOICES)
+    construction_year = models.IntegerField(verbose_name="Год", choices=YEAR_CHOICES, default=2000)
     building_square = models.IntegerField(verbose_name="Площадь здания")
     land_square = models.IntegerField(verbose_name="Площадь земельного участка")
     number_of_storeys = models.IntegerField(verbose_name="Этажность")
@@ -95,7 +99,8 @@ class Building(models.Model):
 
     technical_condition = models.CharField(verbose_name="Техническое состояние", max_length=50,
                                            choices=TECHNICAL_CONDITION.choices)
-    last_repair_year = models.IntegerField(verbose_name="Год последнего капитально ремонта", choices=YEAR_CHOICES)
+    last_repair_year = models.IntegerField(verbose_name="Год последнего капитально ремонта", choices=YEAR_CHOICES,
+                                           default=2000)
 
 
 # class Adress(models.Model):
