@@ -5,16 +5,7 @@ from .models import *
 
 admin.site.register(District)
 admin.site.register(School)
+admin.site.register(Building)
 
-# admin.site.register(Entity)
-# admin.site.register(RepairWorks)
-# admin.site.register(Mandates)
-# admin.site.register(DeputiesOrders)
-# admin.site.register(Documentation)
-#
-# admin.site.register(EngineeringStructures)
-# admin.site.register(IndoorSpaces)
-# admin.site.register(SafetySystem)
-# admin.site.register(Landscaping)
-# admin.site.register(SportsFacilietes)
-admin.site.register(Temperatures)
+
+# admin.site.register(Temperatures)
