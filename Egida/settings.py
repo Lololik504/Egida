@@ -164,9 +164,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 DOCUMENT_ROOT = os.path.join(BASE_DIR, "main/docs")
 
-# from .prod_settings import *
+from .prod_settings import *
 
-try:
-    from .local_settings import *
-except ImportError:
-    from .prod_settings import *
+# try:
+#     from .local_settings import *
+# except ImportError:
+#     from .prod_settings import *
