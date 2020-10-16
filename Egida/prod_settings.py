@@ -1,8 +1,10 @@
-import os
-import dj_database_url
-
-# URL postgres://emhwxlgy:u1qrpeOswWfv96RhQkCeF1JT0csJ1IaR@balarama.db.elephantsql.com:5432/emhwxlgy
-
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ['PROD_DATABASE_URL'])
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'emhwxlgy',
+        'USER': 'emhwxlgy',
+        'PASSWORD': 'u1qrpeOswWfv96RhQkCeF1JT0csJ1IaR',
+        'HOST': 'balarama.db.elephantsql.com',
+        'PORT': '5432'
+    }
 }
