@@ -6,6 +6,9 @@ from django.utils import timezone
 
 # Create your models here.
 
+def get_model_fields(model):
+    return model._meta.fields
+
 class District(models.Model):
     name = models.CharField(verbose_name="Район", max_length=50)
 

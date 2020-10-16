@@ -352,3 +352,8 @@
 #changelist .actions .button:focus, #changelist .actions .button:hover {
     border-color: #999;
 }
+
+#content-main .object-tools{
+    display: flex;
+    justify-content: flex-end;
+}

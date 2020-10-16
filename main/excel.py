@@ -1,12 +1,12 @@
 import xlrd, xlwt
 from Egida import settings
 from accounts.models import SchoolUser
-from main.models import School, District
+from main.models import *
 from django.db.utils import IntegrityError
 
 
-def create_new_schools_and_users_from_excel():
-    dir = settings.BASE_DIR.__str__() + """/Spisok_OU_06_10_20.xlsx"""
+def create_new_schools_and_users_from_excel(file_path):
+    dir = file_path
     rb = xlrd.open_workbook(dir)
     sheet = rb.sheet_by_index(0)
     for i in range(4, sheet.nrows):
@@ -64,3 +64,21 @@ def update_schools_from_excel():
             school.save()
         except BaseException as err:
             print(err)
+
+
+def make_export_file():
+    full_path = settings.DOCUMENT_ROOT + "/export.xls"
+    excel = xlwt.Workbook()
+    shit = excel.add_sheet("export")
+    schools = School.objects.all()
+    row = 4
+    fields = get_model_fields(School)
+    print(fields[1].name)
+    for school in schools:
+        column = 1
+        for field in fields:
+            shit.write(row, column, getattr(school, field.name).__str__())
+            column += 1
+        row += 1
+    excel.save(full_path)
+    return full_path

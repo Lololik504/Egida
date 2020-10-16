@@ -1,0 +1,16 @@
+{% extends "admin/change_list.html" %}
+{% block object-tools-items %}
+
+    <form action="{% url 'import' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="MAX_FILE_SIZE" value="1000" accept=".xlsx,application/msword">
+        <span style="font-size: medium; font-weight: bold"> Файл для импорта:</span>
+        <input name="userfile" type="file">
+        <input class="button" type="submit" value="Импорт" id="Send">
+    </form>
+    <form action="{% url 'export' %}" style="display: flex; justify-content: flex-end">
+        <input class="button" type="submit" value="Экспорт" id="Send">
+    </form>
+    {{ block.super }}
+{% endblock %}
+

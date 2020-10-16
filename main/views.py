@@ -1,14 +1,7 @@
-from urllib.request import Request
-
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from rest_framework import permissions
-from rest_framework.views import APIView
 
-from accounts.backends import MyAuthentication
-from accounts.services import *
-from .allows import *
-from accounts import excel
+from . import excel
 from .serializers import *
 
 

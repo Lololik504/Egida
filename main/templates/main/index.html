@@ -17,9 +17,5 @@
     <a href="/admin">admin</a>
 </li>
 </ul>
-    {% csrf_token %}
-    <form action="{% url 'test' %}" method="POST">
-    {% csrf_token %}
-        <input type="submit" value="Click"/>
-    </form>
+
 {% endblock %}
