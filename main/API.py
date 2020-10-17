@@ -132,7 +132,7 @@ class SchoolInfo(APIView):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
         try:
-            school = School.objects.create(**data)
+            school = School.objects.create(*data)
             SchoolUser.objects.create(username=school.INN, password=school.INN, school=school)
         except BaseException as err:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
@@ -150,7 +150,8 @@ class DistrictsInfo(APIView):
             schools = School.objects.all()
             ans = []
             for district in districts:
-                dist_schools = list(filter(lambda school: school.district == district, schools))
+                # dist_schools = list(filter(lambda school: school.district == district, schools))
+                dist_schools = district.school_set.all()
                 ans.append({
                     'name': DistrictsSerializer(district, many=False).data,
                     'schools': SchoolInfoSerializer(dist_schools, many=True).data
@@ -177,7 +178,7 @@ class OneDistrictInfo(APIView):
                                         data={'detail': 'You dont have permission to do this'})
                 else:
                     district = District.objects.get(name=district_name)
-                schools = School.objects.get(district=district)
+                schools = district.school_set.all()
                 district_serializer = DistrictsSerializer(district, many=False)
                 schools_serializer = SchoolInfoSerializer(schools, many=True)
                 ans = {
@@ -187,3 +188,26 @@ class OneDistrictInfo(APIView):
                 return Response(ans)
             except:
                 return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class DirectorInfo(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        data = request.data
+        user = request.my_user
+        INN = request['INN']
+        try:
+            school = School.objects.get(INN=INN)
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={'detail': 'Cant find school with this INN'})
+        if not school_allow(user, school):
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+                            data={'detail': 'You dont have permission to do this'})
+        try:
+            director = Director.objects.create(**data, school=school)
+        except BaseException as err:
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+                            data={'detail': err.__str__()})
+        return Response(status=status.HTTP_200_OK)

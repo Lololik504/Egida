@@ -73,6 +73,7 @@ def make_export_file():
     schools = School.objects.all()
     row = 4
     fields = get_model_fields(School)
+    print(fields)
     print(fields[1].name)
     for school in schools:
         column = 1

@@ -1,7 +1,7 @@
 from accounts import services
 
 
-class AuthenticationMiddleware:
+class MyAuthenticationMiddleware:
     def __init__(self, get_response):
         self._get_response = get_response
 
