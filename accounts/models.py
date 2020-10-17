@@ -1,11 +1,11 @@
-import enum
 from datetime import datetime, timedelta
+
 import jwt
+from django.contrib.auth.models import AbstractUser, User
 from django.db import models
 
 from Egida import settings
 from main.models import School, District
-from django.contrib.auth.models import AbstractUser, User
 
 
 # Create your models here.
@@ -17,6 +17,7 @@ class MyUser(User):
         DEPARTAMENT = 5
         DISTRICT = 10
         SCHOOL = 15
+
     permission = models.IntegerField(null=False, choices=Permissions.choices)
 
     def __str__(self):
@@ -50,11 +51,12 @@ class SchoolUser(MyUser):
         verbose_name = "Пользователь школы"
         verbose_name_plural = "Пользователи школ"
 
-    def create(self, **kwargs):
-        pass
-
     def __str__(self):
         return self.username
+
+    def __init__(self, *args, **kwargs):
+        self._meta.get_field('permission').default = MyUser.Permissions.SCHOOL.value
+        super(SchoolUser, self).__init__(*args, **kwargs)
 
 
 class DistrictUser(MyUser):
@@ -68,6 +70,10 @@ class DistrictUser(MyUser):
     def __str__(self):
         return self.username
 
+    def __init__(self, *args, **kwargs):
+        self._meta.get_field('permission').default = MyUser.Permissions.DISTRICT.value
+        super(DistrictUser, self).__init__(*args, **kwargs)
+
 
 class DepartamentUser(MyUser):
     class Meta:
@@ -77,6 +83,10 @@ class DepartamentUser(MyUser):
     def __str__(self):
         return self.username
 
+    def __init__(self, *args, **kwargs):
+        self._meta.get_field('permission').default = MyUser.Permissions.DEPARTAMENT.value
+        super(DepartamentUser, self).__init__(*args, **kwargs)
+
 
 class AdminUser(MyUser):
     class Meta:
@@ -85,3 +95,7 @@ class AdminUser(MyUser):
 
     def __str__(self):
         return self.username
+
+    def __init__(self, *args, **kwargs):
+        self._meta.get_field('permission').default = MyUser.Permissions.ADMIN.value
+        super(AdminUser, self).__init__(*args, **kwargs)

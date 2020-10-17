@@ -1,7 +1,3 @@
-import json
-
-from django.urls import resolve
-from accounts.models import *
 from accounts.serializers import *
 from .backends import MyAuthentication
 

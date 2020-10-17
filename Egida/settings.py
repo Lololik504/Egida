@@ -14,6 +14,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 's_guh_fk#z)4r!7fb)^oug*@=d9_zx
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
+PROD = False
+
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 ALLOWED_HOSTS = ['*']
@@ -163,9 +165,10 @@ STATICFILES_FINDERS = (
 
 DOCUMENT_ROOT = os.path.join(BASE_DIR, "main/docs")
 
-from .prod_settings import *
-
-# try:
-#     from .local_settings import *
-# except ImportError:
-#     from .prod_settings import *
+if PROD:
+    from .prod_settings import *
+else:
+    try:
+        from .local_settings import *
+    except ImportError:
+        from .prod_settings import *

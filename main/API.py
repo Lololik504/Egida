@@ -1,11 +1,8 @@
-from urllib.request import Request
-
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from accounts.backends import MyAuthentication
-from accounts.services import get_user_class, MyUser, DistrictUser
+from accounts.services import MyUser, DistrictUser, SchoolUser
 from main.allows import school_allow, departament_allow, building_allow
 from main.serializers import *
 
@@ -17,6 +14,9 @@ class BuildingInfo(APIView):
         data = request
         INN = data['INN']
         user = request.my_user
+        if user is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED,
+                            data={'detail': 'You need to authorize'})
         try:
             school = School.objects.get(INN=INN)
         except:
@@ -34,6 +34,9 @@ class BuildingInfo(APIView):
         data = request.headers
         INN = data['INN']
         user = request.my_user
+        if user is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED,
+                            data={'detail': 'You need to authorize'})
         try:
             school = School.objects.get(INN=INN)
         except:
@@ -57,6 +60,9 @@ class BuildingInfo(APIView):
         data: dict = request.data
         id = data['id']
         user = request.my_user
+        if user is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED,
+                            data={'detail': 'You need to authorize'})
         try:
             building = Building.objects.get(id=id)
         except:
@@ -80,7 +86,7 @@ class SchoolInfo(APIView):
         data = request.headers
         INN = data['INN']
         user = request.my_user
-        if user == None:
+        if user is None:
             return Response(status=status.HTTP_401_UNAUTHORIZED,
                             data={'detail': 'You need to authorize'})
         try:
@@ -96,9 +102,11 @@ class SchoolInfo(APIView):
 
     def put(self, request):
         data: dict = request.data
-        print(data)
         INN = data['INN']
         user = request.my_user
+        if user is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED,
+                            data={'detail': 'You need to authorize'})
         try:
             school = School.objects.get(INN=INN)
         except:
@@ -112,6 +120,23 @@ class SchoolInfo(APIView):
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': 'Error with update method'})
+        return Response(status=status.HTTP_200_OK)
+
+    def post(self, request):
+        data: dict = request.data
+        user = request.my_user
+        if user is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED,
+                            data={'detail': 'You need to authorize'})
+        if user.permission > MyUser.Permissions.DISTRICT.value:
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+                            data={'detail': 'You dont have permission to do this'})
+        try:
+            school = School.objects.create(**data)
+            SchoolUser.objects.create(username=school.INN, password=school.INN, school=school)
+        except BaseException as err:
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+                            data={'detail': err.__str__()})
         return Response(status=status.HTTP_200_OK)
 
 
