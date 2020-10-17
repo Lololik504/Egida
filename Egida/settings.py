@@ -89,7 +89,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    "Egida.middleware.MyAuthenticationMiddleware"
+    # "Egida.middleware.MyAuthenticationMiddleware"
 ]
 
 ROOT_URLCONF = 'Egida.urls'
