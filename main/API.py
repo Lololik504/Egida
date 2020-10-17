@@ -16,9 +16,7 @@ class BuildingInfo(APIView):
     def post(self, request):
         data = request
         INN = data['INN']
-        user_token = MyAuthentication.authenticate(MyAuthentication(), request)
-        user = user_token[0]
-        user = get_user_class(user)
+        user = request.my_user
         try:
             school = School.objects.get(INN=INN)
         except:
@@ -35,9 +33,7 @@ class BuildingInfo(APIView):
     def get(self, request):
         data = request.headers
         INN = data['INN']
-        user_token = MyAuthentication.authenticate(MyAuthentication(), request)
-        user = user_token[0]
-        user = get_user_class(user)
+        user = request.my_user
         try:
             school = School.objects.get(INN=INN)
         except:
@@ -59,11 +55,8 @@ class BuildingInfo(APIView):
 
     def put(self, request):
         data: dict = request.data
-        print(data)
         id = data['id']
-        user_token = MyAuthentication.authenticate(MyAuthentication(), request)
-        user = user_token[0]
-        user = get_user_class(user)
+        user = request.my_user
         try:
             building = Building.objects.get(id=id)
         except:
@@ -86,9 +79,10 @@ class SchoolInfo(APIView):
     def get(self, request):
         data = request.headers
         INN = data['INN']
-        user_token = MyAuthentication.authenticate(MyAuthentication(), request)
-        user = user_token[0]
-        user = get_user_class(user)
+        user = request.my_user
+        if user == None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED,
+                            data={'detail': 'You need to authorize'})
         try:
             school = School.objects.get(INN=INN)
         except:
@@ -104,9 +98,7 @@ class SchoolInfo(APIView):
         data: dict = request.data
         print(data)
         INN = data['INN']
-        user_token = MyAuthentication.authenticate(MyAuthentication(), request)
-        user = user_token[0]
-        user = get_user_class(user)
+        user = request.my_user
         try:
             school = School.objects.get(INN=INN)
         except:
@@ -127,9 +119,7 @@ class DistrictsInfo(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        user_token = MyAuthentication.authenticate(MyAuthentication(), request)
-        user = user_token[0]
-        user = get_user_class(user)
+        user = request.my_user
         if departament_allow(user):
             districts = District.objects.all()
             schools = School.objects.all()
@@ -150,10 +140,8 @@ class DistrictsInfo(APIView):
 class OneDistrictInfo(APIView):
     permission_classes = [permissions.AllowAny]
 
-    def get(self, request: Request):
-        user_token = MyAuthentication.authenticate(MyAuthentication(), request)
-        user = user_token[0]
-        user = get_user_class(user)
+    def get(self, request):
+        user = request.my_user
         district_name = request.headers['district']
         if user.permission <= MyUser.Permissions.district.value:
             try:

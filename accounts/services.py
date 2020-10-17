@@ -3,6 +3,7 @@ import json
 from django.urls import resolve
 from accounts.models import *
 from accounts.serializers import *
+from .backends import MyAuthentication
 
 from .models import MyUser
 
@@ -29,6 +30,13 @@ def get_user_class(user):
         except:
             return None
 
-# def get_user_serialiser(user, many=True):
-#     if (type(user) == SchoolUser):
-#         return UserSerialiaer(user, many=many)
+
+def get_user_from_request(request):
+    try:
+        data = request
+        user_token = MyAuthentication.authenticate(MyAuthentication(), request)
+        user = user_token[0]
+        user = get_user_class(user)
+        return user
+    except:
+        return None
