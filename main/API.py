@@ -132,7 +132,7 @@ class SchoolInfo(APIView):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
         try:
-            school = School.objects.create(*data)
+            school = School.objects.create(**data)
             SchoolUser.objects.create(username=school.INN, password=school.INN, school=school)
         except BaseException as err:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
