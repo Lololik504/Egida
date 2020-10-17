@@ -1,6 +1,8 @@
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from Egida import settings
 from main.admin_actions import *
 
 urlpatterns = [
@@ -10,7 +12,7 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
     path('auth/', include('djoser.urls.jwt'))
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 custom_admin_urls = (
     path('admin/main/schools/export/', export, name="export"),
