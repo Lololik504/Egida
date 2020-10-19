@@ -1,4 +1,6 @@
 import xlrd, xlwt
+from loguru import logger
+
 from Egida import settings
 from accounts.models import SchoolUser
 from main.models import *
@@ -10,7 +12,8 @@ def create_new_schools_and_users_from_excel(file_path):
     rb = xlrd.open_workbook(dir)
     sheet = rb.sheet_by_index(0)
     for i in range(4, sheet.nrows):
-        print(int(float(i) / float(sheet.nrows) * 100))
+        done = int(float(i) / float(sheet.nrows) * 100)
+        logger.info(str.format("IMPORT DONE ON {0}", done))
         values = sheet.row_values(i)
         INN = int(values[0])
         district = values[1]
@@ -20,18 +23,17 @@ def create_new_schools_and_users_from_excel(file_path):
             phone = int(values[4])
         except:
             phone = values[4]
-        adress = values[5]
+        address = values[5]
         try:
             district = District.objects.get(name=district)
         except:
             district = District.objects.create(name=district)
         try:
-            school = School.objects.create(INN=INN, name=name, shortname=shortname, phone=phone, adress=adress,
+            school = School.objects.create(INN=INN, name=name, shortname=shortname, phone=phone, address=address,
                                            district=district)
             SchoolUser.objects.create(username=INN, password=INN, school=school)
         except BaseException as err:
-            # print(err, 2)
-            pass
+            logger.debug(err)
 
 
 def update_schools_from_excel():
