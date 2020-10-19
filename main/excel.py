@@ -13,7 +13,7 @@ def create_new_schools_and_users_from_excel(file_path):
     sheet = rb.sheet_by_index(0)
     for i in range(4, sheet.nrows):
         done = int(float(i) / float(sheet.nrows) * 100)
-        logger.info(str.format("IMPORT DONE ON {0}", done))
+        logger.info(str.format("IMPORT DONE ON {0}%", done))
         values = sheet.row_values(i)
         INN = int(values[0])
         district = values[1]
@@ -32,8 +32,8 @@ def create_new_schools_and_users_from_excel(file_path):
             school = School.objects.create(INN=INN, name=name, shortname=shortname, phone=phone, address=address,
                                            district=district)
             SchoolUser.objects.create(username=INN, password=INN, school=school)
-        except BaseException as err:
-            logger.debug(err)
+        except BaseException as ex:
+            logger.debug(ex)
 
 
 def update_schools_from_excel():
