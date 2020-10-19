@@ -10,13 +10,15 @@ from main.models import School
 
 
 def imp(f):
-    direct = settings.BASE_DIR.__str__() + 'main/docs/import.xls'
-    if not (os.path.exists('main/docs')):
-        os.mkdir('main/docs')
+    # direct = settings.BASE_DIR.__str__() + 'main/docs/import.xls'
+    direct = settings.BASE_DIR.__str__() + 'main/docs/'
+    if not (os.path.exists(direct)):
+        os.mkdir(direct)
+    direct += 'import.xls'
     with open('main/docs/import.xls', 'wb') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-    excel.create_new_schools_and_users_from_excel(os.path.abspath(direct))
+    excel.create_new_schools_and_users_from_excel(direct)
 
 
 def export(data=None):
