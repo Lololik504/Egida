@@ -1,6 +1,7 @@
 import os
 
 from django.http import HttpResponse
+from loguru import logger
 
 from Egida import settings
 from main import excel
@@ -9,13 +10,13 @@ from main.models import School
 
 
 def imp(f):
-    direct = settings.BASE_DIR.__str__() + 'main/docs/import.xlsx'
+    direct = settings.BASE_DIR.__str__() + 'main/docs/import.xls'
     if not (os.path.exists('main/docs')):
         os.mkdir('main/docs')
-    with open('main/docs/import.xlsx', 'wb') as destination:
+    with open('main/docs/import.xls', 'wb') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-    excel.create_new_schools_and_users_from_excel(direct)
+    excel.create_new_schools_and_users_from_excel(os.path.abspath(direct))
 
 
 def export(data=None):
