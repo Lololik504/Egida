@@ -11,7 +11,7 @@ from main.models import School
 
 def imp(f):
     # direct = settings.BASE_DIR.__str__() + 'main/docs/import.xls'
-    direct = settings.BASE_DIR.__str__() + 'main/docs/'
+    direct = settings.BASE_DIR.__str__() + '/main/docs/'
     if not (os.path.exists(direct)):
         os.mkdir(direct)
     direct += 'import.xls'
