@@ -8,4 +8,6 @@ urlpatterns = [
     path('districts/', API.DistrictsInfo.as_view()),
     path('district/', API.OneDistrictInfo.as_view()),
     path('building/', API.BuildingInfo.as_view()),
+    path('building/fields', API.BuildingFields.as_view()),
+    path('export/', API.ExportExcel.as_view()),
 ]

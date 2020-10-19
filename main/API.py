@@ -1,10 +1,9 @@
-from rest_framework import status, permissions
-from rest_framework.response import Response
+from loguru import logger
+from rest_framework import permissions
 from rest_framework.views import APIView
-
-from accounts.services import MyUser, DistrictUser, SchoolUser
-from main.allows import school_allow, departament_allow, building_allow
+from main.allows import *
 from main.serializers import *
+from main.services import export, find_school_and_allow_user
 
 
 class BuildingInfo(APIView):
@@ -14,6 +13,7 @@ class BuildingInfo(APIView):
         data = request
         INN = data['INN']
         user = request.my_user
+        # logger.info(user)
         if user is None:
             return Response(status=status.HTTP_401_UNAUTHORIZED,
                             data={'detail': 'You need to authorize'})
@@ -28,32 +28,26 @@ class BuildingInfo(APIView):
         building = Building.objects.create(school=school)
         building.update(data=data)
         building.save()
+        logger.info(str.format("{0} Добавил информацию о зданиях {1}\n{2}", user, school, building))
         return Response(status=status.HTTP_200_OK)
 
     def get(self, request):
         data = request.headers
         INN = data['INN']
         user = request.my_user
-        if user is None:
-            return Response(status=status.HTTP_401_UNAUTHORIZED,
-                            data={'detail': 'You need to authorize'})
         try:
-            school = School.objects.get(INN=INN)
-        except:
+            school = find_school_and_allow_user(INN, user)
+        except BaseException as ex:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={'detail': 'Cant find school with this INN'})
-        if not school_allow(user, school):
-            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                            data={'detail': 'You dont have permission to do this'})
+                            data={"detail": ex.__str__()})
         try:
             buildings = list(filter(lambda b: b.school == school, Building.objects.all()))
         except:
-            print(Building.PURPOSE.values)
             return Response(data=[])
         ans = []
-        ans.append(Building.get_choices(Building()))
-        buildings_serializer = BuildongAllInfoSerializer(buildings, many=True)
+        buildings_serializer = BuildingAllInfoSerializer(buildings, many=True)
         ans.append(buildings_serializer.data)
+        logger.info(str.format("{0} Получил информацию о зданиях {1}", user, school))
         return Response(ans)
 
     def put(self, request):
@@ -76,7 +70,21 @@ class BuildingInfo(APIView):
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': 'Error with update method'})
+        logger.info(str.format("{0} Изменил информацию о здании {1}\n{2}", user, building.school, building))
         return Response(status=status.HTTP_200_OK)
+
+
+class BuildingFields(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        ans = {}
+        fields = get_model_fields(Building)
+        for field in fields:
+            # print(field.name)
+            ans.update({field.name: field.verbose_name})
+        ans.update(Building.get_choices(Building()))
+        return Response(ans)
 
 
 class SchoolInfo(APIView):
@@ -86,40 +94,30 @@ class SchoolInfo(APIView):
         data = request.headers
         INN = data['INN']
         user = request.my_user
-        if user is None:
-            return Response(status=status.HTTP_401_UNAUTHORIZED,
-                            data={'detail': 'You need to authorize'})
         try:
-            school = School.objects.get(INN=INN)
-        except:
+            school = find_school_and_allow_user(INN, user)
+        except BaseException as ex:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={'detail': 'Cant find school with this INN'})
-        if not school_allow(user, school):
-            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                            data={'detail': 'You dont have permission to do this'})
+                            data={"detail": ex.__str__()})
         school_serializer = SchoolAllInfoSerializer(school, many=False)
+        logger.info(str.format("{0} Получил информацию о {1}", user, school))
         return Response({'school': school_serializer.data})
 
     def put(self, request):
         data: dict = request.data
         INN = data['INN']
         user = request.my_user
-        if user is None:
-            return Response(status=status.HTTP_401_UNAUTHORIZED,
-                            data={'detail': 'You need to authorize'})
         try:
-            school = School.objects.get(INN=INN)
-        except:
+            school = find_school_and_allow_user(INN, user)
+        except BaseException as ex:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={'detail': 'Cant find school with this INN'})
-        if not school_allow(user, school):
-            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                            data={'detail': 'You dont have permission to do this'})
+                            data={"detail": ex.__str__()})
         try:
             school.update(data)
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': 'Error with update method'})
+        logger.info(str.format("{0} Обновил информацию о {1}", user, school))
         return Response(status=status.HTTP_200_OK)
 
     def post(self, request):
@@ -139,6 +137,7 @@ class SchoolInfo(APIView):
         except BaseException as err:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': err.__str__()})
+        logger.info(str.format("{0} Добавил информацию о {1}", user, school))
         return Response(status=status.HTTP_200_OK)
 
 
@@ -147,7 +146,10 @@ class DistrictsInfo(APIView):
 
     def get(self, request):
         user = request.my_user
-        if departament_allow(user):
+        if not departament_allow(user):
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+                            data={'detail': 'You dont have permission to do this'})
+        else:
             districts = District.objects.all()
             schools = School.objects.all()
             ans = []
@@ -158,11 +160,8 @@ class DistrictsInfo(APIView):
                     'name': DistrictsSerializer(district, many=False).data,
                     'schools': SchoolInfoSerializer(dist_schools, many=True).data
                 })
-
+            logger.info(str.format("{0} Получил информацию о всех районах", user))
             return Response(ans)
-        else:
-            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                            data={'detail': 'You dont have permission to do this'})
 
 
 class OneDistrictInfo(APIView):
@@ -171,15 +170,16 @@ class OneDistrictInfo(APIView):
     def get(self, request):
         user = request.my_user
         district_name = request.headers['district']
-        if user.permission <= MyUser.Permissions.district.value:
+        try:
+            district = District.objects.get(name=district_name)
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={'detail': 'Cant find district'})
+        if district_allow(user, district):
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+                            data={'detail': 'You dont have permission to do this'})
+        else:
             try:
-                if isinstance(user, DistrictUser):
-                    district = user.district
-                    if district_name != district.name:
-                        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                                        data={'detail': 'You dont have permission to do this'})
-                else:
-                    district = District.objects.get(name=district_name)
                 schools = district.school_set.all()
                 district_serializer = DistrictsSerializer(district, many=False)
                 schools_serializer = SchoolInfoSerializer(schools, many=True)
@@ -187,9 +187,11 @@ class OneDistrictInfo(APIView):
                     'district': district_serializer.data,
                     'schools': schools_serializer.data
                 }
+                logger.info(str.format("{0} Получил информацию о {1}", user, district))
                 return Response(ans)
-            except:
-                return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            except BaseException as ex:
+                return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                                data={"detail": ex.__str__()})
 
 
 class DirectorInfo(APIView):
@@ -199,6 +201,9 @@ class DirectorInfo(APIView):
         data = request.data
         user = request.my_user
         INN = request['INN']
+        if user is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED,
+                            data={'detail': 'You need to authorize'})
         try:
             school = School.objects.get(INN=INN)
         except:
@@ -209,7 +214,24 @@ class DirectorInfo(APIView):
                             data={'detail': 'You dont have permission to do this'})
         try:
             director = Director.objects.create(**data, school=school)
-        except BaseException as err:
+        except BaseException as ex:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                            data={'detail': err.__str__()})
+                            data={'detail': ex.__str__()})
+        logger.info(str.format("{0} Добавил информацию о директоре {1}", user, school))
         return Response(status=status.HTTP_200_OK)
+
+
+class ExportExcel(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        data = request.data
+        user = request.my_user
+        if (user == None):
+            return Response(status=status.HTTP_401_UNAUTHORIZED,
+                            data={'detail': 'You need to authorize'})
+        if not (departament_allow(user)):
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+                            data={'detail': 'You dont have permission to do this'})
+        resp = export(data)
+        return resp

@@ -4,6 +4,8 @@ from django.http import HttpResponse
 
 from Egida import settings
 from main import excel
+from main.allows import school_allow
+from main.models import School
 
 
 def imp(f):
@@ -16,9 +18,20 @@ def imp(f):
     excel.create_new_schools_and_users_from_excel(direct)
 
 
-def export():
-    content = excel.make_export_file()
+def export(data=None):
+    content = excel.make_export_file(data)
     response = HttpResponse(open(content, 'rb'), content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = "filename=export.xls"
     return response
-    pass
+
+
+def find_school_and_allow_user(INN, user):
+    if user is None:
+        raise BaseException('You need to authorize')
+    try:
+        school = School.objects.get(INN=INN)
+    except:
+        raise BaseException('Cant find school with this INN')
+    if not school_allow(user, school):
+        raise BaseException('You dont have permission to do this')
+    return school

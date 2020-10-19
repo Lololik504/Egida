@@ -14,7 +14,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 's_guh_fk#z)4r!7fb)^oug*@=d9_zx
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-PROD = True
+PROD = False
 
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
@@ -91,7 +91,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    # "Egida.middleware.MyAuthenticationMiddleware"
+    "Egida.middleware.MyAuthenticationMiddleware"
 ]
 
 ROOT_URLCONF = 'Egida.urls'

@@ -44,7 +44,7 @@ class School(models.Model):
         self.save()
 
     def __str__(self):
-        return self.name
+        return self.shortname
 
 
 class Director(models.Model):
@@ -62,9 +62,6 @@ class Director(models.Model):
 
 
 class Building(models.Model):
-    TYEPS = (
-        ()
-    )
     school = models.ForeignKey(School, on_delete=models.CASCADE, default=None)
     address = models.CharField(verbose_name="Адрес", max_length=350, blank=True, null=True)
 
@@ -73,22 +70,22 @@ class Building(models.Model):
         BUILD_INTO_APART = "Встроенное в многоквартирный дом"
         ATTACHED_TO_APART = "Пристроенное к многоквартирному дому"
 
-    type = models.CharField(max_length=50, choices=TYPE.choices, blank=True, null=True)
+    type = models.CharField(verbose_name="Вид здания", max_length=50, choices=TYPE.choices, default=TYPE.FREE_STANDING, blank=True, null=True)
 
-    class PURPOSE(models.TextChoices):
-        FREE_STANDING = "Отдельно стоящее"
-        BUILD_INTO_APART = "Встроенное в многоквартирный дом"
-        ATTACHED_TO_APART = "Пристроенное к многоквартирному дому"
-
-    purpose = models.CharField(max_length=50, choices=PURPOSE.choices, default=PURPOSE.FREE_STANDING, blank=True,
-                               null=True)
+    # class PURPOSE(models.TextChoices):
+    #     FREE_STANDING = "Отдельно стоящее"
+    #     BUILD_INTO_APART = "Встроенное в многоквартирный дом"
+    #     ATTACHED_TO_APART = "Пристроенное к многоквартирному дому"
+    #
+    # purpose = models.CharField(verbose_name="Адрес", max_length=50, choices=PURPOSE.choices, default=PURPOSE.FREE_STANDING, blank=True,
+    #                            null=True)
     YEAR_CHOICES = []
     YEAR_CHOICES_FOR_RESPONSE = []
     for r in range(1900, (datetime.datetime.now().year + 1)):
         YEAR_CHOICES.append((r, r))
         YEAR_CHOICES_FOR_RESPONSE.append(r)
 
-    construction_year = models.IntegerField(verbose_name="Год", choices=YEAR_CHOICES, default=2000, blank=True,
+    construction_year = models.IntegerField(verbose_name="Год постройки здания", choices=YEAR_CHOICES, default=2000, blank=True,
                                             null=True)
     building_square = models.IntegerField(verbose_name="Площадь здания", blank=True, null=True)
     land_square = models.IntegerField(verbose_name="Площадь земельного участка", blank=True, null=True)
@@ -127,7 +124,7 @@ class Building(models.Model):
     def get_choices(self):
         res = {
             'TYPE': self.TYPE.values,
-            'PURPOSE': self.PURPOSE.values,
+            # 'PURPOSE': self.PURPOSE.values,
             'YEAR_CHOICES': self.YEAR_CHOICES_FOR_RESPONSE,
             'TECHNICAL_CONDITION': self.TECHNICAL_CONDITION.values
         }

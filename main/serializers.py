@@ -35,8 +35,11 @@ class SchoolAllInfoSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class BuildongAllInfoSerializer(ModelSerializer):
+class BuildingAllInfoSerializer(ModelSerializer):
 
     class Meta:
         model = Building
         fields = ['__all__']
+
+
+# class BuildingFieldsSerializer(ModelSerializer)

@@ -31,8 +31,8 @@ def get_user_from_request(request):
     try:
         data = request
         user_token = MyAuthentication.authenticate(MyAuthentication(), request)
-        user = user_token[0]
-        user = get_user_class(user)
-        return user
+        my_user = user_token[0]
+        my_user = get_user_class(my_user)
+        return my_user
     except:
         return None

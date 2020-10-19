@@ -66,15 +66,22 @@ def update_schools_from_excel():
             print(err)
 
 
-def make_export_file():
+def make_export_file(data):
     full_path = settings.DOCUMENT_ROOT + "/export.xls"
     excel = xlwt.Workbook()
     shit = excel.add_sheet("export")
     schools = School.objects.all()
     row = 4
     fields = get_model_fields(School)
-    print(fields)
-    print(fields[1].name)
+    fields = fields[1:]
+    
+    column = 1
+    for field in fields:
+        if data is None or data[field.name]:
+            shit.write(2, column, field.verbose_name.__str__())
+            column += 1
+        else:
+            fields.pop(field)
     for school in schools:
         column = 1
         for field in fields:
