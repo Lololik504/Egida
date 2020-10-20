@@ -70,7 +70,10 @@ class Building(models.Model):
         BUILD_INTO_APART = "Встроенное в многоквартирный дом"
         ATTACHED_TO_APART = "Пристроенное к многоквартирному дому"
 
-    type = models.CharField(verbose_name="Вид здания", max_length=50, choices=TYPE.choices, default=TYPE.FREE_STANDING, blank=True, null=True)
+    type = models.CharField(verbose_name="Вид здания", max_length=50, choices=TYPE.choices, default=TYPE.FREE_STANDING,
+                            blank=True, null=True)
+    use_type = models.CharField(verbose_name="Назначение здания", max_length=200, choices=TYPE.choices, blank=True,
+                                null=True)
 
     # class PURPOSE(models.TextChoices):
     #     FREE_STANDING = "Отдельно стоящее"
@@ -85,7 +88,8 @@ class Building(models.Model):
         YEAR_CHOICES.append((r, r))
         YEAR_CHOICES_FOR_RESPONSE.append(r)
 
-    construction_year = models.IntegerField(verbose_name="Год постройки здания", choices=YEAR_CHOICES, default=2000, blank=True,
+    construction_year = models.IntegerField(verbose_name="Год постройки здания", choices=YEAR_CHOICES, default=2000,
+                                            blank=True,
                                             null=True)
     building_square = models.IntegerField(verbose_name="Площадь здания", blank=True, null=True)
     land_square = models.IntegerField(verbose_name="Площадь земельного участка", blank=True, null=True)

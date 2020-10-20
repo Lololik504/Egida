@@ -13,7 +13,6 @@ class BuildingInfo(APIView):
         data = request
         INN = data['INN']
         user = request.my_user
-        # logger.info(user)
         if user is None:
             return Response(status=status.HTTP_401_UNAUTHORIZED,
                             data={'detail': 'You need to authorize'})
@@ -28,7 +27,7 @@ class BuildingInfo(APIView):
         building = Building.objects.create(school=school)
         building.update(data=data)
         building.save()
-        logger.info(str.format("{0} Добавил информацию о зданиях {1}\n{2}", user, school, building))
+        logger.success(str.format("{0} Добавил информацию о зданиях {1}\n{2}", user, school, building))
         return Response(status=status.HTTP_200_OK)
 
     def get(self, request):
@@ -47,7 +46,7 @@ class BuildingInfo(APIView):
         ans = []
         buildings_serializer = BuildingAllInfoSerializer(buildings, many=True)
         ans.append(buildings_serializer.data)
-        logger.info(str.format("{0} Получил информацию о зданиях {1}", user, school))
+        logger.success(str.format("{0} Получил информацию о зданиях {1}", user, school))
         return Response(ans)
 
     def put(self, request):
@@ -70,7 +69,7 @@ class BuildingInfo(APIView):
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': 'Error with update method'})
-        logger.info(str.format("{0} Изменил информацию о здании {1}\n{2}", user, building.school, building))
+        logger.success(str.format("{0} Изменил информацию о здании {1}\n{2}", user, building.school, building))
         return Response(status=status.HTTP_200_OK)
 
 
@@ -100,7 +99,7 @@ class SchoolInfo(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         school_serializer = SchoolAllInfoSerializer(school, many=False)
-        logger.info(str.format("{0} Получил информацию о {1}", user, school))
+        logger.success(str.format("{0} Получил информацию о {1}", user, school))
         return Response({'school': school_serializer.data})
 
     def put(self, request):
@@ -117,7 +116,7 @@ class SchoolInfo(APIView):
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': 'Error with update method'})
-        logger.info(str.format("{0} Обновил информацию о {1}", user, school))
+        logger.success(str.format("{0} Обновил информацию о {1}", user, school))
         return Response(status=status.HTTP_200_OK)
 
     def post(self, request):
@@ -137,7 +136,7 @@ class SchoolInfo(APIView):
         except BaseException as err:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': err.__str__()})
-        logger.info(str.format("{0} Добавил информацию о {1}", user, school))
+        logger.success(str.format("{0} Добавил информацию о {1}", user, school))
         return Response(status=status.HTTP_200_OK)
 
 
@@ -160,7 +159,7 @@ class DistrictsInfo(APIView):
                     'name': DistrictsSerializer(district, many=False).data,
                     'schools': SchoolInfoSerializer(dist_schools, many=True).data
                 })
-            logger.info(str.format("{0} Получил информацию о всех районах", user))
+            logger.success(str.format("{0} Получил информацию о всех районах", user))
             return Response(ans)
 
 
@@ -187,7 +186,7 @@ class OneDistrictInfo(APIView):
                     'district': district_serializer.data,
                     'schools': schools_serializer.data
                 }
-                logger.info(str.format("{0} Получил информацию о {1}", user, district))
+                logger.success(str.format("{0} Получил информацию о {1}", user, district))
                 return Response(ans)
             except BaseException as ex:
                 return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -217,7 +216,7 @@ class DirectorInfo(APIView):
         except BaseException as ex:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': ex.__str__()})
-        logger.info(str.format("{0} Добавил информацию о директоре {1}", user, school))
+        logger.success(str.format("{0} Добавил информацию о директоре {1}", user, school))
         return Response(status=status.HTTP_200_OK)
 
 
