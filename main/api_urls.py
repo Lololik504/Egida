@@ -1,8 +1,9 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import API
 
 urlpatterns = [
+    path('fields/', include("main.fields_url")),
     path('school/', API.SchoolInfo.as_view()),
     path('districts/', API.DistrictsInfo.as_view()),
     path('district/', API.OneDistrictInfo.as_view()),
