@@ -76,7 +76,7 @@ def make_export_file(data):
     row = 4
     fields = get_model_fields(School)
     fields = fields[1:]
-    
+
     column = 1
     for field in fields:
         if data is None or data[field.name]:
