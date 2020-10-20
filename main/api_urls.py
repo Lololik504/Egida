@@ -1,13 +1,11 @@
-from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import path
 
-from . import views, API
+from . import API
 
 urlpatterns = [
     path('school/', API.SchoolInfo.as_view()),
     path('districts/', API.DistrictsInfo.as_view()),
     path('district/', API.OneDistrictInfo.as_view()),
     path('building/', API.BuildingInfo.as_view()),
-    path('building/fields', API.BuildingFields.as_view()),
     path('export/', API.ExportExcel.as_view()),
 ]

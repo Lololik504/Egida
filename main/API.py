@@ -74,19 +74,6 @@ class BuildingInfo(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
-class BuildingFields(APIView):
-    permission_classes = [permissions.AllowAny]
-
-    def get(self, request):
-        ans = {}
-        fields = get_model_fields(Building)
-        for field in fields:
-            # print(field.name)
-            ans.update({field.name: field.verbose_name})
-        ans.update(Building.get_choices(Building()))
-        return Response(ans)
-
-
 class SchoolInfo(APIView):
     permission_classes = [permissions.AllowAny]
 
