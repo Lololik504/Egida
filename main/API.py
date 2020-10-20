@@ -137,7 +137,6 @@ class DistrictsInfo(APIView):
                             data={'detail': 'You dont have permission to do this'})
         else:
             districts = District.objects.all()
-            schools = School.objects.all()
             ans = []
             for district in districts:
                 # dist_schools = list(filter(lambda school: school.district == district, schools))
