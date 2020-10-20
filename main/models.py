@@ -62,7 +62,7 @@ class Director(models.Model):
 
 
 class Building(models.Model):
-    school = models.ForeignKey(School, on_delete=models.CASCADE, default=None)
+    school = models.ForeignKey(School, verbose_name="Школа", on_delete=models.CASCADE, default=None)
     address = models.CharField(verbose_name="Адрес", max_length=350, blank=True, null=True)
 
     class TYPE(models.TextChoices):
