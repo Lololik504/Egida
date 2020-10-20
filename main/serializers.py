@@ -36,10 +36,14 @@ class SchoolAllInfoSerializer(ModelSerializer):
 
 
 class BuildingAllInfoSerializer(ModelSerializer):
-
     class Meta:
         model = Building
-        fields = ['__all__']
+        fields = '__all__'
 
+
+class BuildingSerializer(ModelSerializer):
+    class Meta:
+        model = Building
+        fields = ['id', 'address']
 
 # class BuildingFieldsSerializer(ModelSerializer)

@@ -1,16 +1,10 @@
-from django.shortcuts import render
+from loguru import logger
+from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.authtoken.models import Token
-from rest_framework.parsers import JSONParser
 
 from .backends import LoginSerializer, MyAuthentication
-from .models import *
 from .serializers import *
-from rest_framework import permissions, status
-
-
-# Create your views here.
 
 
 class LoginAPIView(APIView):
@@ -19,6 +13,7 @@ class LoginAPIView(APIView):
 
     def post(self, request):
         data = request.data
+        logger.debug(data)
         serializer = self.serializer_class(data=data)
         serializer.is_valid(raise_exception=True)
         token_user = serializer.login(data)

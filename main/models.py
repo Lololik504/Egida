@@ -1,7 +1,6 @@
 import datetime
-from datetime import date
+
 from django.db import models
-from django.utils import timezone
 
 
 # Create your models here.
@@ -51,7 +50,7 @@ class Director(models.Model):
     first_name = models.CharField(verbose_name="Имя", max_length=30)
     last_name = models.CharField(verbose_name="Фамилия", max_length=30)
     patronymic = models.CharField(verbose_name="Отчество", max_length=30)
-    school = models.ForeignKey(School, on_delete=models.DO_NOTHING, default=None)
+    school = models.ForeignKey(School, verbose_name="Школа", on_delete=models.DO_NOTHING, default=None)
 
     class Meta:
         verbose_name = "Директор"
@@ -63,25 +62,20 @@ class Director(models.Model):
 
 class Building(models.Model):
     school = models.ForeignKey(School, verbose_name="Школа", on_delete=models.CASCADE, default=None)
-    address = models.CharField(verbose_name="Адрес", max_length=350, blank=True, null=True)
+    address = models.CharField(verbose_name="Адрес", max_length=350)
 
-    class TYPE(models.TextChoices):
-        FREE_STANDING = "Отдельно стоящее"
-        BUILD_INTO_APART = "Встроенное в многоквартирный дом"
-        ATTACHED_TO_APART = "Пристроенное к многоквартирному дому"
+    TYPE = (
+        ("FREE_STANDING", "Отдельно стоящее"),
+        ("BUILD_INTO_APART", "Встроенное в многоквартирный дом"),
+        ("ATTACHED_TO_APART", "Пристроенное к многоквартирному дому"),
+    )
 
-    type = models.CharField(verbose_name="Вид здания", max_length=50, choices=TYPE.choices, default=TYPE.FREE_STANDING,
+    type = models.CharField(verbose_name="Вид здания", max_length=50, choices=TYPE, default=TYPE[0],
                             blank=True, null=True)
-    use_type = models.CharField(verbose_name="Назначение здания", max_length=200, choices=TYPE.choices, blank=True,
+
+    use_type = models.CharField(verbose_name="Назначение здания", max_length=200, blank=True,
                                 null=True)
 
-    # class PURPOSE(models.TextChoices):
-    #     FREE_STANDING = "Отдельно стоящее"
-    #     BUILD_INTO_APART = "Встроенное в многоквартирный дом"
-    #     ATTACHED_TO_APART = "Пристроенное к многоквартирному дому"
-    #
-    # purpose = models.CharField(verbose_name="Адрес", max_length=50, choices=PURPOSE.choices, default=PURPOSE.FREE_STANDING, blank=True,
-    #                            null=True)
     YEAR_CHOICES = []
     YEAR_CHOICES_FOR_RESPONSE = []
     for r in range(1900, (datetime.datetime.now().year + 1)):
@@ -105,6 +99,7 @@ class Building(models.Model):
                                         null=True)
     repair_need_square = models.IntegerField(verbose_name="Площадь, требующая ремонта", blank=True, null=True)
 
+#TODO: Like type
     class TECHNICAL_CONDITION(models.TextChoices):
         WORKING = "Работоспособное"
         LIMITED_WORKING = "Ограниченно-работоспособное"
@@ -140,12 +135,3 @@ class Building(models.Model):
     class Meta:
         verbose_name = "Здание"
         verbose_name_plural = "Здания"
-
-# class Temperatures(models.Model):
-#     school = models.ForeignKey(School, on_delete=models.CASCADE, default='')
-#     coolent_temp = models.IntegerField(blank=True, default=15)
-#     air_temp = models.IntegerField(blank=True, default=15)
-#     date: date = models.DateField(auto_now=True)
-#
-#     def __str__(self):
-#         return self.date

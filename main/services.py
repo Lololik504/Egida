@@ -1,12 +1,11 @@
 import os
 
 from django.http import HttpResponse
-from loguru import logger
 
 from Egida import settings
 from main import excel
-from main.allows import school_allow
-from main.models import School
+from main.allows import school_allow, building_allow
+from main.models import School, Building
 
 
 def imp(f):
@@ -38,3 +37,14 @@ def find_school_and_allow_user(INN, user):
     if not school_allow(user, school):
         raise BaseException('You dont have permission to do this')
     return school
+
+def find_building_and_allow_user(id, user):
+    if user is None:
+        raise BaseException('You need to authorize')
+    try:
+        building = Building.objects.get(id=id)
+    except BaseException as ex:
+        raise ex
+    if not building_allow(user, building):
+        raise BaseException('You dont have permission to do this')
+    return building

@@ -1,16 +1,19 @@
 from loguru import logger
-from rest_framework import permissions
+from rest_framework import permissions, status
+from rest_framework.request import Request
+from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from main.allows import *
 from main.serializers import *
-from main.services import export, find_school_and_allow_user
+from main.services import *
 
 
 class BuildingInfo(APIView):
     permission_classes = [permissions.AllowAny]
 
-    def post(self, request):
-        data = request
+    def post(self, request: Request):
+        data = request.data
         INN = data['INN']
         user = request.my_user
         if user is None:
@@ -18,36 +21,39 @@ class BuildingInfo(APIView):
                             data={'detail': 'You need to authorize'})
         try:
             school = School.objects.get(INN=INN)
-        except:
+        except BaseException as ex:
+            print(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={'detail': 'Cant find school with this INN'})
+                            data={'detail': ex.__str__()})
         if not school_allow(user, school):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
-        building = Building.objects.create(school=school)
-        building.update(data=data)
-        building.save()
-        logger.success(str.format("{0} Добавил информацию о зданиях {1}\n{2}", user, school, building))
-        return Response(status=status.HTTP_200_OK)
+        try:
+            building = Building.objects.create(school=school)
+            building.update(data=data)
+            building.save()
+            logger.success(str.format("{0} Добавил информацию о зданиях {1}\n{2}", user, school, building))
+            return Response(status=status.HTTP_200_OK)
+        except BaseException as ex:
+            building.delete()
+            return Response(status=status.HTTP_501_NOT_IMPLEMENTED,
+                            data={'detail': ex.__str__()})
 
     def get(self, request):
         data = request.headers
-        INN = data['INN']
+        id = data['id']
         user = request.my_user
         try:
-            school = find_school_and_allow_user(INN, user)
+            building = find_building_and_allow_user(id, user)
         except BaseException as ex:
+            logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
-        try:
-            buildings = list(filter(lambda b: b.school == school, Building.objects.all()))
-        except:
-            return Response(data=[])
         ans = []
-        buildings_serializer = BuildingAllInfoSerializer(buildings, many=True)
-        ans.append(buildings_serializer.data)
-        logger.success(str.format("{0} Получил информацию о зданиях {1}", user, school))
-        return Response(ans)
+        building_serializer = BuildingAllInfoSerializer(building, many=False)
+        ans.append(building_serializer.data)
+        logger.success(str.format("{0} Получил информацию о здании {1}", user, building))
+        return Response(data=ans)
 
     def put(self, request):
         data: dict = request.data
@@ -58,7 +64,8 @@ class BuildingInfo(APIView):
                             data={'detail': 'You need to authorize'})
         try:
             building = Building.objects.get(id=id)
-        except:
+        except BaseException as ex:
+            logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': 'Cant find school with this INN'})
         if not building_allow(user, building):
@@ -66,11 +73,37 @@ class BuildingInfo(APIView):
                             data={'detail': 'You dont have permission to do this'})
         try:
             building.update(data)
-        except:
+        except BaseException as ex:
+            logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': 'Error with update method'})
         logger.success(str.format("{0} Изменил информацию о здании {1}\n{2}", user, building.school, building))
         return Response(status=status.HTTP_200_OK)
+
+
+class SchoolBuildingsInfo(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        data = request.headers
+        INN = data['INN']
+        user = request.my_user
+        try:
+            school = find_school_and_allow_user(INN, user)
+        except BaseException as ex:
+            logger.exception(ex)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": ex.__str__()})
+        try:
+            buildings = list(filter(lambda b: b.school == school, Building.objects.all()))
+        except BaseException as ex:
+            logger.exception(ex)
+            return Response(data=[])
+        ans = []
+        buildings_serializer = BuildingSerializer(buildings, many=True)
+        ans.append(buildings_serializer.data)
+        logger.success(str.format("{0} Получил информацию о зданиях {1}", user, school))
+        return Response(data=ans)
 
 
 class SchoolInfo(APIView):
@@ -83,6 +116,7 @@ class SchoolInfo(APIView):
         try:
             school = find_school_and_allow_user(INN, user)
         except BaseException as ex:
+            logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         school_serializer = SchoolAllInfoSerializer(school, many=False)
@@ -96,13 +130,15 @@ class SchoolInfo(APIView):
         try:
             school = find_school_and_allow_user(INN, user)
         except BaseException as ex:
+            logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         try:
             school.update(data)
-        except:
+        except BaseException as ex:
+            logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={'detail': 'Error with update method'})
+                            data={'detail': ex.__str__()})
         logger.success(str.format("{0} Обновил информацию о {1}", user, school))
         return Response(status=status.HTTP_200_OK)
 
@@ -120,9 +156,10 @@ class SchoolInfo(APIView):
             school = School.objects.create(**data)
 
             SchoolUser.objects.create(username=school.INN, password=school.INN, school=school)
-        except BaseException as err:
+        except BaseException as ex:
+            logger.exception(ex)
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                            data={'detail': err.__str__()})
+                            data={'detail': ex.__str__()})
         logger.success(str.format("{0} Добавил информацию о {1}", user, school))
         return Response(status=status.HTTP_200_OK)
 
@@ -131,6 +168,7 @@ class DistrictsInfo(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
+        print(Building.TYPE.choices)
         user = request.my_user
         if not departament_allow(user):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
@@ -191,9 +229,9 @@ class DirectorInfo(APIView):
                             data={'detail': 'You need to authorize'})
         try:
             school = School.objects.get(INN=INN)
-        except:
+        except BaseException as ex:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={'detail': 'Cant find school with this INN'})
+                            data={'detail': ex.__str__()})
         if not school_allow(user, school):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})

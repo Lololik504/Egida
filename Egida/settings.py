@@ -11,7 +11,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 's_guh_fk#z)4r!7fb)^oug*@=d9_zx
 
 PROD = False
 
-LOG_DIR = os.path.join(BASE_DIR, "log")
+LOG_DIR = os.path.join(BASE_DIR, "log/")
 
 log_settings.setup_settings()
 
