@@ -41,7 +41,7 @@ def update_schools_from_excel():
     rb = xlrd.open_workbook(dir)
     sheet = rb.sheet_by_index(0)
     for i in range(4, sheet.nrows):
-        print(int(float(i) / float(sheet.nrows) * 100))
+        logger.info(str.format("import done {0}", int(float(i) / float(sheet.nrows) * 100)))
         values = sheet.row_values(i)
         INN = int(values[0])
         district = values[1]
@@ -78,12 +78,12 @@ def make_export_file(data):
     fields = fields[1:]
 
     column = 1
-    for field in fields:
-        if data is None or data[field.name]:
-            shit.write(2, column, field.verbose_name.__str__())
-            column += 1
-        else:
-            fields.pop(field)
+    # for field in fields:
+    #     if data is None or data[field.name]:
+    #         shit.write(2, column, field.verbose_name.__str__())
+    #         column += 1
+    #     else:
+    #         fields.pop(field)
     for school in schools:
         column = 1
         for field in fields:

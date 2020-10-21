@@ -14,6 +14,7 @@ class BuildingInfo(APIView):
 
     def post(self, request: Request):
         data = request.data
+        # logger.debug(data)
         INN = data['INN']
         user = request.my_user
         if user is None:
@@ -22,7 +23,6 @@ class BuildingInfo(APIView):
         try:
             school = School.objects.get(INN=INN)
         except BaseException as ex:
-            print(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': ex.__str__()})
         if not school_allow(user, school):

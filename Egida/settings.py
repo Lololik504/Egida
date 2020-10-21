@@ -166,6 +166,9 @@ STATICFILES_FINDERS = (
 
 DOCUMENT_ROOT = os.path.join(BASE_DIR, "main/docs")
 
+if not os.path.exists(DOCUMENT_ROOT):
+    os.mkdir(DOCUMENT_ROOT)
+
 if PROD:
     from .prod_settings import *
 else:

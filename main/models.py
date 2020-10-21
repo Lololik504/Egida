@@ -64,16 +64,20 @@ class Building(models.Model):
     school = models.ForeignKey(School, verbose_name="Школа", on_delete=models.CASCADE, default=None)
     address = models.CharField(verbose_name="Адрес", max_length=350)
 
-    TYPE = (
-        ("FREE_STANDING", "Отдельно стоящее"),
-        ("BUILD_INTO_APART", "Встроенное в многоквартирный дом"),
-        ("ATTACHED_TO_APART", "Пристроенное к многоквартирному дому"),
-    )
+    # TYPE = (
+    #     ("FREE_STANDING", "Отдельно стоящее"),
+    #     ("BUILD_INTO_APART", "Встроенное в многоквартирный дом"),
+    #     ("ATTACHED_TO_APART", "Пристроенное к многоквартирному дому"),
+    # )
 
-    type = models.CharField(verbose_name="Вид здания", max_length=50, choices=TYPE, default=TYPE[0],
+    class TYPE(models.TextChoices):
+        FREE_STANDING = "Отдельно стоящее"
+        BUILD_INTO_APART = "Встроенное в многоквартирный дом"
+        ATTACHED_TO_APART = "Пристроенное к многоквартирному дому"
+    type = models.CharField(verbose_name="Вид здания", max_length=50, choices=TYPE.choices, default=TYPE.FREE_STANDING,
                             blank=True, null=True)
 
-    use_type = models.CharField(verbose_name="Назначение здания", max_length=200, blank=True,
+    purpose = models.CharField(verbose_name="Назначение здания", max_length=200, blank=True,
                                 null=True)
 
     YEAR_CHOICES = []
@@ -99,7 +103,6 @@ class Building(models.Model):
                                         null=True)
     repair_need_square = models.IntegerField(verbose_name="Площадь, требующая ремонта", blank=True, null=True)
 
-#TODO: Like type
     class TECHNICAL_CONDITION(models.TextChoices):
         WORKING = "Работоспособное"
         LIMITED_WORKING = "Ограниченно-работоспособное"
