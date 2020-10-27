@@ -49,7 +49,7 @@ class BuildingAllInfoSerializer(ModelSerializer):
 class BuildingSerializer(ModelSerializer):
     class Meta:
         model = Building
-        fields = ['id', 'address']
+        fields = ['id', 'street', 'street_number']
 
 # class PersonalAllInfoSerializer(ModelSerializer):
 #     class Meta:

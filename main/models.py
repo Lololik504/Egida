@@ -173,7 +173,9 @@ class Building(models.Model):
         return res
 
     def __str__(self):
-        return self.address
+        if self.street is None:
+            return "-"
+        return self.street + self.street_number
 
     class Meta:
         verbose_name = "Здание"
