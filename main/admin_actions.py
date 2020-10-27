@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 
 from main import services
 
-ALLOWED_EXTENSIONS = set(['.xlsx', '.xls'])
+ALLOWED_EXTENSIONS = {'.xlsx', '.xls'}
 
 
 @staff_member_required

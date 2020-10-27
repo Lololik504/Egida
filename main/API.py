@@ -80,6 +80,24 @@ class BuildingInfo(APIView):
         logger.success(str.format("{0} Изменил информацию о здании {1}\n{2}", user, building.school, building))
         return Response(status=status.HTTP_200_OK)
 
+    def delete(self, request):
+        data = request.headers
+        id = data['id']
+        user = request.my_user
+        try:
+            building = find_building_and_allow_user(id, user)
+        except BaseException as ex:
+            logger.exception(ex)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": ex.__str__()})
+        try:
+            building.delete()
+        except BaseException as ex:
+            logger.exception(ex)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": ex.__str__()})
+        return Response(status=status.HTTP_200_OK)
+
 
 class SchoolBuildingsInfo(APIView):
     permission_classes = [permissions.AllowAny]
@@ -168,7 +186,6 @@ class DistrictsInfo(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        print(Building.TYPE.choices)
         user = request.my_user
         if not departament_allow(user):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
@@ -248,7 +265,8 @@ class ExportExcel(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        data = request.data
+        data:dict = request.headers
+        print(data)
         user = request.my_user
         if (user == None):
             return Response(status=status.HTTP_401_UNAUTHORIZED,
@@ -256,5 +274,35 @@ class ExportExcel(APIView):
         if not (departament_allow(user)):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
-        resp = export(data)
+        if not data.__contains__("full"):
+            resp = export(data)
+        else:
+            resp = full_export()
+        # resp = full_export()
         return resp
+
+
+class PersonalOfSchoolInfo(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        data = request.headers
+        INN = data['INN']
+        user = request.my_user
+        try:
+            school = find_school_and_allow_user(INN, user)
+        except BaseException as ex:
+            logger.exception(ex)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": ex.__str__()})
+        director = get_director(school)
+        bookkeeper = get_bookkeeper(school)
+        responsible_for_filling = get_updater(school)
+        zavhoz = get_zavhoz(school)
+        ans = {}
+        ans.update({get_model_name(director): PersonalAllInfoSerializer(director, many=False).data})
+        ans.update({get_model_name(zavhoz): PersonalAllInfoSerializer(zavhoz, many=False).data})
+        ans.update({get_model_name(bookkeeper): PersonalAllInfoSerializer(bookkeeper, many=False).data})
+        ans.update({get_model_name(responsible_for_filling): PersonalAllInfoSerializer(responsible_for_filling,
+                                                                                       many=False).data})
+        return Response(data=ans)
