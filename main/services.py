@@ -53,7 +53,7 @@ def find_building_and_allow_user(id, user):
         building = Building.objects.get(id=id)
     except BaseException as ex:
         raise ex
-    if not building_allow(user, building):
+    if not building_allow(building, user):
         raise BaseException('You dont have permission to do this')
     return building
 

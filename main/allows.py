@@ -17,7 +17,7 @@ def school_allow(user, school):
     return True
 
 
-def building_allow(user, building:Building):
+def building_allow(building:Building, user):
     if user.permission > MyUser.Permissions.SCHOOL.value:
         return False
     if isinstance(user, SchoolUser):

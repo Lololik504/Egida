@@ -2,6 +2,7 @@ from loguru import logger
 from rest_framework import permissions, status
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.utils import json
 from rest_framework.views import APIView
 
 from main.allows import *
@@ -68,7 +69,7 @@ class BuildingInfo(APIView):
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': 'Cant find school with this INN'})
-        if not building_allow(user, building):
+        if not building_allow(building,user):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
         try:
@@ -265,8 +266,9 @@ class ExportExcel(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        data:dict = request.headers
-        print(data)
+        data: dict = request.headers['data']
+        if isinstance(data, str):
+            data = json.loads(data)
         user = request.my_user
         if (user == None):
             return Response(status=status.HTTP_401_UNAUTHORIZED,

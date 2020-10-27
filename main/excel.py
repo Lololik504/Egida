@@ -83,19 +83,15 @@ def make_export_file(data: dict):
     row = START_ROW
 
     column = START_COLUMN
-    cur_column = column
+    next_column = column
 
     if data.__contains__(School._meta.model_name):
         cur_data = data[School._meta.model_name]
-        cur_data = json.loads(cur_data)
+        if isinstance(cur_data, str):
+            cur_data = json.loads(cur_data)
         fields = list(get_model_fields(School))
-        for field in fields:
-            if cur_data.__contains__(field.name):
-                print(cur_data)
-                if not cur_data[field.name]:
-                    fields.remove(field)
-            else:
-                fields.remove(field)
+        fields = filter(lambda field: cur_data.__contains__(field.name), fields)
+        fields = filter(lambda field: cur_data[field.name], fields)
 
         for school in schools:
             cur_column = column
@@ -103,6 +99,31 @@ def make_export_file(data: dict):
                 shit.write(2, cur_column, field.verbose_name.__str__())
                 shit.write(row, cur_column, getattr(school, field.name).__str__())
                 cur_column += 1
+            row += 1
+            if next_column < cur_column:
+                next_column = cur_column
+
+    column = next_column
+    row = START_ROW
+
+    if data.__contains__(Building._meta.model_name):
+        cur_data = data[Building._meta.model_name]
+        if isinstance(cur_data, str):
+            cur_data = json.loads(cur_data)
+        fields = list(get_model_fields(Building))
+        fields = filter(lambda field: cur_data.__contains__(field.name), fields)
+        fields = filter(lambda field: cur_data[field.name], fields)
+
+        for school in schools:
+            cur_column = column
+            for building in school.building_set.all():
+                shit.write(1, cur_column, "Здание")
+                for field in fields:
+                    shit.write(2, cur_column, field.verbose_name.__str__())
+                    shit.write(row, cur_column, getattr(building, field.name).__str__())
+                    cur_column += 1
+            if cur_column > next_column:
+                next_column = cur_column
             row += 1
 
     excel.save(full_path)
