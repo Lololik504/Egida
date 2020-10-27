@@ -1,6 +1,13 @@
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from main.models import *
+
+
+class DistrictsNameSerializer(ModelSerializer):
+    class Meta:
+        model = District
+        fields = 'name'
 
 
 class DistrictsSerializer(ModelSerializer):
@@ -18,21 +25,19 @@ class SchoolInfoSerializer(ModelSerializer):
         fields = ['INN', 'shortname', 'district']
 
 
-class DirectorSerializer(ModelSerializer):
-    school = SchoolInfoSerializer
-
+class PersonalAllInfoSerializer(ModelSerializer):
     class Meta:
-        model = Director
-        fields = ['first_name', 'last_name', 'patronymic', 'school']
+        model = Personal
+        fields = '__all__'
 
 
 class SchoolAllInfoSerializer(ModelSerializer):
     # Сериализация ForeignKey
-    district = DistrictsSerializer()
+    district = serializers.CharField(source='district.name', read_only=True)
 
     class Meta:
         model = School
-        fields = '__all__'
+        fields = "__all__"
 
 
 class BuildingAllInfoSerializer(ModelSerializer):
@@ -46,4 +51,7 @@ class BuildingSerializer(ModelSerializer):
         model = Building
         fields = ['id', 'address']
 
-# class BuildingFieldsSerializer(ModelSerializer)
+# class PersonalAllInfoSerializer(ModelSerializer):
+#     class Meta:
+#         model = Personal
+#         fields = '__all__'

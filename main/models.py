@@ -9,6 +9,10 @@ def get_model_fields(model):
     return model._meta.fields
 
 
+def get_model_name(model):
+    return model._meta.model_name
+
+
 class District(models.Model):
     name = models.CharField(verbose_name="Район", max_length=50)
 
@@ -21,15 +25,18 @@ class District(models.Model):
 
 
 class School(models.Model):
+    district = models.ForeignKey(District, verbose_name="Район", on_delete=models.CASCADE, default=None)
+
     INN = models.CharField(verbose_name="ИНН", max_length=13, default='', unique=True)
     name = models.CharField(verbose_name="Полное название", max_length=300, default='', unique=True)
     shortname = models.CharField(verbose_name="Краткое название", max_length=100, default='', unique=True)
     phone = models.CharField(verbose_name="Телефон", max_length=100, default='', unique=True)
     address = models.CharField(verbose_name="Адрес", max_length=300, default='', unique=False)
-    district = models.ForeignKey(District, verbose_name="Район", on_delete=models.CASCADE, default=None)
+    edu_type = models.CharField(verbose_name="Вид образования", max_length=20, default='')
+    form_type = models.CharField(verbose_name="Вид организационно-правовой формы", max_length=20, default='')
 
     class Meta:
-        verbose_name = "Школа"
+        verbose_name = "Основные сведения"
         verbose_name_plural = "Школы"
 
     def update(self, data):
@@ -46,23 +53,55 @@ class School(models.Model):
         return self.shortname
 
 
-class Director(models.Model):
-    first_name = models.CharField(verbose_name="Имя", max_length=30)
-    last_name = models.CharField(verbose_name="Фамилия", max_length=30)
-    patronymic = models.CharField(verbose_name="Отчество", max_length=30)
-    school = models.ForeignKey(School, verbose_name="Школа", on_delete=models.DO_NOTHING, default=None)
+class Personal(models.Model):
+    first_name = models.CharField(verbose_name="Имя", max_length=30, default='-')
+    last_name = models.CharField(verbose_name="Фамилия", max_length=30, default='-')
+    patronymic = models.CharField(verbose_name="Отчество", max_length=30, default='-')
 
     class Meta:
-        verbose_name = "Директор"
-        verbose_name_plural = "Директоры"
+        verbose_name = "Персонал"
+        verbose_name_plural = "Персонал"
 
     def __str__(self):
         return self.last_name + self.first_name + self.patronymic
 
 
+class Director(Personal):
+    school = models.OneToOneField(School, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        verbose_name = "Руководитель"
+        verbose_name_plural = "Руководители"
+
+
+class ZavHoz(Personal):
+    school = models.OneToOneField(School, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        verbose_name = "Завхоз"
+        verbose_name_plural = "Завхозы"
+
+
+class Bookkeeper(Personal):
+    school = models.OneToOneField(School, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        verbose_name = "Бухгалтер"
+        verbose_name_plural = "Бухгалтеры"
+
+
+class Updater(Personal):
+    school = models.OneToOneField(School, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        verbose_name = "Ответственный за заполнение"
+        verbose_name_plural = "Ответственные за заполнение"
+
+
 class Building(models.Model):
     school = models.ForeignKey(School, verbose_name="Школа", on_delete=models.CASCADE, default=None)
-    address = models.CharField(verbose_name="Адрес", max_length=350)
+    street = models.CharField(verbose_name="Улица", max_length=300, blank=True, null=True)
+    street_number = models.CharField(verbose_name="Номер дома", max_length=50, blank=True, null=True)
 
     # TYPE = (
     #     ("FREE_STANDING", "Отдельно стоящее"),
@@ -74,11 +113,12 @@ class Building(models.Model):
         FREE_STANDING = "Отдельно стоящее"
         BUILD_INTO_APART = "Встроенное в многоквартирный дом"
         ATTACHED_TO_APART = "Пристроенное к многоквартирному дому"
+
     type = models.CharField(verbose_name="Вид здания", max_length=50, choices=TYPE.choices, default=TYPE.FREE_STANDING,
                             blank=True, null=True)
 
     purpose = models.CharField(verbose_name="Назначение здания", max_length=200, blank=True,
-                                null=True)
+                               null=True)
 
     YEAR_CHOICES = []
     YEAR_CHOICES_FOR_RESPONSE = []

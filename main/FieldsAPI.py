@@ -4,6 +4,8 @@ from rest_framework.views import APIView
 
 from main.models import *
 
+Models = [School, Building, Director, ZavHoz, Bookkeeper, Updater]
+
 
 class BuildingFields(APIView):
     permission_classes = [permissions.AllowAny]
@@ -13,7 +15,6 @@ class BuildingFields(APIView):
         fields = get_model_fields(Building)
         for field in fields:
             ans.update({field.name: field.verbose_name})
-        ans.update(Building.get_choices(Building()))
         return Response(ans)
 
 
@@ -47,4 +48,25 @@ class DirectorFields(APIView):
         fields = get_model_fields(Director)
         for field in fields:
             ans.update({field.name: field.verbose_name})
+        return Response(ans)
+
+
+class PersonalFields(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        ans = {}
+        fields = get_model_fields(Personal)
+        for field in fields:
+            ans.update({field.name: field.verbose_name})
+        return Response(ans)
+
+
+class AllModels(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        ans = {}
+        for model in Models:
+            ans.update({model._meta.model_name: model._meta.verbose_name})
         return Response(ans)
