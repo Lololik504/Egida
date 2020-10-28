@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 's_guh_fk#z)4r!7fb)^oug*@=d9_zx36cb0+lbccjd9mo&e1ra')
 
-PROD = True
+PROD = False
 
 LOG_DIR = os.path.join(BASE_DIR, "log/")
 

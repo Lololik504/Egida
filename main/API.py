@@ -14,8 +14,8 @@ class BuildingInfo(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request: Request):
-        data = request.data
-        # logger.debug(data)
+        data: dict = request.data
+        data.pop('school')
         INN = data['INN']
         user = request.my_user
         if user is None:
@@ -30,13 +30,17 @@ class BuildingInfo(APIView):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
         try:
+            print(data)
             building = Building.objects.create(school=school)
             building.update(data=data)
             building.save()
             logger.success(str.format("{0} Добавил информацию о зданиях {1}\n{2}", user, school, building))
             return Response(status=status.HTTP_200_OK)
         except BaseException as ex:
-            building.delete()
+            try:
+                building.delete()
+            except:
+                pass
             return Response(status=status.HTTP_501_NOT_IMPLEMENTED,
                             data={'detail': ex.__str__()})
 
@@ -69,7 +73,7 @@ class BuildingInfo(APIView):
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': 'Cant find school with this INN'})
-        if not building_allow(building,user):
+        if not building_allow(building, user):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
         try:
@@ -171,15 +175,37 @@ class SchoolInfo(APIView):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
         try:
-
-            school = School.objects.create(**data)
-
+            school = School.create(**data)
             SchoolUser.objects.create(username=school.INN, password=school.INN, school=school)
+
         except BaseException as ex:
             logger.exception(ex)
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': ex.__str__()})
         logger.success(str.format("{0} Добавил информацию о {1}", user, school))
+        return Response(status=status.HTTP_200_OK)
+
+    def delete(self, request):
+        data: dict = request.headers
+        user = request.my_user
+        if user is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED,
+                            data={'detail': 'You need to authorize'})
+        if user.permission > MyUser.Permissions.DISTRICT.value:
+            print(user.permission)
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+                            data={'detail': 'You dont have permission to do this'})
+        try:
+            school = School.objects.get(INN=data['INN'])
+            if not (district_allow(user, school.district)):
+                return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+                                data={'detail': 'You dont have permission to do this'})
+            school.delete()
+        except BaseException as ex:
+            logger.exception(ex)
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+                            data={'detail': ex.__str__()})
+        logger.success(str.format("{0} Удалил информацию о {1}", user, school))
         return Response(status=status.HTTP_200_OK)
 
 
@@ -266,6 +292,7 @@ class ExportExcel(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
+        print(request.headers)
         data: dict = request.headers['data']
         if isinstance(data, str):
             data = json.loads(data)
