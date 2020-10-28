@@ -15,8 +15,11 @@ class BuildingInfo(APIView):
 
     def post(self, request: Request):
         data: dict = request.data
-        data.pop('school')
-        INN = data['INN']
+        try:
+            data.pop('school')
+        except:
+            pass
+        INN = data.pop('INN')
         user = request.my_user
         if user is None:
             return Response(status=status.HTTP_401_UNAUTHORIZED,
@@ -26,13 +29,16 @@ class BuildingInfo(APIView):
         except BaseException as ex:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': ex.__str__()})
-        if not school_allow(user, school):
+        if not departament_allow(user):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
         try:
             print(data)
+            print(school)
             building = Building.objects.create(school=school)
+            print(building)
             building.update(data=data)
+            print(building)
             building.save()
             logger.success(str.format("{0} Добавил информацию о зданиях {1}\n{2}", user, school, building))
             return Response(status=status.HTTP_200_OK)
@@ -89,6 +95,9 @@ class BuildingInfo(APIView):
         data = request.headers
         id = data['id']
         user = request.my_user
+        if not departament_allow(user):
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+                            data={'detail': 'You dont have permission to do this'})
         try:
             building = find_building_and_allow_user(id, user)
         except BaseException as ex:

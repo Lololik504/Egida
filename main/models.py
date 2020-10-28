@@ -165,6 +165,8 @@ class Building(models.Model):
             data.pop("id")
         for k, v in data.items():
             try:
+                print(k,v)
+                print(self)
                 setattr(self, k, v)
             except:
                 pass
@@ -182,6 +184,8 @@ class Building(models.Model):
     def __str__(self):
         if self.street is None:
             return "-"
+        if self.street_number is None:
+            return self.street
         return self.street + self.street_number
 
     class Meta:
