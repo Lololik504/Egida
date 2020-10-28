@@ -165,8 +165,6 @@ class Building(models.Model):
             data.pop("id")
         for k, v in data.items():
             try:
-                print(k,v)
-                print(self)
                 setattr(self, k, v)
             except:
                 pass
