@@ -197,7 +197,6 @@ class SchoolInfo(APIView):
             return Response(status=status.HTTP_401_UNAUTHORIZED,
                             data={'detail': 'You need to authorize'})
         if user.permission > MyUser.Permissions.DISTRICT.value:
-            print(user.permission)
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
         try:
@@ -297,7 +296,6 @@ class ExportExcel(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        print(request.headers)
         data: dict = request.headers['data']
         if isinstance(data, str):
             data = json.loads(data)
@@ -340,3 +338,29 @@ class PersonalOfSchoolInfo(APIView):
         ans.update({get_model_name(responsible_for_filling): PersonalAllInfoSerializer(responsible_for_filling,
                                                                                        many=False).data})
         return Response(data=ans)
+
+    def put(self, request):
+        data = request.data
+        INN = data['INN']
+        user = request.my_user
+        try:
+            school = find_school_and_allow_user(INN, user)
+        except BaseException as ex:
+            logger.exception(ex)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": ex.__str__()})
+        director = get_director(school)
+        bookkeeper = get_bookkeeper(school)
+        responsible_for_filling = get_updater(school)
+        zavhoz = get_zavhoz(school)
+        try:
+            director.update(data[get_model_name(director)])
+            zavhoz.update(data.pop(get_model_name(zavhoz)))
+            bookkeeper.update(data.pop(get_model_name(bookkeeper)))
+            responsible_for_filling.update(data.pop(get_model_name(responsible_for_filling)))
+        except BaseException as ex:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": ex.__str__()})
+
+        return Response(status=status.HTTP_200_OK)
+

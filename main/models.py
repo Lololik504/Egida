@@ -13,7 +13,24 @@ def get_model_name(model):
     return model._meta.model_name
 
 
-class District(models.Model):
+class MyModel:
+    static_fields = ["id"]
+
+    def update(self, data):
+        for k, v in data.items():
+            if self.static_fields.__contains__(k):
+                continue
+            try:
+                setattr(self, k, v)
+            except:
+                pass
+        self.save()
+
+    # class Meta:
+    #     proxy = True
+
+
+class District(models.Model, MyModel):
     name = models.CharField(verbose_name="Район", max_length=50)
 
     class Meta:
@@ -24,7 +41,9 @@ class District(models.Model):
         return self.name
 
 
-class School(models.Model):
+class School(models.Model, MyModel):
+    static_fields = MyModel.static_fields + ["INN"]
+
     district = models.ForeignKey(District, verbose_name="Район", on_delete=models.CASCADE, default=None)
 
     INN = models.CharField(verbose_name="ИНН", max_length=13, default='', unique=True)
@@ -39,15 +58,15 @@ class School(models.Model):
         verbose_name = "Основные сведения"
         verbose_name_plural = "Школы"
 
-    def update(self, data):
-        if "Inn" in data:
-            data.pop("Inn")
-        for k, v in data.items():
-            try:
-                setattr(self, k, v)
-            except:
-                pass
-        self.save()
+    # def update(self, data):
+    #     if "Inn" in data:
+    #         data.pop("Inn")
+    #     for k, v in data.items():
+    #         try:
+    #             setattr(self, k, v)
+    #         except:
+    #             pass
+    #     self.save()
 
     @classmethod
     def create(self, **data: dict):
@@ -55,22 +74,32 @@ class School(models.Model):
         data['district'] = district
         return School.objects.create(**data)
 
-
     def __str__(self):
         return self.shortname
 
 
-class Personal(models.Model):
-    first_name = models.CharField(verbose_name="Имя", max_length=30, default='-')
-    last_name = models.CharField(verbose_name="Фамилия", max_length=30, default='-')
-    patronymic = models.CharField(verbose_name="Отчество", max_length=30, default='-')
+class Personal(models.Model, MyModel):
+    first_name = models.CharField(verbose_name="Имя", max_length=30, default=None, null=True)
+    last_name = models.CharField(verbose_name="Фамилия", max_length=30, default=None, null=True)
+    patronymic = models.CharField(verbose_name="Отчество", max_length=30, default=None, null=True)
+    phone = models.CharField(verbose_name="Телефон", max_length=30, default=None, null=True)
+    email = models.CharField(verbose_name="Email", max_length=50, default=None, null=True)
 
     class Meta:
         verbose_name = "Персонал"
         verbose_name_plural = "Персонал"
 
     def __str__(self):
-        return self.last_name + self.first_name + self.patronymic
+        ans = ""
+        if self.last_name is not None:
+            ans += self.last_name
+        if self.first_name is not None:
+            ans += self.first_name
+        if self.patronymic is not None:
+            ans += self.patronymic
+        if ans == "":
+            ans = "-"
+        return ans
 
 
 class Director(Personal):
@@ -105,7 +134,7 @@ class Updater(Personal):
         verbose_name_plural = "Ответственные за заполнение"
 
 
-class Building(models.Model):
+class Building(models.Model, MyModel):
     school = models.ForeignKey(School, verbose_name="Школа", on_delete=models.CASCADE, default=None)
     street = models.CharField(verbose_name="Улица", max_length=300, blank=True, null=True)
     street_number = models.CharField(verbose_name="Номер дома", max_length=50, blank=True, null=True)
@@ -160,15 +189,15 @@ class Building(models.Model):
     last_repair_year = models.IntegerField(verbose_name="Год последнего капитально ремонта", choices=YEAR_CHOICES,
                                            default=2000, blank=True, null=True)
 
-    def update(self, data):
-        if "id" in data:
-            data.pop("id")
-        for k, v in data.items():
-            try:
-                setattr(self, k, v)
-            except:
-                pass
-        self.save()
+    # def update(self, data):
+    #     if "id" in data:
+    #         data.pop("id")
+    #     for k, v in data.items():
+    #         try:
+    #             setattr(self, k, v)
+    #         except:
+    #             pass
+    #     self.save()
 
     def get_choices(self):
         res = {

@@ -57,7 +57,7 @@ def update_schools_from_excel():
             phone = int(values[4])
         except:
             phone = values[4]
-        adress = values[5]
+        address = values[5]
         try:
             district = District.objects.get(name=district)
         except:
@@ -68,10 +68,10 @@ def update_schools_from_excel():
             school.name = name
             school.shortname = shortname
             school.phone = phone
-            school.adress = adress
+            school.address = address
             school.save()
-        except BaseException as err:
-            print(err)
+        except BaseException as ex:
+            logger.exception(ex)
 
 
 def make_export_file(data: dict):
@@ -119,7 +119,6 @@ def make_export_file(data: dict):
             cur_column = column
             for building in school.building_set.all():
                 shit.write(1, cur_column, "Здание")
-                print(1, cur_column, "Здание")
                 for field in fields:
                     shit.write(2, cur_column, field.verbose_name.__str__())
                     shit.write(row, cur_column, getattr(building, field.name).__str__())
