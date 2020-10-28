@@ -14,8 +14,8 @@ class BuildingInfo(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request: Request):
-        global building
-        data = request.data
+        data: dict = request.data
+        data.pop('school')
         INN = data['INN']
         user = request.my_user
         if user is None:
@@ -30,6 +30,7 @@ class BuildingInfo(APIView):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
         try:
+            print(data)
             building = Building.objects.create(school=school)
             building.update(data=data)
             building.save()
@@ -72,7 +73,7 @@ class BuildingInfo(APIView):
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': 'Cant find school with this INN'})
-        if not building_allow(building,user):
+        if not building_allow(building, user):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
         try:
@@ -291,6 +292,7 @@ class ExportExcel(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
+        print(request.headers)
         data: dict = request.headers['data']
         if isinstance(data, str):
             data = json.loads(data)

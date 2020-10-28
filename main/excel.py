@@ -90,11 +90,12 @@ def make_export_file(data: dict):
         if isinstance(cur_data, str):
             cur_data = json.loads(cur_data)
         fields = list(get_model_fields(School))
-        fields = filter(lambda field: cur_data.__contains__(field.name), fields)
-        fields = filter(lambda field: cur_data[field.name], fields)
+        fields = filter(lambda filter_field: cur_data.__contains__(filter_field.name), fields)
+        fields = list(filter(lambda filter_field: cur_data[filter_field.name], fields))
 
         for school in schools:
             cur_column = column
+
             for field in fields:
                 shit.write(2, cur_column, field.verbose_name.__str__())
                 shit.write(row, cur_column, getattr(school, field.name).__str__())
@@ -112,12 +113,13 @@ def make_export_file(data: dict):
             cur_data = json.loads(cur_data)
         fields = list(get_model_fields(Building))
         fields = filter(lambda field: cur_data.__contains__(field.name), fields)
-        fields = filter(lambda field: cur_data[field.name], fields)
+        fields = list(filter(lambda field: cur_data[field.name], fields))
 
         for school in schools:
             cur_column = column
             for building in school.building_set.all():
                 shit.write(1, cur_column, "Здание")
+                print(1, cur_column, "Здание")
                 for field in fields:
                     shit.write(2, cur_column, field.verbose_name.__str__())
                     shit.write(row, cur_column, getattr(building, field.name).__str__())
