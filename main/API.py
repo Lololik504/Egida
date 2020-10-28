@@ -33,12 +33,8 @@ class BuildingInfo(APIView):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
         try:
-            print(data)
-            print(school)
             building = Building.objects.create(school=school)
-            print(building)
             building.update(data=data)
-            print(building)
             building.save()
             logger.success(str.format("{0} Добавил информацию о зданиях {1}\n{2}", user, school, building))
             return Response(status=status.HTTP_200_OK)
