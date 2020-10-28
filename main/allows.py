@@ -43,6 +43,8 @@ def district_allow(user, district):
 
 
 def departament_allow(user):
+    if user is None:
+        return False
     if user.permission > MyUser.Permissions.DEPARTAMENT.value:
         return False
     else:

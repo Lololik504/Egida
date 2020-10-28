@@ -182,6 +182,8 @@ class Building(models.Model):
     def __str__(self):
         if self.street is None:
             return "-"
+        if self.street_number is None:
+            return self.street
         return self.street + self.street_number
 
     class Meta:
