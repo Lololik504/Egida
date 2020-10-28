@@ -62,7 +62,6 @@ def get_director(school: School):
     try:
         director = school.director
     except Director.DoesNotExist as ex:
-        print(ex.__str__())
         director = Director.objects.create(school=school)
     return director
 
@@ -71,7 +70,6 @@ def get_bookkeeper(school: School):
     try:
         bookkeeper = school.bookkeeper
     except Bookkeeper.DoesNotExist as ex:
-        print(ex.__str__())
         bookkeeper = Bookkeeper.objects.create(school=school)
     return bookkeeper
 
@@ -80,7 +78,6 @@ def get_updater(school: School):
     try:
         updater = school.updater
     except Updater.DoesNotExist as ex:
-        print(ex.__str__())
         updater = Updater.objects.create(school=school)
     return updater
 
@@ -88,7 +85,6 @@ def get_updater(school: School):
 def get_zavhoz(school: School):
     try:
         zavhoz = school.zavhoz
-    except Updater.DoesNotExist as ex:
-        print(ex.__str__())
+    except ZavHoz.DoesNotExist as ex:
         zavhoz = ZavHoz.objects.create(school=school)
     return zavhoz

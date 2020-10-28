@@ -7,7 +7,7 @@ admin.site.register(District)
 admin.site.register(School)
 admin.site.register(Building)
 
-admin.site.register(Personal)
+# admin.site.register(Personal)
 admin.site.register(Director)
 admin.site.register(ZavHoz)
 admin.site.register(Bookkeeper)
