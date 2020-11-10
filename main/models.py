@@ -58,21 +58,16 @@ class School(models.Model, MyModel):
         verbose_name = "Основные сведения"
         verbose_name_plural = "Школы"
 
-    # def update(self, data):
-    #     if "Inn" in data:
-    #         data.pop("Inn")
-    #     for k, v in data.items():
-    #         try:
-    #             setattr(self, k, v)
-    #         except:
-    #             pass
-    #     self.save()
-
     @classmethod
     def create(self, **data: dict):
         district = District.objects.get(name=data['district'])
         data['district'] = district
         return School.objects.create(**data)
+
+    def get_director(self):
+        if self.director is None:
+            self.director = Director.default_director()
+        return self.director
 
     def __str__(self):
         return self.shortname
@@ -103,7 +98,12 @@ class Personal(models.Model, MyModel):
 
 
 class Director(Personal):
-    school = models.OneToOneField(School, on_delete=models.SET_NULL, null=True)
+    school = models.OneToOneField(School, null=True, default=None, on_delete=models.SET_NULL)
+
+    @staticmethod
+    def default_director():
+        director: Director = Director.objects.create()
+        return director
 
     class Meta:
         verbose_name = "Руководитель"

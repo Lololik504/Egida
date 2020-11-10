@@ -7,7 +7,7 @@ from main.models import *
 class DistrictsNameSerializer(ModelSerializer):
     class Meta:
         model = District
-        fields = 'name'
+        fields = ['name',]
 
 
 class DistrictsSerializer(ModelSerializer):
@@ -50,6 +50,8 @@ class BuildingSerializer(ModelSerializer):
     class Meta:
         model = Building
         fields = ['id', 'street', 'street_number']
+
+
 
 # class PersonalAllInfoSerializer(ModelSerializer):
 #     class Meta:

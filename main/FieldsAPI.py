@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from main.models import *
+from .serializers import *
 
 Models = [School, Building, Director, ZavHoz, Bookkeeper, Updater]
 
@@ -70,3 +71,15 @@ class AllModels(APIView):
         for model in Models:
             ans.update({model._meta.model_name: model._meta.verbose_name})
         return Response(ans)
+
+
+class Filters(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        districts = District.objects.all()
+        res = {}
+        for dist in districts:
+            res.update({dist.id.__str__(): dist.name})
+        res = {District._meta.model_name: res}
+        return Response(res)

@@ -1,9 +1,10 @@
 from django.urls import path, include
 
-from . import API
+from . import API, FieldsAPI
 
 urlpatterns = [
     path('fields/', include("main.fields_url")),
+    path('filters/', FieldsAPI.Filters.as_view(), name="test1"),
     path('school/', API.SchoolInfo.as_view()),
     path('districts/', API.DistrictsInfo.as_view()),
     path('district/', API.OneDistrictInfo.as_view()),
