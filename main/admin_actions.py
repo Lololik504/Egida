@@ -10,7 +10,8 @@ ALLOWED_EXTENSIONS = {'.xlsx', '.xls'}
 def export(request):
     print("EXPORT")
     if request.method == 'GET':
-        content = services.full_export()
+        # content = services.full_export()
+        content = services.export({"director": {"first_name": True}})
         pass
         return content
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

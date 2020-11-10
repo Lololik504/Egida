@@ -86,7 +86,7 @@ class ExcelWriter(xlwt.Workbook):
         self.schools = list(School.objects.all())
         self.full_path = settings.DOCUMENT_ROOT + "/export.xls"
 
-    def add_model_to_excel(self, model: models.Model, data=None, many=True, full=False):
+    def add_foreign_model_to_excel(self, model: models.Model, data=None, full=False):
         if full:
             fields = list(get_model_fields(model))
         else:
@@ -94,19 +94,42 @@ class ExcelWriter(xlwt.Workbook):
         next_column = self.column
         self.row = self.START_ROW
         get_atr_str = str(model._meta.model_name).lower()
-        if many:
-            get_atr_str += "_set"
+        get_atr_str += "_set"
         for school in self.schools:
+            cur_column = self.column
             objects_list = list(school.__getattribute__(get_atr_str).all())
             for model_object in objects_list:
-                cur_column = self.column
                 for field in fields:
                     self.shit.write(2, cur_column, field.verbose_name.__str__())
                     self.shit.write(self.row, cur_column, getattr(model_object, field.name).__str__())
                     cur_column += 1
-                self.row += 1
-                if next_column < cur_column:
-                    next_column = cur_column
+            else:
+                if len(objects_list) == 0:
+                    self.shit.write(self.row, cur_column, "-")
+            self.row += 1
+            if next_column < cur_column:
+                next_column = cur_column
+
+        self.column = next_column
+
+    def add_one_model_to_excel(self, model: models.Model, data=None, full=False):
+        if full:
+            fields = list(get_model_fields(model))
+        else:
+            fields = self.filter_fields(data, model)
+        next_column = self.column
+        self.row = self.START_ROW
+        get_atr_str = "get_" + str(model._meta.model_name).lower()
+        for school in self.schools:
+            model_object = school.__getattribute__(get_atr_str)()
+            cur_column = self.column
+            for field in fields:
+                self.shit.write(2, cur_column, field.verbose_name.__str__())
+                self.shit.write(self.row, cur_column, getattr(model_object, field.name).__str__())
+                cur_column += 1
+            self.row += 1
+            if next_column < cur_column:
+                next_column = cur_column
 
         self.column = next_column
 
@@ -138,21 +161,31 @@ class ExcelWriter(xlwt.Workbook):
         fields = list(filter(lambda f_field: data[f_field.name], fields))
         return fields
 
-    def filter_schools(self):
-        pass
+    def filter_schools(self, filters: dict):
+        if filters.__contains__(District._meta.model_name):
+            cur_filter: dict = filters[District._meta.model_name]
+            print(cur_filter)
+            self.schools = filter(lambda f_school: cur_filter.__contains__(f_school.district.id.__str__()),
+                                  self.schools)
+            self.schools = filter(lambda f_school: cur_filter[f_school.district.id.__str__()], self.schools)
 
     def make_export_file(self, data: dict):
-        self.filter_schools()
+        if data.__contains__("filters"):
+            self.filter_schools(data["filters"])
+        self.schools = list(self.schools)
+        print(self.schools)
         if data.__contains__(School._meta.model_name):
             self.add_schools_to_excel(data=data[School._meta.model_name])
         if data.__contains__(Building._meta.model_name):
-            self.add_model_to_excel(data=data[Building._meta.model_name], model=Building(), many=True)
+            self.add_foreign_model_to_excel(data=data[Building._meta.model_name], model=Building())
+        if data.__contains__(Director._meta.model_name):
+            self.add_one_model_to_excel(data=data[Director._meta.model_name], model=Director())
         self.save(self.full_path)
         return self.full_path
 
     def make_full_export_file(self):
         self.add_schools_to_excel(full=True)
-        self.add_model_to_excel(model=Building(), many=True, full=True)
+        self.add_foreign_model_to_excel(model=Building(), full=True)
         self.save(self.full_path)
         return self.full_path
 

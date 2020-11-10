@@ -11,6 +11,9 @@
     <form action="{% url 'export' %}" style="display: flex; justify-content: flex-end">
         <input class="button" type="submit" value="Экспорт" id="Send">
     </form>
+    <form action="{% url 'test1' %}" style="display: flex; justify-content: flex-end">
+        <input class="button" type="submit" value="TEST" id="Send">
+    </form>
     {{ block.super }}
 {% endblock %}
 
