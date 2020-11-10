@@ -98,6 +98,7 @@ class ExcelWriter(xlwt.Workbook):
         for school in self.schools:
             cur_column = self.column
             objects_list = list(school.__getattribute__(get_atr_str).all())
+            self.shit.write(1, cur_column, model._meta.verbose_name)
             for model_object in objects_list:
                 for field in fields:
                     self.shit.write(2, cur_column, field.verbose_name.__str__())
