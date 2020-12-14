@@ -197,7 +197,7 @@ class TemperatureInfo(APIView):
                             data={'detail': ex.__str__()})
 
     def put(self, request: Request):
-        data: dict = request.headers
+        data: dict = request.data
         user = request.my_user
         if user is None:
             return Response(status=status.HTTP_401_UNAUTHORIZED,
