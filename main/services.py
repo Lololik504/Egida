@@ -88,3 +88,4 @@ def get_zavhoz(school: School):
     except ZavHoz.DoesNotExist as ex:
         zavhoz = ZavHoz.objects.create(school=school)
     return zavhoz
+

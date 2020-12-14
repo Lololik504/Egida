@@ -1,9 +1,13 @@
 import os
 from pathlib import Path
+
+import datetime
+
 from . import log_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+TIME_ZONE = 'Asia/Novosibirsk'
 
 # SECRET_KEY = 's_guh_fk#z)4r!7fb)^oug*@=d9_zx36cb0+lbccjd9mo&e1ra'
 

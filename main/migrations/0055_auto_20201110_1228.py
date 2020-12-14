@@ -7,14 +7,10 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0054_auto_20201110_1040'),
+        ('main', '0049_remove_school_director'),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='school',
-            name='director',
-        ),
         migrations.AddField(
             model_name='director',
             name='school',

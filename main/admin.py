@@ -12,6 +12,7 @@ admin.site.register(Director)
 admin.site.register(ZavHoz)
 admin.site.register(Bookkeeper)
 admin.site.register(Updater)
+admin.site.register(Temperature)
 
 
 
