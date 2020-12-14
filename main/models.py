@@ -1,9 +1,10 @@
 import datetime
 
+from django.core.exceptions import ValidationError
 from django.db import models
-
 # Create your models here.
-from django.utils import timezone
+from django.utils import timezone, dateparse
+from django.utils.dateparse import parse_date
 
 
 def get_model_fields(model):
@@ -209,6 +210,16 @@ class Building(models.Model, MyModel):
 
 
 class Temperature(models.Model, MyModel):
-    temperature = models.FloatField(null=False, verbose_name="Температура")
+    air_temperature = models.FloatField(null=False, verbose_name="Температура воздуха")
+    coolant_temperature = models.FloatField(null=False, verbose_name="Температура теплоносителя")
     building = models.ForeignKey(Building, null=False, verbose_name="Здание", on_delete=models.CASCADE)
-    date = models.DateField(verbose_name="Дата", null=False, default=timezone.now())
+    date = models.DateField(verbose_name="Дата", null=False, default=timezone.now)
+
+    def __str__(self):
+        return "Здание {0} температура теплоносителя: {1} воздуха: {2}".format(self.building, self.coolant_temperature,
+                                                                               self.air_temperature)
+
+    def save(self, *args, **kwargs):
+        if parse_date(self.date) > datetime.date.today():
+            raise ValidationError('Некорректная дата')
+        super(Temperature, self).save(*args, **kwargs)
