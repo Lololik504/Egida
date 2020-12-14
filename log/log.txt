@@ -1924,3 +1924,752 @@ AttributeError: 'Temperature' object has no attribute 'coolent_temperature'
 2020-12-14 18:19:06.808 | SUCCESS  | main.API:get:131 - qweasd ������� ���������� � ������������� ������ ���� ������ ��������
 2020-12-14 18:19:43.435 | SUCCESS  | main.API:get:131 - qweasd ������� ���������� � ������������� ������ ���� ������ ��������
 2020-12-14 18:23:29.693 | SUCCESS  | main.API:get:131 - qweasd ������� ���������� � ������������� ������ ���� ������ ��������
+2020-12-14 16:01:58.791 | ERROR    | main.API:get:57 - You need to authorize
+Traceback (most recent call last):
+
+  File "/usr/lib/python3.8/threading.py", line 890, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x7f07acb97160>
+    └ <Thread(Thread-2, started daemon 139670873306880)>
+  File "/usr/lib/python3.8/threading.py", line 932, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x7f07acb7c160>
+    └ <Thread(Thread-2, started daemon 139670873306880)>
+  File "/usr/lib/python3.8/threading.py", line 870, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-2, started daemon 139670873306880)>
+    │    │        │    └ (<socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('25.13.184.214', 8000), radd...
+    │    │        └ <Thread(Thread-2, started daemon 139670873306880)>
+    │    └ <bound method ThreadingMixIn.process_request_thread of <django.core.servers.basehttp.WSGIServer object at 0x7f07a99382b0>>
+    └ <Thread(Thread-2, started daemon 139670873306880)>
+  File "/usr/lib/python3.8/socketserver.py", line 650, in process_request_thread
+    self.finish_request(request, client_address)
+    │    │              │        └ ('25.54.60.194', 51936)
+    │    │              └ <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('25.13.184.214', 8000), raddr...
+    │    └ <function BaseServer.finish_request at 0x7f07abb1ac10>
+    └ <django.core.servers.basehttp.WSGIServer object at 0x7f07a99382b0>
+  File "/usr/lib/python3.8/socketserver.py", line 360, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    │    │                   │        │               └ <django.core.servers.basehttp.WSGIServer object at 0x7f07a99382b0>
+    │    │                   │        └ ('25.54.60.194', 51936)
+    │    │                   └ <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('25.13.184.214', 8000), raddr...
+    │    └ <class 'django.core.servers.basehttp.WSGIRequestHandler'>
+    └ <django.core.servers.basehttp.WSGIServer object at 0x7f07a99382b0>
+  File "/usr/lib/python3.8/socketserver.py", line 720, in __init__
+    self.handle()
+    │    └ <function WSGIRequestHandler.handle at 0x7f07aa88d5e0>
+    └ <django.core.servers.basehttp.WSGIRequestHandler object at 0x7f07a971ed90>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/servers/basehttp.py", line 174, in handle
+    self.handle_one_request()
+    │    └ <function WSGIRequestHandler.handle_one_request at 0x7f07aa88d670>
+    └ <django.core.servers.basehttp.WSGIRequestHandler object at 0x7f07a971ed90>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/servers/basehttp.py", line 197, in handle_one_request
+    handler.run(self.server.get_app())
+    │       │   │    │      └ <function WSGIServer.get_app at 0x7f07aa885a60>
+    │       │   │    └ <django.core.servers.basehttp.WSGIServer object at 0x7f07a99382b0>
+    │       │   └ <django.core.servers.basehttp.WSGIRequestHandler object at 0x7f07a971ed90>
+    │       └ <function BaseHandler.run at 0x7f07aa85f700>
+    └ <django.core.servers.basehttp.ServerHandler object at 0x7f07a8d07d00>
+  File "/usr/lib/python3.8/wsgiref/handlers.py", line 137, in run
+    self.result = application(self.environ, self.start_response)
+    │    │        │           │    │        │    └ <function BaseHandler.start_response at 0x7f07aa85fa60>
+    │    │        │           │    │        └ <django.core.servers.basehttp.ServerHandler object at 0x7f07a8d07d00>
+    │    │        │           │    └ {'PATH': '/home/matvey/PycharmProjects/Egida/venv/bin:/home/matvey/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/b...
+    │    │        │           └ <django.core.servers.basehttp.ServerHandler object at 0x7f07a8d07d00>
+    │    │        └ <django.core.handlers.wsgi.WSGIHandler object at 0x7f07abb6a8e0>
+    │    └ None
+    └ <django.core.servers.basehttp.ServerHandler object at 0x7f07a8d07d00>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/wsgi.py", line 133, in __call__
+    response = self.get_response(request)
+               │    │            └ <WSGIRequest: GET '/api/building/'>
+               │    └ <function BaseHandler.get_response at 0x7f07aa8bbd30>
+               └ <django.core.handlers.wsgi.WSGIHandler object at 0x7f07abb6a8e0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 128, in get_response
+    response = self._middleware_chain(request)
+               │    │                 └ <WSGIRequest: GET '/api/building/'>
+               │    └ <function convert_exception_to_response.<locals>.inner at 0x7f07a96d5040>
+               └ <django.core.handlers.wsgi.WSGIHandler object at 0x7f07abb6a8e0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: GET '/api/building/'>
+               └ <django.middleware.security.SecurityMiddleware object at 0x7f07a9741370>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: GET '/api/building/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f07a96d1820>
+               │           └ <django.middleware.security.SecurityMiddleware object at 0x7f07a9741370>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: GET '/api/building/'>
+               └ <whitenoise.middleware.WhiteNoiseMiddleware object at 0x7f07a96c0a00>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/whitenoise/middleware.py", line 59, in __call__
+    response = self.get_response(request)
+               │    │            └ <WSGIRequest: GET '/api/building/'>
+               │    └ <function convert_exception_to_response.<locals>.inner at 0x7f07a96d1790>
+               └ <whitenoise.middleware.WhiteNoiseMiddleware object at 0x7f07a96c0a00>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: GET '/api/building/'>
+               └ <django.contrib.sessions.middleware.SessionMiddleware object at 0x7f07a96c0ac0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: GET '/api/building/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f07a96d1700>
+               │           └ <django.contrib.sessions.middleware.SessionMiddleware object at 0x7f07a96c0ac0>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: GET '/api/building/'>
+               └ <corsheaders.middleware.CorsMiddleware object at 0x7f07a96c0b80>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: GET '/api/building/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f07a96d1670>
+               │           └ <corsheaders.middleware.CorsMiddleware object at 0x7f07a96c0b80>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: GET '/api/building/'>
+               └ <django.middleware.common.CommonMiddleware object at 0x7f07a96c0c40>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: GET '/api/building/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f07a96d15e0>
+               │           └ <django.middleware.common.CommonMiddleware object at 0x7f07a96c0c40>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: GET '/api/building/'>
+               └ <django.middleware.csrf.CsrfViewMiddleware object at 0x7f07a96c30d0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: GET '/api/building/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f07a96d1550>
+               │           └ <django.middleware.csrf.CsrfViewMiddleware object at 0x7f07a96c30d0>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: GET '/api/building/'>
+               └ <django.contrib.auth.middleware.AuthenticationMiddleware object at 0x7f07a981d850>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: GET '/api/building/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f07a96d1430>
+               │           └ <django.contrib.auth.middleware.AuthenticationMiddleware object at 0x7f07a981d850>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: GET '/api/building/'>
+               └ <django.contrib.messages.middleware.MessageMiddleware object at 0x7f07a97b0b20>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: GET '/api/building/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f07a9744b80>
+               │           └ <django.contrib.messages.middleware.MessageMiddleware object at 0x7f07a97b0b20>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: GET '/api/building/'>
+               └ <django.middleware.clickjacking.XFrameOptionsMiddleware object at 0x7f07abb1e2e0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: GET '/api/building/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f07a9744ca0>
+               │           └ <django.middleware.clickjacking.XFrameOptionsMiddleware object at 0x7f07abb1e2e0>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: GET '/api/building/'>
+               └ <Egida.middleware.MyAuthenticationMiddleware object at 0x7f07abb6a7c0>
+
+  File "/home/matvey/PycharmProjects/Egida/Egida/middleware.py", line 10, in __call__
+    response = self._get_response(request)
+               │    │             └ <WSGIRequest: GET '/api/building/'>
+               │    └ <function BaseHandler._get_response at 0x7f07a9744e50>
+               └ <Egida.middleware.MyAuthenticationMiddleware object at 0x7f07abb6a7c0>
+
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: GET '/api/building/'>
+               └ <bound method BaseHandler._get_response of <django.core.handlers.wsgi.WSGIHandler object at 0x7f07abb6a8e0>>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 179, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               │                │         │                └ {}
+               │                │         └ ()
+               │                └ <WSGIRequest: GET '/api/building/'>
+               └ <function BuildingInfo at 0x7f07a997ae50>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+           │          │       └ {}
+           │          └ (<WSGIRequest: GET '/api/building/'>,)
+           └ <function BuildingInfo at 0x7f07a997adc0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+           │    │        │         │       └ {}
+           │    │        │         └ ()
+           │    │        └ <WSGIRequest: GET '/api/building/'>
+           │    └ <function APIView.dispatch at 0x7f07a99608b0>
+           └ <main.API.BuildingInfo object at 0x7f07a8d5bd30>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               │       │         │       └ {}
+               │       │         └ ()
+               │       └ <rest_framework.request.Request: GET '/api/building/'>
+               └ <bound method BuildingInfo.get of <main.API.BuildingInfo object at 0x7f07a8d5bd30>>
+
+> File "/home/matvey/PycharmProjects/Egida/main/API.py", line 55, in get
+    building = find_building_and_allow_user(id, user)
+               │                            │   └ None
+               │                            └ '38'
+               └ <function find_building_and_allow_user at 0x7f07a9d7b160>
+
+  File "/home/matvey/PycharmProjects/Egida/main/services.py", line 51, in find_building_and_allow_user
+    raise BaseException('You need to authorize')
+
+BaseException: You need to authorize
+2020-12-14 16:02:26.378 | SUCCESS  | main.API:get:333 - qweasd Получил информацию о всех районах
+2020-12-14 16:04:07.581 | SUCCESS  | main.API:get:333 - qweasd Получил информацию о всех районах
+2020-12-14 16:05:24.280 | SUCCESS  | main.API:get:250 - qweasd Получил информацию о МКДОУ д/с № 450
+2020-12-14 16:05:29.046 | SUCCESS  | main.API:get:333 - qweasd Получил информацию о всех районах
+2020-12-14 16:06:30.101 | SUCCESS  | main.API:get:250 - 5404120581 Получил информацию о МАОУ Вторая гимназия
+2020-12-14 16:06:35.824 | SUCCESS  | main.API:get:232 - 5404120581 Получил информацию о зданиях МАОУ Вторая гимназия
+2020-12-14 16:07:05.774 | SUCCESS  | main.API:get:232 - 5404120581 Получил информацию о зданиях МАОУ Вторая гимназия
+2020-12-14 16:10:00.698 | SUCCESS  | main.API:get:333 - qweasd Получил информацию о всех районах
+2020-12-14 16:11:09.722 | SUCCESS  | main.API:get:250 - 5410128807 Получил информацию о МКДОУ д/с № 450
+2020-12-14 16:11:23.219 | SUCCESS  | main.API:get:250 - 5410128807 Получил информацию о МКДОУ д/с № 450
+2020-12-14 16:11:35.799 | SUCCESS  | main.API:get:232 - 5410128807 Получил информацию о зданиях МКДОУ д/с № 450
+2020-12-14 16:12:19.959 | SUCCESS  | main.API:get:232 - 5410128807 Получил информацию о зданиях МКДОУ д/с № 450
+2020-12-14 16:14:58.750 | SUCCESS  | main.API:get:250 - 5410128807 Получил информацию о МКДОУ д/с № 450
+2020-12-14 16:15:06.341 | SUCCESS  | main.API:get:232 - 5410128807 Получил информацию о зданиях МКДОУ д/с № 450
+2020-12-14 16:15:07.765 | SUCCESS  | main.API:get:250 - 5410128807 Получил информацию о МКДОУ д/с № 450
+2020-12-14 16:15:17.017 | SUCCESS  | main.API:get:232 - 5410128807 Получил информацию о зданиях МКДОУ д/с № 450
+2020-12-14 16:17:10.234 | SUCCESS  | main.API:get:250 - 5404120581 Получил информацию о МАОУ Вторая гимназия
+2020-12-14 16:17:12.352 | SUCCESS  | main.API:get:232 - 5404120581 Получил информацию о зданиях МАОУ Вторая гимназия
+2020-12-14 16:17:16.034 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:17:18.896 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:17:20.923 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:17:33.764 | SUCCESS  | main.API:post:154 - 5404120581 Добавил информацию о температуре здания TestTest
+Здание TestTest температура теплоносителя: 50.0 воздуха: 25.5
+2020-12-14 16:17:34.330 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:20:27.489 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:20:28.128 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:20:41.981 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:20:42.483 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:21:22.257 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:21:28.678 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:21:29.287 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:21:58.272 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:21:58.886 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:22:52.819 | ERROR    | main.API:post:164 - name 'new_temper' is not defined
+Traceback (most recent call last):
+
+  File "/home/matvey/PycharmProjects/Egida/main/API.py", line 152, in post
+    new_temper = Temperature.objects.create(building=building_obj, **data)
+                 │           │                       │               └ {'coolant_temperature': '123.4', 'air_temperature': '32.1', 'date': '2020-12-22'}
+                 │           │                       └ <Building: TestTest>
+                 │           └ <django.db.models.manager.ManagerDescriptor object at 0x7fec0ca579a0>
+                 └ <class 'main.models.Temperature'>
+
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+                   │    │               │      │       └ {'building': <Building: TestTest>, 'coolant_temperature': '123.4', 'air_temperature': '32.1', 'date': '2020-12-22'}
+                   │    │               │      └ ()
+                   │    │               └ 'create'
+                   │    └ <function BaseManager.get_queryset at 0x7fec0dcd3b80>
+                   └ <django.db.models.manager.Manager object at 0x7fec07f14c40>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/db/models/query.py", line 447, in create
+    obj.save(force_insert=True, using=self.db)
+    │   │                             │    └ <property object at 0x7fec0dcc8630>
+    │   │                             └ <QuerySet []>
+    │   └ <function Temperature.save at 0x7fec0caa7c10>
+    └ <Temperature: Здание TestTest температура теплоносителя: 123.4 воздуха: 32.1>
+
+  File "/home/matvey/PycharmProjects/Egida/main/models.py", line 224, in save
+    raise ValidationError('Некорректная дата')
+          └ <class 'django.core.exceptions.ValidationError'>
+
+django.core.exceptions.ValidationError: ['Некорректная дата']
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "/usr/lib/python3.8/threading.py", line 890, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x7fec0ec87160>
+    └ <Thread(Thread-2, started daemon 140651704084224)>
+  File "/usr/lib/python3.8/threading.py", line 932, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x7fec0ec6c160>
+    └ <Thread(Thread-2, started daemon 140651704084224)>
+  File "/usr/lib/python3.8/threading.py", line 870, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-2, started daemon 140651704084224)>
+    │    │        │    └ (<socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('25.13.184.214', 8000), radd...
+    │    │        └ <Thread(Thread-2, started daemon 140651704084224)>
+    │    └ <bound method ThreadingMixIn.process_request_thread of <django.core.servers.basehttp.WSGIServer object at 0x7fec0774d2e0>>
+    └ <Thread(Thread-2, started daemon 140651704084224)>
+  File "/usr/lib/python3.8/socketserver.py", line 650, in process_request_thread
+    self.finish_request(request, client_address)
+    │    │              │        └ ('25.54.60.194', 56580)
+    │    │              └ <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('25.13.184.214', 8000), raddr...
+    │    └ <function BaseServer.finish_request at 0x7fec0dc0ac10>
+    └ <django.core.servers.basehttp.WSGIServer object at 0x7fec0774d2e0>
+  File "/usr/lib/python3.8/socketserver.py", line 360, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    │    │                   │        │               └ <django.core.servers.basehttp.WSGIServer object at 0x7fec0774d2e0>
+    │    │                   │        └ ('25.54.60.194', 56580)
+    │    │                   └ <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('25.13.184.214', 8000), raddr...
+    │    └ <class 'django.core.servers.basehttp.WSGIRequestHandler'>
+    └ <django.core.servers.basehttp.WSGIServer object at 0x7fec0774d2e0>
+  File "/usr/lib/python3.8/socketserver.py", line 720, in __init__
+    self.handle()
+    │    └ <function WSGIRequestHandler.handle at 0x7fec0c97d5e0>
+    └ <django.core.servers.basehttp.WSGIRequestHandler object at 0x7fec077d45b0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/servers/basehttp.py", line 174, in handle
+    self.handle_one_request()
+    │    └ <function WSGIRequestHandler.handle_one_request at 0x7fec0c97d670>
+    └ <django.core.servers.basehttp.WSGIRequestHandler object at 0x7fec077d45b0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/servers/basehttp.py", line 197, in handle_one_request
+    handler.run(self.server.get_app())
+    │       │   │    │      └ <function WSGIServer.get_app at 0x7fec0c975a60>
+    │       │   │    └ <django.core.servers.basehttp.WSGIServer object at 0x7fec0774d2e0>
+    │       │   └ <django.core.servers.basehttp.WSGIRequestHandler object at 0x7fec077d45b0>
+    │       └ <function BaseHandler.run at 0x7fec0c950700>
+    └ <django.core.servers.basehttp.ServerHandler object at 0x7fec078596d0>
+  File "/usr/lib/python3.8/wsgiref/handlers.py", line 137, in run
+    self.result = application(self.environ, self.start_response)
+    │    │        │           │    │        │    └ <function BaseHandler.start_response at 0x7fec0c950a60>
+    │    │        │           │    │        └ <django.core.servers.basehttp.ServerHandler object at 0x7fec078596d0>
+    │    │        │           │    └ {'PATH': '/home/matvey/PycharmProjects/Egida/venv/bin:/home/matvey/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/b...
+    │    │        │           └ <django.core.servers.basehttp.ServerHandler object at 0x7fec078596d0>
+    │    │        └ <django.core.handlers.wsgi.WSGIHandler object at 0x7fec0dc1e070>
+    │    └ None
+    └ <django.core.servers.basehttp.ServerHandler object at 0x7fec078596d0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/wsgi.py", line 133, in __call__
+    response = self.get_response(request)
+               │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │    └ <function BaseHandler.get_response at 0x7fec0c9abd30>
+               └ <django.core.handlers.wsgi.WSGIHandler object at 0x7fec0dc1e070>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 128, in get_response
+    response = self._middleware_chain(request)
+               │    │                 └ <WSGIRequest: POST '/api/temperature/'>
+               │    └ <function convert_exception_to_response.<locals>.inner at 0x7fec07759550>
+               └ <django.core.handlers.wsgi.WSGIHandler object at 0x7fec0dc1e070>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <django.middleware.security.SecurityMiddleware object at 0x7fec077568b0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7fec077bbe50>
+               │           └ <django.middleware.security.SecurityMiddleware object at 0x7fec077568b0>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <whitenoise.middleware.WhiteNoiseMiddleware object at 0x7fec0774df40>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/whitenoise/middleware.py", line 59, in __call__
+    response = self.get_response(request)
+               │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │    └ <function convert_exception_to_response.<locals>.inner at 0x7fec077bbd30>
+               └ <whitenoise.middleware.WhiteNoiseMiddleware object at 0x7fec0774df40>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <django.contrib.sessions.middleware.SessionMiddleware object at 0x7fec0774de80>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7fec077bbca0>
+               │           └ <django.contrib.sessions.middleware.SessionMiddleware object at 0x7fec0774de80>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <corsheaders.middleware.CorsMiddleware object at 0x7fec0774ddc0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7fec077bbc10>
+               │           └ <corsheaders.middleware.CorsMiddleware object at 0x7fec0774ddc0>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <django.middleware.common.CommonMiddleware object at 0x7fec0774dd00>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7fec077bbb80>
+               │           └ <django.middleware.common.CommonMiddleware object at 0x7fec0774dd00>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <django.middleware.csrf.CsrfViewMiddleware object at 0x7fec0774dc70>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7fec077bbaf0>
+               │           └ <django.middleware.csrf.CsrfViewMiddleware object at 0x7fec0774dc70>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <django.contrib.auth.middleware.AuthenticationMiddleware object at 0x7fec0774d9d0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7fec077bb940>
+               │           └ <django.contrib.auth.middleware.AuthenticationMiddleware object at 0x7fec0774d9d0>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <django.contrib.messages.middleware.MessageMiddleware object at 0x7fec0774da00>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7fec077bb670>
+               │           └ <django.contrib.messages.middleware.MessageMiddleware object at 0x7fec0774da00>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <django.middleware.clickjacking.XFrameOptionsMiddleware object at 0x7fec0dc0efd0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7fec077bb5e0>
+               │           └ <django.middleware.clickjacking.XFrameOptionsMiddleware object at 0x7fec0dc0efd0>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <Egida.middleware.MyAuthenticationMiddleware object at 0x7fec0dc5b730>
+
+  File "/home/matvey/PycharmProjects/Egida/Egida/middleware.py", line 10, in __call__
+    response = self._get_response(request)
+               │    │             └ <WSGIRequest: POST '/api/temperature/'>
+               │    └ <function BaseHandler._get_response at 0x7fec077bb550>
+               └ <Egida.middleware.MyAuthenticationMiddleware object at 0x7fec0dc5b730>
+
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <bound method BaseHandler._get_response of <django.core.handlers.wsgi.WSGIHandler object at 0x7fec0dc1e070>>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 179, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               │                │         │                └ {}
+               │                │         └ ()
+               │                └ <WSGIRequest: POST '/api/temperature/'>
+               └ <function TemperatureInfo at 0x7fec07a37280>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+           │          │       └ {}
+           │          └ (<WSGIRequest: POST '/api/temperature/'>,)
+           └ <function TemperatureInfo at 0x7fec07a371f0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+           │    │        │         │       └ {}
+           │    │        │         └ ()
+           │    │        └ <WSGIRequest: POST '/api/temperature/'>
+           │    └ <function APIView.dispatch at 0x7fec07a148b0>
+           └ <main.API.TemperatureInfo object at 0x7fec07761d00>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               │       │         │       └ {}
+               │       │         └ ()
+               │       └ <rest_framework.request.Request: POST '/api/temperature/'>
+               └ <bound method TemperatureInfo.post of <main.API.TemperatureInfo object at 0x7fec07761d00>>
+
+> File "/home/matvey/PycharmProjects/Egida/main/API.py", line 159, in post
+    new_temper.delete()
+
+NameError: name 'new_temper' is not defined
+2020-12-14 16:23:03.022 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:23:03.563 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:24:41.692 | SUCCESS  | main.API:post:154 - 5404120581 Добавил информацию о температуре здания TestTest
+Здание TestTest температура теплоносителя: 32.1 воздуха: 43.1
+2020-12-14 16:24:42.273 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:24:53.378 | SUCCESS  | main.API:post:154 - 5404120581 Добавил информацию о температуре здания TestTest
+Здание TestTest температура теплоносителя: 93.3 воздуха: 25.5
+2020-12-14 16:24:53.868 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:25:03.655 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:25:04.098 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:26:50.143 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:26:50.704 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:37:09.319 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:37:09.782 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:37:33.484 | ERROR    | main.API:post:164 - name 'new_temper' is not defined
+Traceback (most recent call last):
+
+  File "/home/matvey/PycharmProjects/Egida/main/API.py", line 152, in post
+    new_temper = Temperature.objects.create(building=building_obj, **data)
+                 │           │                       │               └ {'coolant_temperature': '', 'air_temperature': '', 'date': '2020-12-16'}
+                 │           │                       └ <Building: TestTest>
+                 │           └ <django.db.models.manager.ManagerDescriptor object at 0x7f1a669219a0>
+                 └ <class 'main.models.Temperature'>
+
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+                   │    │               │      │       └ {'building': <Building: TestTest>, 'coolant_temperature': '', 'air_temperature': '', 'date': '2020-12-16'}
+                   │    │               │      └ ()
+                   │    │               └ 'create'
+                   │    └ <function BaseManager.get_queryset at 0x7f1a67b9db80>
+                   └ <django.db.models.manager.Manager object at 0x7f1a667fb2b0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/db/models/query.py", line 447, in create
+    obj.save(force_insert=True, using=self.db)
+    │   │                             │    └ <property object at 0x7f1a67b92630>
+    │   │                             └ <QuerySet [<Temperature: Здание TestTest температура теплоносителя: 32.1 воздуха: 43.1>, <Temperature: Здание TestTest темпер...
+    │   └ <function Temperature.save at 0x7f1a66971c10>
+    └ <Temperature: Здание TestTest температура теплоносителя:  воздуха: >
+
+  File "/home/matvey/PycharmProjects/Egida/main/models.py", line 224, in save
+    raise ValidationError('Некорректная дата')
+          └ <class 'django.core.exceptions.ValidationError'>
+
+django.core.exceptions.ValidationError: ['Некорректная дата']
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "/usr/lib/python3.8/threading.py", line 890, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x7f1a68b51160>
+    └ <Thread(Thread-2, started daemon 139751336285952)>
+  File "/usr/lib/python3.8/threading.py", line 932, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x7f1a68b36160>
+    └ <Thread(Thread-2, started daemon 139751336285952)>
+  File "/usr/lib/python3.8/threading.py", line 870, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-2, started daemon 139751336285952)>
+    │    │        │    └ (<socket.socket fd=8, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('25.13.184.214', 8000), radd...
+    │    │        └ <Thread(Thread-2, started daemon 139751336285952)>
+    │    └ <bound method ThreadingMixIn.process_request_thread of <django.core.servers.basehttp.WSGIServer object at 0x7f1a6589aa00>>
+    └ <Thread(Thread-2, started daemon 139751336285952)>
+  File "/usr/lib/python3.8/socketserver.py", line 650, in process_request_thread
+    self.finish_request(request, client_address)
+    │    │              │        └ ('25.54.60.194', 60607)
+    │    │              └ <socket.socket fd=8, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('25.13.184.214', 8000), raddr...
+    │    └ <function BaseServer.finish_request at 0x7f1a67ad4c10>
+    └ <django.core.servers.basehttp.WSGIServer object at 0x7f1a6589aa00>
+  File "/usr/lib/python3.8/socketserver.py", line 360, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    │    │                   │        │               └ <django.core.servers.basehttp.WSGIServer object at 0x7f1a6589aa00>
+    │    │                   │        └ ('25.54.60.194', 60607)
+    │    │                   └ <socket.socket fd=8, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('25.13.184.214', 8000), raddr...
+    │    └ <class 'django.core.servers.basehttp.WSGIRequestHandler'>
+    └ <django.core.servers.basehttp.WSGIServer object at 0x7f1a6589aa00>
+  File "/usr/lib/python3.8/socketserver.py", line 720, in __init__
+    self.handle()
+    │    └ <function WSGIRequestHandler.handle at 0x7f1a668475e0>
+    └ <django.core.servers.basehttp.WSGIRequestHandler object at 0x7f1a6560f7f0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/servers/basehttp.py", line 174, in handle
+    self.handle_one_request()
+    │    └ <function WSGIRequestHandler.handle_one_request at 0x7f1a66847670>
+    └ <django.core.servers.basehttp.WSGIRequestHandler object at 0x7f1a6560f7f0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/servers/basehttp.py", line 197, in handle_one_request
+    handler.run(self.server.get_app())
+    │       │   │    │      └ <function WSGIServer.get_app at 0x7f1a6683fa60>
+    │       │   │    └ <django.core.servers.basehttp.WSGIServer object at 0x7f1a6589aa00>
+    │       │   └ <django.core.servers.basehttp.WSGIRequestHandler object at 0x7f1a6560f7f0>
+    │       └ <function BaseHandler.run at 0x7f1a66819700>
+    └ <django.core.servers.basehttp.ServerHandler object at 0x7f1a6559b220>
+  File "/usr/lib/python3.8/wsgiref/handlers.py", line 137, in run
+    self.result = application(self.environ, self.start_response)
+    │    │        │           │    │        │    └ <function BaseHandler.start_response at 0x7f1a66819a60>
+    │    │        │           │    │        └ <django.core.servers.basehttp.ServerHandler object at 0x7f1a6559b220>
+    │    │        │           │    └ {'PATH': '/home/matvey/PycharmProjects/Egida/venv/bin:/home/matvey/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/b...
+    │    │        │           └ <django.core.servers.basehttp.ServerHandler object at 0x7f1a6559b220>
+    │    │        └ <django.core.handlers.wsgi.WSGIHandler object at 0x7f1a67ae8070>
+    │    └ None
+    └ <django.core.servers.basehttp.ServerHandler object at 0x7f1a6559b220>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/wsgi.py", line 133, in __call__
+    response = self.get_response(request)
+               │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │    └ <function BaseHandler.get_response at 0x7f1a66875d30>
+               └ <django.core.handlers.wsgi.WSGIHandler object at 0x7f1a67ae8070>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 128, in get_response
+    response = self._middleware_chain(request)
+               │    │                 └ <WSGIRequest: POST '/api/temperature/'>
+               │    └ <function convert_exception_to_response.<locals>.inner at 0x7f1a6568f310>
+               └ <django.core.handlers.wsgi.WSGIHandler object at 0x7f1a67ae8070>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <django.middleware.security.SecurityMiddleware object at 0x7f1a656eb850>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f1a6566bb80>
+               │           └ <django.middleware.security.SecurityMiddleware object at 0x7f1a656eb850>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <whitenoise.middleware.WhiteNoiseMiddleware object at 0x7f1a65674670>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/whitenoise/middleware.py", line 59, in __call__
+    response = self.get_response(request)
+               │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │    └ <function convert_exception_to_response.<locals>.inner at 0x7f1a6566baf0>
+               └ <whitenoise.middleware.WhiteNoiseMiddleware object at 0x7f1a65674670>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <django.contrib.sessions.middleware.SessionMiddleware object at 0x7f1a65674730>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f1a6566ba60>
+               │           └ <django.contrib.sessions.middleware.SessionMiddleware object at 0x7f1a65674730>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <corsheaders.middleware.CorsMiddleware object at 0x7f1a656747f0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f1a6566b9d0>
+               │           └ <corsheaders.middleware.CorsMiddleware object at 0x7f1a656747f0>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <django.middleware.common.CommonMiddleware object at 0x7f1a656748b0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f1a6566b940>
+               │           └ <django.middleware.common.CommonMiddleware object at 0x7f1a656748b0>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <django.middleware.csrf.CsrfViewMiddleware object at 0x7f1a65674910>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f1a6566b8b0>
+               │           └ <django.middleware.csrf.CsrfViewMiddleware object at 0x7f1a65674910>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <django.contrib.auth.middleware.AuthenticationMiddleware object at 0x7f1a66843e80>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f1a6566b700>
+               │           └ <django.contrib.auth.middleware.AuthenticationMiddleware object at 0x7f1a66843e80>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <django.contrib.messages.middleware.MessageMiddleware object at 0x7f1a658864f0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f1a6566b310>
+               │           └ <django.contrib.messages.middleware.MessageMiddleware object at 0x7f1a658864f0>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <django.middleware.clickjacking.XFrameOptionsMiddleware object at 0x7f1a67ad8fd0>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/utils/deprecation.py", line 114, in __call__
+    response = response or self.get_response(request)
+               │           │    │            └ <WSGIRequest: POST '/api/temperature/'>
+               │           │    └ <function convert_exception_to_response.<locals>.inner at 0x7f1a656fbd30>
+               │           └ <django.middleware.clickjacking.XFrameOptionsMiddleware object at 0x7f1a67ad8fd0>
+               └ None
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <Egida.middleware.MyAuthenticationMiddleware object at 0x7f1a67b25730>
+
+  File "/home/matvey/PycharmProjects/Egida/Egida/middleware.py", line 10, in __call__
+    response = self._get_response(request)
+               │    │             └ <WSGIRequest: POST '/api/temperature/'>
+               │    └ <function BaseHandler._get_response at 0x7f1a656fbe50>
+               └ <Egida.middleware.MyAuthenticationMiddleware object at 0x7f1a67b25730>
+
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+               │            └ <WSGIRequest: POST '/api/temperature/'>
+               └ <bound method BaseHandler._get_response of <django.core.handlers.wsgi.WSGIHandler object at 0x7f1a67ae8070>>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 179, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               │                │         │                └ {}
+               │                │         └ ()
+               │                └ <WSGIRequest: POST '/api/temperature/'>
+               └ <function TemperatureInfo at 0x7f1a6593b310>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+           │          │       └ {}
+           │          └ (<WSGIRequest: POST '/api/temperature/'>,)
+           └ <function TemperatureInfo at 0x7f1a6593b280>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+           │    │        │         │       └ {}
+           │    │        │         └ ()
+           │    │        └ <WSGIRequest: POST '/api/temperature/'>
+           │    └ <function APIView.dispatch at 0x7f1a6591a8b0>
+           └ <main.API.TemperatureInfo object at 0x7f1a65682160>
+  File "/home/matvey/PycharmProjects/Egida/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               │       │         │       └ {}
+               │       │         └ ()
+               │       └ <rest_framework.request.Request: POST '/api/temperature/'>
+               └ <bound method TemperatureInfo.post of <main.API.TemperatureInfo object at 0x7f1a65682160>>
+
+> File "/home/matvey/PycharmProjects/Egida/main/API.py", line 159, in post
+    new_temper.delete()
+
+NameError: name 'new_temper' is not defined
+2020-12-14 16:40:22.896 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:40:23.451 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:40:44.724 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:40:45.226 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:41:02.123 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:41:33.059 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:41:33.658 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:41:38.936 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:41:43.328 | SUCCESS  | main.API:get:63 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:41:43.783 | SUCCESS  | main.API:get:131 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:44:58.789 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:45:06.267 | SUCCESS  | main.API:get:64 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:45:06.817 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:45:23.953 | SUCCESS  | main.API:get:64 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:45:24.435 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:46:21.379 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:46:25.630 | SUCCESS  | main.API:get:64 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:46:26.248 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:47:13.506 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:47:16.645 | SUCCESS  | main.API:get:64 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:47:17.113 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:48:16.741 | SUCCESS  | main.API:get:64 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:48:17.221 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:51:47.050 | SUCCESS  | main.API:get:64 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:51:47.506 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:52:00.441 | SUCCESS  | main.API:get:64 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:52:00.962 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:53:28.786 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:53:59.910 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:55:12.864 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:56:02.649 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия
+2020-12-14 16:57:23.068 | SUCCESS  | main.API:get:64 - 5404120581 Получил информацию о здании TestTest
+2020-12-14 16:57:23.598 | SUCCESS  | main.API:get:132 - 5404120581 Получил информацию о температурном режиме МАОУ Вторая гимназия

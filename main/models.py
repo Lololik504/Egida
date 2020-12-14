@@ -223,3 +223,5 @@ class Temperature(models.Model, MyModel):
         if parse_date(self.date) > datetime.date.today():
             raise ValidationError('Некорректная дата')
         super(Temperature, self).save(*args, **kwargs)
+
+

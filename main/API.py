@@ -5,6 +5,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.utils import json
 from rest_framework.views import APIView
+from django.utils.dateparse import parse_date
 
 from main.allows import *
 from main.serializers import *
@@ -166,28 +167,31 @@ class TemperatureInfo(APIView):
                             data={'detail': ex2.__str__()})
 
     def delete(self, request):
-        from django.http import QueryDict
-        print(request.DELETE['building'])
-        put = QueryDict(request.body)
-        print(put)
-        print(request.headers)
-        description = put.get('date')
-        print(description)
+        data: dict = request.headers['data']
+        if isinstance(data, str):
+            data = json.loads(data)
         user = request.my_user
         if user is None:
             return Response(status=status.HTTP_401_UNAUTHORIZED,
                             data={'detail': 'You need to authorize'})
         temp_date = data['date']
         building_id = data['building']
-        temp_objs = Temperature.objects.get(date=temp_date, building=building_id)
-        find_building_and_allow_user(building_id, user)
-        print(temp_objs)
+        temp_objs = Temperature.objects.all()
+        temp_objs = list(filter(lambda t: t.date == parse_date(temp_date), temp_objs))
+
+        temp_objs = list(filter(lambda t: t.building.id == int(building_id), temp_objs))
+
+        building_obj = find_building_and_allow_user(building_id, user)
         try:
-            if temp_objs is list:
+            if isinstance(temp_objs, list):
                 for temp_obj in temp_objs:
                     temp_obj.delete()
             else:
                 temp_objs.delete()
+                logger.success(
+                    str.format("{0} Добавил информацию о температуре здания {1} по дате {2}\n", user, building_obj,
+                               temp_date))
+            return Response(status=status.HTTP_200_OK)
         except BaseException as ex:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': ex.__str__()})
