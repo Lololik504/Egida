@@ -2,8 +2,9 @@ import datetime
 
 from django.db import models
 
-
 # Create your models here.
+from django.utils import timezone
+
 
 def get_model_fields(model):
     return model._meta.fields
@@ -25,9 +26,6 @@ class MyModel:
             except:
                 pass
         self.save()
-
-    # class Meta:
-    #     proxy = True
 
 
 class District(models.Model, MyModel):
@@ -189,16 +187,6 @@ class Building(models.Model, MyModel):
     last_repair_year = models.IntegerField(verbose_name="Год последнего капитально ремонта", choices=YEAR_CHOICES,
                                            default=2000, blank=True, null=True)
 
-    # def update(self, data):
-    #     if "id" in data:
-    #         data.pop("id")
-    #     for k, v in data.items():
-    #         try:
-    #             setattr(self, k, v)
-    #         except:
-    #             pass
-    #     self.save()
-
     def get_choices(self):
         res = {
             'TYPE': self.TYPE.values,
@@ -218,3 +206,9 @@ class Building(models.Model, MyModel):
     class Meta:
         verbose_name = "Здание"
         verbose_name_plural = "Здания"
+
+
+class Temperature(models.Model, MyModel):
+    temperature = models.FloatField(null=False, verbose_name="Температура")
+    building = models.ForeignKey(Building, null=False, verbose_name="Здание", on_delete=models.CASCADE)
+    date = models.DateField(verbose_name="Дата", null=False, default=timezone.now())

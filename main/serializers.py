@@ -52,8 +52,7 @@ class BuildingSerializer(ModelSerializer):
         fields = ['id', 'street', 'street_number']
 
 
-
-# class PersonalAllInfoSerializer(ModelSerializer):
-#     class Meta:
-#         model = Personal
-#         fields = '__all__'
+class TemperatureSerializer(ModelSerializer):
+    class Meta:
+        model = Temperature
+        fields = '__all__'
