@@ -203,10 +203,12 @@ class TemperatureInfo(APIView):
             return Response(status=status.HTTP_401_UNAUTHORIZED,
                             data={'detail': 'You need to authorize'})
         temp_id = data.pop('id')
+        data.pop('building')
         temp_obj = Temperature.objects.get(id=temp_id)
         try:
             find_building_and_allow_user(temp_obj.building_id, user)
             temp_obj.update(data)
+            return Response(status=status.HTTP_200_OK)
         except BaseException as ex:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': ex.__str__()})
