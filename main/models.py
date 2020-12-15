@@ -224,4 +224,8 @@ class Temperature(models.Model, MyModel):
             raise ValidationError('Некорректная дата')
         super(Temperature, self).save(*args, **kwargs)
 
+    class Meta:
+        verbose_name = "Температурный режим"
+        verbose_name_plural = "Температуры"
+
 

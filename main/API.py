@@ -330,7 +330,6 @@ class DistrictsInfo(APIView):
             districts = District.objects.all()
             ans = []
             for district in districts:
-                # dist_schools = list(filter(lambda school: school.district == district, schools))
                 dist_schools = district.school_set.all()
                 ans.append({
                     'name': DistrictsSerializer(district, many=False).data,
@@ -453,7 +452,6 @@ class ExportExcel(APIView):
 
     def get(self, request):
         data: dict = request.headers['data']
-        print(data)
         if isinstance(data, str):
             data = json.loads(data)
         user = request.my_user
@@ -469,3 +467,11 @@ class ExportExcel(APIView):
             resp = full_export()
         # resp = full_export()
         return resp
+
+
+class TEST(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        date = parse_date("2010-10-31")
+        return Response(status=status.HTTP_200_OK)

@@ -86,7 +86,70 @@ class ExcelWriter(xlwt.Workbook):
         self.schools = list(School.objects.all())
         self.full_path = settings.DOCUMENT_ROOT + "/export.xls"
 
-    def add_foreign_model_to_excel(self, model: models.Model, data=None, full=False):
+    def add_buildings_to_excel(self, temperature_data: dict = None, data=None, full=False):
+        global end, temperature_fields
+        if full:
+            fields = list(get_model_fields(Building))
+        else:
+            fields = self.filter_fields(data, Building)
+        start = None
+        if temperature_data is not None:
+            if temperature_data.__contains__('start'):
+                start = parse_date(temperature_data.pop('start'))
+            if temperature_data.__contains__('end'):
+                end = parse_date(temperature_data.pop('end'))
+            else:
+                end = datetime.date.today()
+            if full:
+                temperature_fields = list(get_model_fields(Temperature))
+            else:
+                temperature_fields = self.filter_fields(temperature_data, Temperature)
+            try:
+                temperature_data.pop('date')
+            except:
+                pass
+
+        next_column = self.column
+        self.row = self.START_ROW
+        for school in self.schools:
+            cur_column = self.column
+            buildings = list(school.building_set.all())
+            self.shit.write(1, cur_column, Building._meta.verbose_name)
+            for building in buildings:
+                for field in fields:
+                    self.shit.write(2, cur_column, field.verbose_name.__str__())
+                    self.shit.write(self.row, cur_column, getattr(building, field.name).__str__())
+                    cur_column += 1
+                if start is not None:
+                    cur_column = self.add_building_temperature_to_excel(start=start, end=end, fields=temperature_fields,
+                                                                        cur_column=cur_column,
+                                                                        building=building)
+            if len(buildings) == 0:
+                self.shit.write(self.row, cur_column, "-")
+            self.row += 1
+            if next_column < cur_column:
+                next_column = cur_column
+        self.column = next_column
+
+    def add_building_temperature_to_excel(self, start, end, fields, cur_column, building):
+        while start <= end:
+            self.shit.write(1, cur_column, start.__str__())
+            try:
+                obj = Temperature.objects.get(date=start, building=building)
+            except:
+                obj = None
+            for field in fields:
+                self.shit.write(2, cur_column, field.verbose_name.__str__())
+                if obj is not None:
+                    self.shit.write(self.row, cur_column, getattr(obj, field.name).__str__())
+                else:
+                    self.shit.write(self.row, cur_column, "-")
+                cur_column += 1
+            start += datetime.timedelta(days=1)
+
+        return cur_column
+
+    def add_foreign_model_to_excel(self, model: models.Model, to=None, data=None, full=False):
         if full:
             fields = list(get_model_fields(model))
         else:
@@ -97,7 +160,8 @@ class ExcelWriter(xlwt.Workbook):
         get_atr_str += "_set"
         for school in self.schools:
             cur_column = self.column
-            objects_list = list(school.__getattribute__(get_atr_str).all())
+            if to is None:
+                objects_list = list(school.__getattribute__(get_atr_str).all())
             self.shit.write(1, cur_column, model._meta.verbose_name)
             for model_object in objects_list:
                 for field in fields:
@@ -165,20 +229,29 @@ class ExcelWriter(xlwt.Workbook):
     def filter_schools(self, filters: dict):
         if filters.__contains__(District._meta.model_name):
             cur_filter: dict = filters[District._meta.model_name]
-            print(cur_filter)
             self.schools = filter(lambda f_school: cur_filter.__contains__(f_school.district.id.__str__()),
                                   self.schools)
             self.schools = filter(lambda f_school: cur_filter[f_school.district.id.__str__()], self.schools)
+
+    def filter_by_date_field(self, objects, start: datetime = None, end: datetime = None):
+        if not start is None:
+            objects = list(filter(lambda o: o.date >= start, objects))
+        if not end is None:
+            objects = list(filter(lambda o: o.date <= end, objects))
+        return objects
 
     def make_export_file(self, data: dict):
         if data.__contains__("filters"):
             self.filter_schools(data["filters"])
         self.schools = list(self.schools)
-        print(self.schools)
         if data.__contains__(School._meta.model_name):
             self.add_schools_to_excel(data=data[School._meta.model_name])
         if data.__contains__(Building._meta.model_name):
-            self.add_foreign_model_to_excel(data=data[Building._meta.model_name], model=Building())
+            if data.__contains__(Temperature._meta.model_name):
+                self.add_buildings_to_excel(data=data[Building._meta.model_name],
+                                            temperature_data=data[Temperature._meta.model_name])
+            else:
+                self.add_buildings_to_excel(data=data[Building._meta.model_name])
         if data.__contains__(Director._meta.model_name):
             self.add_one_model_to_excel(data=data[Director._meta.model_name], model=Director())
         self.save(self.full_path)

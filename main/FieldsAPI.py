@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from main.models import *
 from .serializers import *
 
-Models = [School, Building, Director, ZavHoz, Bookkeeper, Updater]
+Models = [School, Building, Director, ZavHoz, Bookkeeper, Updater, Temperature]
 
 
 class BuildingFields(APIView):

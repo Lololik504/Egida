@@ -4,7 +4,7 @@ from . import API, FieldsAPI
 
 urlpatterns = [
     path('fields/', include("main.fields_url")),
-    path('filters/', FieldsAPI.Filters.as_view(), name="test1"),
+    path('filters/', FieldsAPI.Filters.as_view()),
     path('school/', API.SchoolInfo.as_view()),
     path('districts/', API.DistrictsInfo.as_view()),
     path('district/', API.OneDistrictInfo.as_view()),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('personal/', API.PersonalOfSchoolInfo.as_view()),
     path('temperature/', API.TemperatureInfo.as_view()),
     path('export/', API.ExportExcel.as_view()),
+    path('TEST/', API.TEST.as_view(),name="test1"),
 ]
