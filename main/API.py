@@ -91,9 +91,6 @@ class BuildingInfo(APIView):
         data = request.headers
         id = data['id']
         user = request.my_user
-        if not departament_allow(user):
-            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                            data={'detail': 'You dont have permission to do this'})
         try:
             building = find_building_and_allow_user(id, user)
         except BaseException as ex:
