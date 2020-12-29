@@ -14,6 +14,7 @@ TIME_ZONE = 'Asia/Novosibirsk'
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 's_guh_fk#z)4r!7fb)^oug*@=d9_zx36cb0+lbccjd9mo&e1ra')
 
 PROD = bool(os.environ.get('DJANGO_PROD', False))
+# PROD = bool(os.environ.get('DJANGO_PROD', True))
 
 LOG_DIR = os.path.join(BASE_DIR, "log/")
 

@@ -27,13 +27,10 @@ class BuildingInfo(APIView):
             return Response(status=status.HTTP_401_UNAUTHORIZED,
                             data={'detail': 'You need to authorize'})
         try:
-            school = School.objects.get(INN=INN)
+            school = find_school_and_allow_user(INN=INN, user=user)
         except BaseException as ex:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={'detail': ex.__str__()})
-        if not departament_allow(user):
-            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                            data={'detail': 'You dont have permission to do this'})
         try:
             building = Building.objects.create(school=school)
             building.update(data=data)
@@ -66,7 +63,8 @@ class BuildingInfo(APIView):
 
     def put(self, request):
         data: dict = request.data
-        id = data['id']
+        id = data.pop('id')
+        print(data)
         user = request.my_user
         if user is None:
             return Response(status=status.HTTP_401_UNAUTHORIZED,
