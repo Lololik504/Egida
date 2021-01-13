@@ -141,7 +141,10 @@ class ExcelWriter(xlwt.Workbook):
             for field in fields:
                 self.shit.write(2, cur_column, field.verbose_name.__str__())
                 if obj is not None:
-                    self.shit.write(self.row, cur_column, getattr(obj, field.name).__str__())
+                    if getattr(obj, field.name) is not None:
+                        self.shit.write(self.row, cur_column, getattr(obj, field.name).__str__())
+                    else:
+                        self.shit.write(self.row, cur_column, "-")
                 else:
                     self.shit.write(self.row, cur_column, "-")
                 cur_column += 1
