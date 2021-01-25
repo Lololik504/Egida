@@ -1,1 +1,1 @@
-web: gunicorn Egida.wsgi
+web: gunicorn Egida.wsgi:application
