@@ -1,8 +1,8 @@
 from django.utils.dateparse import parse_date
 from loguru import logger
-from requests import Response
 from rest_framework import permissions, status
 from rest_framework.request import Request
+from rest_framework.response import Response
 from rest_framework.utils import json
 from rest_framework.views import APIView
 

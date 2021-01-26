@@ -1,13 +1,10 @@
-from loguru import logger
-from requests import Response
 from rest_framework import permissions, status
+from rest_framework.response import Response
 from rest_framework.utils import json
 from rest_framework.views import APIView
 
 from main.allows import departament_allow
-from main.models import get_model_name
-from main.serializers import PersonalAllInfoSerializer
-from main.services import find_school_and_allow_user, get_director, get_bookkeeper, get_updater, get_zavhoz, export, \
+from main.services import export, \
     full_export
 
 
