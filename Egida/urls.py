@@ -23,7 +23,7 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,)
 )
 
-urlpatterns = [
+extra_urlpatterns = [
                   path('', include('main.urls')),
                   path('main/', include('main.urls')),
                   path('admin/', admin.site.urls, name='admin'),
@@ -41,5 +41,9 @@ custom_admin_urls = (
     path('admin/main/schools/update/', update, name="update"),
     path('admin/main/schools/imp/', imp, name="import")
 )
+
+urlpatterns = [
+            path('back-end/', include(extra_urlpatterns))
+        ]
 
 urlpatterns += custom_admin_urls
