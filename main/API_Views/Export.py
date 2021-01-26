@@ -4,8 +4,7 @@ from rest_framework.utils import json
 from rest_framework.views import APIView
 
 from main.allows import departament_allow
-from main.services import export, \
-    full_export
+from main.services import export, full_export
 
 
 class ExportExcel(APIView):
