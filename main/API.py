@@ -444,8 +444,8 @@ class TEST(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        date = parse_date("2010-10-31")
-        return Response(status=status.HTTP_200_OK)
+
+        pass
 
 class DirectorInfo(APIView):
     permission_classes = [permissions.AllowAny]

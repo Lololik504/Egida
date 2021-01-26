@@ -25,6 +25,7 @@ def imp(request):
         for i in ALLOWED_EXTENSIONS:
             if file.name.endswith(i):
                 services.imp(file)
+                break
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
