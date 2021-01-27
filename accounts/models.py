@@ -45,7 +45,7 @@ class MyUser(User):
 
 class SchoolUser(MyUser):
     # Модель пользователя школы
-    school = models.OneToOneField(School, on_delete=models.CASCADE, default=None)
+    school = models.OneToOneField(School, on_delete=models.CASCADE, default=None, unique=True)
 
     class Meta:
         verbose_name = "Пользователь школы"
@@ -61,7 +61,7 @@ class SchoolUser(MyUser):
 
 class DistrictUser(MyUser):
     # Пользователь района
-    district = models.OneToOneField(District, on_delete=models.CASCADE, default=None)
+    district = models.OneToOneField(District, on_delete=models.CASCADE, default=None, unique=True)
 
     class Meta:
         verbose_name = "Пользователь района"

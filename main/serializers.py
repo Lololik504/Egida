@@ -7,7 +7,7 @@ from main.models import *
 class DistrictsNameSerializer(ModelSerializer):
     class Meta:
         model = District
-        fields = ['name',]
+        fields = ['name', ]
 
 
 class DistrictsSerializer(ModelSerializer):
@@ -55,4 +55,10 @@ class BuildingSerializer(ModelSerializer):
 class TemperatureSerializer(ModelSerializer):
     class Meta:
         model = Temperature
+        fields = '__all__'
+
+
+class RequisitesSerializer(ModelSerializer):
+    class Meta:
+        model = Requisites
         fields = '__all__'

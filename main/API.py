@@ -1,14 +1,8 @@
-from django.http.request import HttpHeaders
 from loguru import logger
 from rest_framework import permissions, status
-from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.utils import json
 from rest_framework.views import APIView
-from django.utils.dateparse import parse_date
 
-from main.allows import *
-from main.serializers import *
 from main.services import *
 
 
@@ -440,35 +434,29 @@ from main.services import *
 #         return resp
 
 
-class TEST(APIView):
-    permission_classes = [permissions.AllowAny]
-
-    def get(self, request):
-
-        pass
-
-class DirectorInfo(APIView):
-    permission_classes = [permissions.AllowAny]
-
-    def post(self, request):
-        data = request.data
-        user = request.my_user
-        INN = request['INN']
-        if user is None:
-            return Response(status=status.HTTP_401_UNAUTHORIZED,
-                            data={'detail': 'You need to authorize'})
-        try:
-            school = School.objects.get(INN=INN)
-        except BaseException as ex:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={'detail': ex.__str__()})
-        if not school_allow(user, school):
-            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                            data={'detail': 'You dont have permission to do this'})
-        try:
-            director = Director.objects.create(**data, school=school)
-        except BaseException as ex:
-            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                            data={'detail': ex.__str__()})
-        logger.success(str.format("{0} Добавил информацию о директоре {1}", user, school))
-        return Response(status=status.HTTP_200_OK)
+# class DirectorInfo(APIView):
+#     permission_classes = [permissions.AllowAny]
+#
+#     def post(self, request):
+#         data = request.data
+#         user = request.my_user
+#         INN = request['INN']
+#         if user is None:
+#             return Response(status=status.HTTP_401_UNAUTHORIZED,
+#                             data={'detail': 'You need to authorize'})
+#         try:
+#             school = School.objects.get(INN=INN)
+#         except BaseException as ex:
+#             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+#                             data={'detail': ex.__str__()})
+#         if not school_allow(user, school):
+#             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+#                             data={'detail': 'You dont have permission to do this'})
+#         try:
+#             director = Director.objects.create(**data, school=school)
+#         except BaseException as ex:
+#             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+#                             data={'detail': ex.__str__()})
+#         logger.success(str.format("{0} Добавил информацию о директоре {1}", user, school))
+#         return Response(status=status.HTTP_200_OK)
+#

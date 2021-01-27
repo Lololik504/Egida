@@ -229,3 +229,13 @@ class Temperature(models.Model, MyModel):
     class Meta:
         verbose_name = "Температурный режим"
         verbose_name_plural = "Температуры"
+
+
+class Requisites(models.Model, MyModel):
+
+    school = models.OneToOneField(School, verbose_name="Школа", on_delete=models.CASCADE, default=None)
+    official_site = models.CharField(verbose_name="Оффициальный сайт", max_length=100, blank=True, null=True)
+    legal_address = models.CharField(verbose_name="Юридический адрес", max_length=100, blank=True, null=True)
+    formation_date = models.DateField(verbose_name="Дата образования юридического лица", max_length=100, null=True,
+                                      blank=True,
+                                      default=timezone.now)

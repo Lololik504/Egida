@@ -1,3 +1,5 @@
+STATIC_URL = "/admin/staticfiles/"
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

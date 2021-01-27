@@ -132,5 +132,6 @@ dmypy.json
 /venv/
 .idea/
 
-log/
+log/*
 main/docs/
+Egida/local_settings.py

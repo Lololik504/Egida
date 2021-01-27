@@ -65,6 +65,12 @@ def get_director(school: School):
         director = Director.objects.create(school=school)
     return director
 
+def get_requisites(school: School):
+    try:
+        requisites = school.requisites
+    except Requisites.DoesNotExist as ex:
+        requisites = Requisites.objects.create(school=school)
+    return requisites
 
 def get_bookkeeper(school: School):
     try:

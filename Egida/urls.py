@@ -24,17 +24,17 @@ schema_view = get_schema_view(
 )
 
 extra_urlpatterns = [
-                  path('', include('main.urls')),
-                  path('main/', include('main.urls')),
-                  path('admin/', admin.site.urls, name='admin'),
-                  path('accounts/', include('accounts.urls')),
-                  path('auth/', include('djoser.urls')),
-                  path('auth/', include('djoser.urls.authtoken')),
-                  path('auth/', include('djoser.urls.jwt')),
-                  url(r'^swagger(?P<format>.json|.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-                  url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-                  url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+                        path('', include('main.urls')),
+                        path('main/', include('main.urls')),
+                        path('accounts/', include('accounts.urls')),
+                        path('auth/', include('djoser.urls')),
+                        path('auth/', include('djoser.urls.authtoken')),
+                        path('auth/', include('djoser.urls.jwt')),
+                        url(r'^swagger(?P<format>.json|.yaml)$', schema_view.without_ui(cache_timeout=0),
+                            name='schema-json'),
+                        url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+                        url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+                    ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 custom_admin_urls = (
     path('admin/main/schools/export/', export, name="export"),
@@ -43,7 +43,10 @@ custom_admin_urls = (
 )
 
 urlpatterns = [
-            path('back-end/', include(extra_urlpatterns))
-        ]
+    path('back-end/', include(extra_urlpatterns)),
+    path('admin/', admin.site.urls, name='admin'),
+
+    path('', include(extra_urlpatterns))
+]
 
 urlpatterns += custom_admin_urls
