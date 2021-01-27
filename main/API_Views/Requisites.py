@@ -37,6 +37,7 @@ class RequisitesInfo(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         try:
+            print(data)
             requisites.update(data)
         except BaseException as ex:
             logger.exception(ex)

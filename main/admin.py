@@ -13,6 +13,7 @@ admin.site.register(ZavHoz)
 admin.site.register(Bookkeeper)
 admin.site.register(Updater)
 admin.site.register(Temperature)
+admin.site.register(Requisites)
 
 
 

@@ -102,6 +102,7 @@ class BuildingInfo(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         return Response(status=status.HTTP_200_OK)
+    
 
 class SchoolBuildingsInfo(APIView):
     permission_classes = [permissions.AllowAny]

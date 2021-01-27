@@ -3,7 +3,7 @@ from django.urls import path, include
 from main.API_Views.Requisites import RequisitesInfo
 from main.API_Views.TEST import TEST
 from main.API_Views.Building import BuildingInfo, SchoolBuildingsInfo
-from main.API_Views.District import OneDistrictInfo, DistrictsInfo
+from main.API_Views.District import *
 from main.API_Views.Export import ExportExcel
 from main.API_Views.Personal import PersonalOfSchoolInfo
 from main.API_Views.School import SchoolInfo
@@ -16,6 +16,7 @@ urlpatterns = [
     path('filters/', FieldsAPI.Filters.as_view()),
     path('school/', SchoolInfo.as_view()),
     path('districts/', DistrictsInfo.as_view()),
+    path('districts/query/', DistrictsQuery.as_view()),
     path('district/', OneDistrictInfo.as_view()),
     path('all_buildings/', SchoolBuildingsInfo.as_view()),
     path('building/', BuildingInfo.as_view()),

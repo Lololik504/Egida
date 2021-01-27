@@ -59,6 +59,8 @@ class TemperatureSerializer(ModelSerializer):
 
 
 class RequisitesSerializer(ModelSerializer):
+    district = DistrictsNameSerializer()
+
     class Meta:
         model = Requisites
         fields = '__all__'

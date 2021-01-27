@@ -57,3 +57,12 @@ class OneDistrictInfo(APIView):
             except BaseException as ex:
                 return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                                 data={"detail": ex.__str__()})
+
+
+class DistrictsQuery(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+            districts = District.objects.all()
+            ans = DistrictsSerializer(districts, many=True).data
+            return Response(ans)
