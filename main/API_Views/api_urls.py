@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from main.API_Views.RequisitesInfo import RequisitesInfo
+from main.API_Views.Requisites import RequisitesInfo
 from main.API_Views.TEST import TEST
 from main.API_Views.Building import BuildingInfo, SchoolBuildingsInfo
 from main.API_Views.District import OneDistrictInfo, DistrictsInfo

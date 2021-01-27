@@ -12,6 +12,7 @@ class RequisitesInfo(APIView):
 
     def get(self, request):
         data = request.headers
+        print(data)
         INN = data['INN']
         user = request.my_user
         try:

@@ -216,7 +216,7 @@ class Temperature(models.Model, MyModel):
     forward_pressure = models.FloatField(null=True, verbose_name="Давление на подающем трубопроводе")
     backward_pressure = models.FloatField(null=True, verbose_name="Давление на обратном трубопроводе")
     building = models.ForeignKey(Building, null=False, verbose_name="Здание", on_delete=models.CASCADE)
-    date = models.DateField(verbose_name="Дата", null=False, default=timezone.now)
+    date = models.DateField(verbose_name="Дата", null=False, default=datetime.date.today)
 
     def __str__(self):
         return "Здание {0} температура воздуха: {1}".format(self.building, self.air_temperature)
@@ -232,10 +232,11 @@ class Temperature(models.Model, MyModel):
 
 
 class Requisites(models.Model, MyModel):
-
     school = models.OneToOneField(School, verbose_name="Школа", on_delete=models.CASCADE, default=None)
+    district = models.OneToOneField(District, verbose_name="Территориальная принадлежность", on_delete=models.CASCADE,
+                                    default=None, null=True)
     official_site = models.CharField(verbose_name="Оффициальный сайт", max_length=100, blank=True, null=True)
     legal_address = models.CharField(verbose_name="Юридический адрес", max_length=100, blank=True, null=True)
     formation_date = models.DateField(verbose_name="Дата образования юридического лица", max_length=100, null=True,
                                       blank=True,
-                                      default=timezone.now)
+                                      default=datetime.date.today)
