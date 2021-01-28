@@ -1,13 +1,18 @@
+import datetime
 import json
 
 import xlrd
 import xlwt
+from django.db import models
+from django.utils.dateparse import parse_date
 from loguru import logger
 from xlwt import Worksheet
 
 from Egida import settings
 from accounts.models import SchoolUser
 from main.models import *
+from main.models.PersonalModel import Director
+from main.models.services import get_model_fields
 
 START_ROW = 4
 START_COLUMN = 1

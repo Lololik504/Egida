@@ -1,8 +1,17 @@
-from django.db import models
-import datetime
-from django.core.exceptions import ValidationError
-from django.db import models
-from django.utils import timezone, dateparse
-from django.utils.dateparse import parse_date
+# from . import Personal, District, Temperature, School, Building, Requisites
+from main.MyModelFile import MyModel
+from main.models.DistrictModel import District
+from main.models.SchoolModel import School
+from main.models.BuildingModel import Building
+from main.models.PersonalModel import ZavHoz, Personal, Bookkeeper, Director
+from main.models.RequisitesModel import Requisites
+from main.models.TemperatureModel import Temperature
 
-from main.models import Personal, Disctict, Temperature, School, Building, services, MyModel, Requisites
+__all__ = [
+    "Personal",
+    "District",
+    "Temperature",
+    "School",
+    "Building",
+    "Requisites",
+]

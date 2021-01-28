@@ -1,7 +1,13 @@
+import datetime
+
+from django.db import models
+
+from main.MyModelFile import MyModel
+from main.models import District
+from main.models import School
 
 
-
-class Requisites(models.Model, MyModel):
+class Requisites(MyModel):
     school = models.OneToOneField(School, verbose_name="Школа", on_delete=models.CASCADE, default=None)
     district = models.OneToOneField(District, verbose_name="Территориальная принадлежность", on_delete=models.CASCADE,
                                     default=None, null=True)
@@ -23,3 +29,8 @@ class Requisites(models.Model, MyModel):
             dist = data["district"]
             data["district"] = District.objects.get(name=dist)
         MyModel.update(self, data)
+
+    class Meta:
+        verbose_name = "Реквизиты"
+        verbose_name_plural = "Реквизиты"
+        app_label = "main"

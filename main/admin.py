@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from .models import *
+from .models.BuildingModel import Building
+from .models.DistrictModel import District
+from .models.PersonalModel import Director, ZavHoz, Bookkeeper, Updater
+from .models.RequisitesModel import Requisites
+from .models.SchoolModel import School
+from .models.TemperatureModel import Temperature
 
 admin.site.register(District)
 

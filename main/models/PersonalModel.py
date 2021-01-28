@@ -1,7 +1,10 @@
+from django.db import models
+
+from main.MyModelFile import MyModel
+from main.models import School
 
 
-
-class Personal(models.Model, MyModel):
+class Personal(MyModel):
     first_name = models.CharField(verbose_name="Имя", max_length=30, default=None, null=True)
     last_name = models.CharField(verbose_name="Фамилия", max_length=30, default=None, null=True)
     patronymic = models.CharField(verbose_name="Отчество", max_length=30, default=None, null=True)
@@ -11,6 +14,7 @@ class Personal(models.Model, MyModel):
     class Meta:
         verbose_name = "Персонал"
         verbose_name_plural = "Персонал"
+        app_label = "main"
 
     def __str__(self):
         ans = ""
@@ -36,6 +40,7 @@ class Director(Personal):
     class Meta:
         verbose_name = "Руководитель"
         verbose_name_plural = "Руководители"
+        app_label = "main"
 
 
 class ZavHoz(Personal):
@@ -44,6 +49,7 @@ class ZavHoz(Personal):
     class Meta:
         verbose_name = "Завхоз"
         verbose_name_plural = "Завхозы"
+        app_label = "main"
 
 
 class Bookkeeper(Personal):
@@ -52,6 +58,7 @@ class Bookkeeper(Personal):
     class Meta:
         verbose_name = "Бухгалтер"
         verbose_name_plural = "Бухгалтеры"
+        app_label = "main"
 
 
 class Updater(Personal):
@@ -60,3 +67,4 @@ class Updater(Personal):
     class Meta:
         verbose_name = "Ответственный за заполнение"
         verbose_name_plural = "Ответственные за заполнение"
+        app_label = "main"

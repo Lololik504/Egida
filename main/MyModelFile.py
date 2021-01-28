@@ -1,6 +1,7 @@
+from django.db.models import Model
 
 
-class MyModel:
+class MyModel(Model):
     static_fields = ["id"]
 
     def update(self, data):
@@ -12,3 +13,6 @@ class MyModel:
             except:
                 pass
         self.save()
+
+    class Meta:
+        abstract = True

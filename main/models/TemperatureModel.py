@@ -1,6 +1,14 @@
+import datetime
+
+from django.core.exceptions import ValidationError
+from django.db import models
+from django.utils.dateparse import parse_date
+
+from main.MyModelFile import MyModel
+from main.models import Building
 
 
-class Temperature(models.Model, MyModel):
+class Temperature(MyModel):
     air_temperature = models.FloatField(null=True, verbose_name="Температура воздуха")
     coolant_forward_temperature = models.FloatField(null=True, verbose_name="Температура подающего трубопровода")
     coolant_backward_temperature = models.FloatField(null=True, verbose_name="Температура обратного трубопровода")
@@ -20,3 +28,5 @@ class Temperature(models.Model, MyModel):
     class Meta:
         verbose_name = "Температурный режим"
         verbose_name_plural = "Температуры"
+        app_label = "main"
+

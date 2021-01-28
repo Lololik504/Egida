@@ -5,7 +5,8 @@ from django.contrib.auth.models import AbstractUser, User
 from django.db import models
 
 from Egida import settings
-from main.models import School, District
+from main.models.DistrictModel import District
+from main.models.SchoolModel import School
 
 
 # Create your models here.
@@ -47,10 +48,6 @@ class SchoolUser(MyUser):
     # Модель пользователя школы
     school = models.OneToOneField(School, on_delete=models.CASCADE, default=None, unique=True)
 
-    class Meta:
-        verbose_name = "Пользователь школы"
-        verbose_name_plural = "Пользователи школ"
-
     def __str__(self):
         return self.username
 
@@ -58,14 +55,15 @@ class SchoolUser(MyUser):
         self._meta.get_field('permission').default = MyUser.Permissions.SCHOOL.value
         super(SchoolUser, self).__init__(*args, **kwargs)
 
+    class Meta:
+        verbose_name = "Пользователь школы"
+        verbose_name_plural = "Пользователи школ"
+
+
 
 class DistrictUser(MyUser):
     # Пользователь района
     district = models.OneToOneField(District, on_delete=models.CASCADE, default=None, unique=True)
-
-    class Meta:
-        verbose_name = "Пользователь района"
-        verbose_name_plural = "Пользователи района"
 
     def __str__(self):
         return self.username
@@ -73,6 +71,10 @@ class DistrictUser(MyUser):
     def __init__(self, *args, **kwargs):
         self._meta.get_field('permission').default = MyUser.Permissions.DISTRICT.value
         super(DistrictUser, self).__init__(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Пользователь района"
+        verbose_name_plural = "Пользователи района"
 
 
 class DepartamentUser(MyUser):
@@ -89,13 +91,15 @@ class DepartamentUser(MyUser):
 
 
 class AdminUser(MyUser):
-    class Meta:
-        verbose_name = "Админ сайта"
-        verbose_name_plural = "Админы сайта"
-
     def __str__(self):
         return self.username
 
     def __init__(self, *args, **kwargs):
         self._meta.get_field('permission').default = MyUser.Permissions.ADMIN.value
         super(AdminUser, self).__init__(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Админ сайта"
+        verbose_name_plural = "Админы сайта"
+
+

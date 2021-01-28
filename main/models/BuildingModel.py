@@ -1,18 +1,15 @@
-
-
-
 # Create your models here.
+import datetime
 
-class Building(models.Model, MyModel):
-    school = models.ForeignKey(School, verbose_name="Школа", on_delete=models.CASCADE, default=None)
+from django.db import models
+
+from main.MyModelFile import MyModel
+
+
+class Building(MyModel):
+    school = models.ForeignKey(to="main.School", verbose_name="Школа", on_delete=models.CASCADE, default=None)
     street = models.CharField(verbose_name="Улица", max_length=300, blank=True, null=True)
     street_number = models.CharField(verbose_name="Номер дома", max_length=50, blank=True, null=True)
-
-    # TYPE = (
-    #     ("FREE_STANDING", "Отдельно стоящее"),
-    #     ("BUILD_INTO_APART", "Встроенное в многоквартирный дом"),
-    #     ("ATTACHED_TO_APART", "Пристроенное к многоквартирному дому"),
-    # )
 
     class TYPE(models.TextChoices):
         FREE_STANDING = "Отдельно стоящее"
@@ -77,3 +74,4 @@ class Building(models.Model, MyModel):
     class Meta:
         verbose_name = "Здание"
         verbose_name_plural = "Здания"
+        app_label = "main"
