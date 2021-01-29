@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -22,11 +22,12 @@ def index(request):
 
 
 class TEST(APIView):
+    permission_classes = [permissions.AllowAny]
 
     def get(self, request):
         print("TEST")
-        b = Building.objects.get(id=4)
-        b_c = BuildingConstruction.objects.get_or_create(building=b)
-        ans = BuildingConstructionSerializer(b_c).data
+        b = Building.objects.get_or_create(school_id=1)[0]
+        # b_c = BuildingConstruction.objects.get_or_create(building=b.id)
+        ans = BuildingSerializer(b, many=False).data
         print(ans)
-        return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_200_OK, data=ans)
