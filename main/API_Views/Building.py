@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 
 from main.allows import building_allow
 from main.models import Building
-from main.serializers import BuildingAllInfoSerializer, BuildingSerializer
+from main.serializers.serializers import BuildingAllInfoSerializer, BuildingSerializer
 from main.services import find_school_and_allow_user, find_building_and_allow_user
 
 

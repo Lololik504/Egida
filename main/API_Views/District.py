@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 
 from main.allows import departament_allow, district_allow
 from main.models import District
-from main.serializers import DistrictsSerializer, SchoolInfoSerializer
+from main.serializers.serializers import DistrictsSerializer, SchoolInfoSerializer
 
 
 class DistrictsInfo(APIView):

@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from main.models.services import get_model_name
-from main.serializers import PersonalAllInfoSerializer
+from main.serializers.serializers import PersonalAllInfoSerializer
 from main.services import find_school_and_allow_user, get_director, get_bookkeeper, get_updater, get_zavhoz
 
 

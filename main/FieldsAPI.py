@@ -2,10 +2,9 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from main.models import *
 from .models.PersonalModel import Director, ZavHoz, Bookkeeper, Updater
 from .models.services import get_model_fields
-from .serializers import *
+from main.serializers.serializers import *
 
 Models = [School, Building, Director, ZavHoz, Bookkeeper, Updater, Temperature]
 

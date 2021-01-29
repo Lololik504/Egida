@@ -1,7 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from .models import *
-from main.serializers import SchoolAllInfoSerializer, DistrictsSerializer
-from rest_framework import serializers
+from main.serializers.serializers import SchoolAllInfoSerializer, DistrictsSerializer
 from .models import MyUser
 
 

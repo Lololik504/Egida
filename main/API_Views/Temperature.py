@@ -7,7 +7,7 @@ from rest_framework.utils import json
 from rest_framework.views import APIView
 
 from main.models import Temperature
-from main.serializers import TemperatureSerializer
+from main.serializers.serializers import TemperatureSerializer
 from main.services import find_school_and_allow_user, find_building_and_allow_user
 
 

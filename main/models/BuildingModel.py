@@ -1,9 +1,11 @@
 # Create your models here.
 import datetime
+from annoying.fields import AutoOneToOneField
 
 from django.db import models
 
 from main.MyModelFile import MyModel
+from main.models.building_construction import BuildingConstruction
 
 
 class Building(MyModel):
@@ -54,6 +56,9 @@ class Building(MyModel):
                                            choices=TECHNICAL_CONDITION.choices, blank=True, null=True)
     last_repair_year = models.IntegerField(verbose_name="Год последнего капитально ремонта", choices=YEAR_CHOICES,
                                            default=2000, blank=True, null=True)
+
+    building_construction = AutoOneToOneField(BuildingConstruction, verbose_name="Строительные конструкции",
+                                              on_delete=models.CASCADE, default=None, null=True, blank=True)
 
     def get_choices(self):
         res = {

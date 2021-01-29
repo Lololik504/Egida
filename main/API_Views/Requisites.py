@@ -3,7 +3,7 @@ from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from main.serializers import RequisitesSerializer
+from main.serializers.serializers import RequisitesSerializer
 from main.services import find_school_and_allow_user, get_requisites
 
 

@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from accounts.models import MyUser, SchoolUser
 from main.allows import district_allow
 from main.models import School
-from main.serializers import SchoolAllInfoSerializer
+from main.serializers.serializers import SchoolAllInfoSerializer
 from main.services import find_school_and_allow_user
 
 

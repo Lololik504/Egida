@@ -6,6 +6,7 @@ from .models.PersonalModel import Director, ZavHoz, Bookkeeper, Updater
 from .models.RequisitesModel import Requisites
 from .models.SchoolModel import School
 from .models.TemperatureModel import Temperature
+from .models.building_construction import BuildingConstruction
 
 admin.site.register(District)
 
@@ -19,6 +20,8 @@ admin.site.register(Bookkeeper)
 admin.site.register(Updater)
 admin.site.register(Temperature)
 admin.site.register(Requisites)
+admin.site.register(BuildingConstruction)
+
 
 
 

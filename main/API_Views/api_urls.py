@@ -8,6 +8,7 @@ from main.API_Views.Export import ExportExcel
 from main.API_Views.Personal import PersonalOfSchoolInfo
 from main.API_Views.School import SchoolInfo
 from main.API_Views.Temperature import TemperatureInfo
+from main.API_Views.BuildongConstruction import BuildingConstructionAPI
 from main import FieldsAPI
 
 
@@ -20,6 +21,7 @@ urlpatterns = [
     path('district/', OneDistrictInfo.as_view()),
     path('all_buildings/', SchoolBuildingsInfo.as_view()),
     path('building/', BuildingInfo.as_view()),
+    path('building/building_construction', BuildingConstructionAPI.as_view()),
     path('personal/', PersonalOfSchoolInfo.as_view()),
     path('temperature/', TemperatureInfo.as_view()),
     path('requisites/', RequisitesInfo.as_view()),
