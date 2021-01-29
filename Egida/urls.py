@@ -45,7 +45,6 @@ custom_admin_urls = (
 urlpatterns = [
     path('back-end/', include(extra_urlpatterns)),
     path('admin/', admin.site.urls, name='admin'),
-
     path('', include(extra_urlpatterns))
 ]
 

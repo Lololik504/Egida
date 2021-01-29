@@ -11,7 +11,6 @@ from main.API_Views.Temperature import TemperatureInfo
 from main.API_Views.BuildongConstruction import BuildingConstructionAPI
 from main import FieldsAPI
 
-
 urlpatterns = [
     path('fields/', include("main.fields_url")),
     path('filters/', FieldsAPI.Filters.as_view()),
@@ -20,8 +19,8 @@ urlpatterns = [
     path('districts/query/', DistrictsQuery.as_view()),
     path('district/', OneDistrictInfo.as_view()),
     path('all_buildings/', SchoolBuildingsInfo.as_view()),
-    path('building/', BuildingInfo.as_view()),
     path('building/building_construction', BuildingConstructionAPI.as_view()),
+    path('building/', BuildingInfo.as_view()),
     path('personal/', PersonalOfSchoolInfo.as_view()),
     path('temperature/', TemperatureInfo.as_view()),
     path('requisites/', RequisitesInfo.as_view()),

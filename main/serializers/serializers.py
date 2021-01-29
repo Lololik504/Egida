@@ -43,7 +43,7 @@ class SchoolAllInfoSerializer(ModelSerializer):
 class BuildingAllInfoSerializer(ModelSerializer):
     class Meta:
         model = Building
-        fields = '__all__'
+        # fields = '__all__'
         exclude = ('building_construction',)
 
 
