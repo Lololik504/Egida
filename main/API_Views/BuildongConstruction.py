@@ -13,16 +13,29 @@ class BuildingConstructionAPI(APIView):
 
     def get(self, request):
         data = request.headers
-        id = data['id']
+        building_id = data['id']
         user = request.my_user
         try:
-            building = find_building_and_allow_user(id, user)
+            building = find_building_and_allow_user(building_id, user)
             building_constr = BuildingConstruction.objects.get_or_create(building=building)[0]
         except BaseException as ex:
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
-
         ans = []
         ans += BuildingConstructionSerializer(building_constr, many=False).data
         return Response(status=status.HTTP_200_OK, data=ans)
+
+    def put(self, request):
+        data = request.data
+        building_id = data['id']
+        user = request.my_user
+        try:
+            building = find_building_and_allow_user(id=building_id, user=user)
+            building_constr = BuildingConstruction.objects.get_or_create(building=building)[0]
+            building_constr.update(data=data)
+        except BaseException as ex:
+            logger.exception(ex)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": ex.__str__()})
+        return Response(status=status.HTTP_200_OK)
