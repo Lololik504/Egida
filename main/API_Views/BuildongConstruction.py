@@ -32,7 +32,7 @@ class BuildingConstructionAPI(APIView):
         user = request.my_user
         try:
             building = find_building_and_allow_user(id=building_id, user=user)
-            building_constr = BuildingConstruction.objects.get(building=building)
+            building_constr = BuildingConstruction.objects.get(building_id=building_id)
             building_constr.update(data=data)
         except BaseException as ex:
             logger.exception(ex)
