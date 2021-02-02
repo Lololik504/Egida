@@ -11,4 +11,6 @@ class AdminRoom(MyModel):
     admin_room_count_of_technical_condition_field = models.IntegerField(
         verbose_name="Количество административных помещений, относящихся к полю технического состояния", blank=True,
         null=True)
-    
+
+    class Meta:
+        abstract = True

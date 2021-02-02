@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 
 from .models.PersonalModel import Director, ZavHoz, Bookkeeper, Updater
 from .models.engineering_communication import EngineeringCommunication
+from .models.indoor_areas import IndoorAreas
 from .models.services import get_model_fields
 from main.serializers.serializers import *
 
@@ -92,6 +93,18 @@ class EngCom(APIView):
 
     def get(self, request):
         fields = list(get_model_fields(EngineeringCommunication))
+        print(fields)
+        ans = []
+        for f in fields:
+            ans.append({f.name: f.verbose_name})
+        return Response(data=ans)
+
+
+class IndoorAreasFields(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        fields = list(get_model_fields(IndoorAreas))
         print(fields)
         ans = []
         for f in fields:

@@ -1,6 +1,7 @@
 from django.urls import path, include
 
 from main.API_Views.EngineeringCommunication import EngineeringCommunicationAPI
+from main.API_Views.IndoorAreas import IndoorAreasAPI
 from main.API_Views.Requisites import RequisitesInfo
 from main.API_Views.TEST import TEST
 from main.API_Views.Building import BuildingInfo, SchoolBuildingsInfo
@@ -22,6 +23,7 @@ urlpatterns = [
     path('all_buildings/', SchoolBuildingsInfo.as_view()),
     path('building/building_construction', BuildingConstructionAPI.as_view()),
     path('building/engineering_communication', EngineeringCommunicationAPI.as_view()),
+    path('building/indoor_areas', IndoorAreasAPI.as_view()),
     path('building/', BuildingInfo.as_view()),
     path('personal/', PersonalOfSchoolInfo.as_view()),
     path('temperature/', TemperatureInfo.as_view()),

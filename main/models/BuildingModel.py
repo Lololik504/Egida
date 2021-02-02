@@ -7,6 +7,7 @@ from django.db import models
 from main.MyModelFile import MyModel
 from main.models.building_construction import BuildingConstruction
 from main.models.engineering_communication import EngineeringCommunication
+from main.models.indoor_areas import IndoorAreas
 
 
 class Building(MyModel):
@@ -62,6 +63,8 @@ class Building(MyModel):
                                               on_delete=models.CASCADE, default=None, null=True, blank=True)
     engineering_communication = AutoOneToOneField(EngineeringCommunication, verbose_name="Инженерные коммуникации",
                                                   on_delete=models.CASCADE, default=None, null=True, blank=True)
+    indoor_areas = AutoOneToOneField(IndoorAreas, verbose_name="Внутренние помещения",
+                                     on_delete=models.CASCADE, default=None, null=True, blank=True)
 
     def get_choices(self):
         res = {

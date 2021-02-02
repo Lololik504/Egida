@@ -11,3 +11,6 @@ class Classroom(MyModel):
     classroom_count_of_technical_condition_field = models.IntegerField(
         verbose_name="Количество учебных/игровых помещений, относящихся к полю технического состояния", blank=True,
         null=True)
+
+    class Meta:
+        abstract = True

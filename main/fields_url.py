@@ -9,4 +9,5 @@ urlpatterns = [
     path('personal/', FieldsAPI.BuildingFields.as_view()),
     path('all_models/', FieldsAPI.AllModels.as_view()),
     path('eng_com/', FieldsAPI.EngCom.as_view()),
+    path('indoor_areas/', FieldsAPI.IndoorAreasFields.as_view()),
 ]
