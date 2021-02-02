@@ -6,6 +6,8 @@ from Egida import settings
 from main import excel
 from main.allows import school_allow, building_allow
 from main.models import *
+from main.models import Director, Bookkeeper
+from main.models.PersonalModel import Updater, ZavHoz
 
 
 def imp(f):

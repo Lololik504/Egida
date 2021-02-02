@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models.PersonalModel import Director, ZavHoz, Bookkeeper, Updater
+from .models.engineering_communication import EngineeringCommunication
 from .models.services import get_model_fields
 from main.serializers.serializers import *
 
@@ -84,3 +85,15 @@ class Filters(APIView):
             res.update({dist.id.__str__(): dist.name})
         res = {District._meta.model_name: res}
         return Response(res)
+
+
+class EngCom(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        fields = list(get_model_fields(EngineeringCommunication))
+        print(fields)
+        ans = []
+        for f in fields:
+            ans.append({f.name: f.verbose_name})
+        return Response(data=ans)

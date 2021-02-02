@@ -21,6 +21,8 @@ class AtticOverlapping(MyModel):
 
     attic_overlapping_warming = models.CharField(verbose_name="Утепление", max_length=50, null=True, blank=True)
 
+    attic_overlapping_thickness = models.FloatField(verbose_name="Толщина утепления", blank=True, null=True)
+
     class Meta:
         abstract = True
 

@@ -3,12 +3,12 @@ from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from main.models.building_construction import BuildingConstruction
+from main.models.engineering_communication import EngineeringCommunication
+from main.serializers.engineering_communication_serializer import EngineeringCommunicationSerializer
 from main.services import find_building_and_allow_user
-from main.serializers.building_construction_serializer import *
 
 
-class BuildingConstructionAPI(APIView):
+class EngineeringCommunicationAPI(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
@@ -17,16 +17,16 @@ class BuildingConstructionAPI(APIView):
         user = request.my_user
         try:
             building = find_building_and_allow_user(building_id, user)
-            building_constr = BuildingConstruction.objects.get_or_create(building=building)
-            if building_constr[1]:
-                building.building_construction = building_constr[0]
+            eng_communication = EngineeringCommunication.objects.get_or_create(building=building)
+            if eng_communication[1]:
+                building.engineering_communication = eng_communication[0]
                 building.save()
-            building_constr = building_constr[0]
+            eng_communication = eng_communication[0]
         except BaseException as ex:
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
-        ans = [BuildingConstructionSerializer(building_constr, many=False).data]
+        ans = [EngineeringCommunicationSerializer(eng_communication, many=False).data]
         print(ans)
         return Response(status=status.HTTP_200_OK, data=ans)
 
@@ -36,12 +36,12 @@ class BuildingConstructionAPI(APIView):
         user = request.my_user
         try:
             building = find_building_and_allow_user(id=building_id, user=user)
-            building_constr = BuildingConstruction.objects.get_or_create(building=building)
-            if building_constr[1]:
-                building.building_construction = building_constr[0]
+            eng_communication = EngineeringCommunication.objects.get_or_create(building=building)
+            if eng_communication[1]:
+                building.engineering_communication = eng_communication[0]
                 building.save()
-            building_constr = building_constr[0]
-            building_constr.update(data=data)
+            eng_communication = eng_communication[0]
+            eng_communication.update(data=data)
         except BaseException as ex:
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,

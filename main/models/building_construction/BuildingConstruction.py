@@ -1,12 +1,8 @@
-# from django.db import models
-
 from main.models.building_construction import *
 
 
-# from main.models import *
 
-
-class BuildingConstruction(BlindArea, Facade, Overlapping, Roof, Window):
+class BuildingConstruction(BlindArea, Facade, Overlapping, Roof, Window, Foundation):
     # building = models.OneToOneField(Building, null=True, default=None, on_delete=models.SET_NULL)
     pass
 
