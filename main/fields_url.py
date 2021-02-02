@@ -10,4 +10,6 @@ urlpatterns = [
     path('all_models/', FieldsAPI.AllModels.as_view()),
     path('eng_com/', FieldsAPI.EngCom.as_view()),
     path('indoor_areas/', FieldsAPI.IndoorAreasFields.as_view()),
+    path('safety_system/', FieldsAPI.SafetySystemFields.as_view()),
+    path('territory_improvement/', FieldsAPI.TerritoryImprovementFields.as_view()),
 ]

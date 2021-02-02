@@ -5,8 +5,10 @@ from rest_framework.views import APIView
 from .models.PersonalModel import Director, ZavHoz, Bookkeeper, Updater
 from .models.engineering_communication import EngineeringCommunication
 from .models.indoor_areas import IndoorAreas
+from .models.safety_system import SafetySystem
 from .models.services import get_model_fields
 from main.serializers.serializers import *
+from .models.territory_improvement import TerritoryImprovement
 
 Models = [School, Building, Director, ZavHoz, Bookkeeper, Updater, Temperature]
 
@@ -105,6 +107,30 @@ class IndoorAreasFields(APIView):
 
     def get(self, request):
         fields = list(get_model_fields(IndoorAreas))
+        print(fields)
+        ans = []
+        for f in fields:
+            ans.append({f.name: f.verbose_name})
+        return Response(data=ans)
+
+
+class SafetySystemFields(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        fields = list(get_model_fields(SafetySystem))
+        print(fields)
+        ans = []
+        for f in fields:
+            ans.append({f.name: f.verbose_name})
+        return Response(data=ans)
+
+
+class TerritoryImprovementFields(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        fields = list(get_model_fields(TerritoryImprovement))
         print(fields)
         ans = []
         for f in fields:

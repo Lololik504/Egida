@@ -8,6 +8,8 @@ from main.MyModelFile import MyModel
 from main.models.building_construction import BuildingConstruction
 from main.models.engineering_communication import EngineeringCommunication
 from main.models.indoor_areas import IndoorAreas
+from main.models.safety_system import SafetySystem
+from main.models.territory_improvement import TerritoryImprovement
 
 
 class Building(MyModel):
@@ -59,12 +61,22 @@ class Building(MyModel):
     last_repair_year = models.IntegerField(verbose_name="Год последнего капитально ремонта", choices=YEAR_CHOICES,
                                            default=2000, blank=True, null=True)
 
+    #################################
     building_construction = AutoOneToOneField(BuildingConstruction, verbose_name="Строительные конструкции",
                                               on_delete=models.CASCADE, default=None, null=True, blank=True)
+    #################################
     engineering_communication = AutoOneToOneField(EngineeringCommunication, verbose_name="Инженерные коммуникации",
                                                   on_delete=models.CASCADE, default=None, null=True, blank=True)
+    #################################
     indoor_areas = AutoOneToOneField(IndoorAreas, verbose_name="Внутренние помещения",
                                      on_delete=models.CASCADE, default=None, null=True, blank=True)
+    #################################
+    safety_system = AutoOneToOneField(SafetySystem, verbose_name="Система безопасности",
+                                      on_delete=models.CASCADE, default=None, null=True, blank=True)
+    #################################
+    territory_improvement = AutoOneToOneField(TerritoryImprovement, verbose_name="Система безопасности",
+                                              on_delete=models.CASCADE, default=None, null=True, blank=True)
+
 
     def get_choices(self):
         res = {
