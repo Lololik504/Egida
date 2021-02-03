@@ -8,8 +8,14 @@ class AdminRoom(MyModel):
                                                  null=True)
     admin_room_technical_condition = models.CharField(verbose_name="Техническое состояние учебных помещений",
                                                       max_length=50, null=True, blank=True)
-    admin_room_count_of_technical_condition_field = models.IntegerField(
-        verbose_name="Количество административных помещений, относящихся к полю технического состояния", blank=True,
+    admin_room_ok_status_count = models.IntegerField(
+        verbose_name="Количество административных помещений с работоспособным состоянием", blank=True,
+        null=True)
+    admin_room_warning_status_count = models.IntegerField(
+        verbose_name="Количество административных помещений с ограниченно работоспособным состоянием", blank=True,
+        null=True)
+    admin_room_emergency_status_count = models.IntegerField(
+        verbose_name="Количество административных помещений с аварийным состоянием", blank=True,
         null=True)
 
     class Meta:

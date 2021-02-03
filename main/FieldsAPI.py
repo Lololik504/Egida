@@ -2,13 +2,17 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from main.serializers.serializers import *
 from .models.PersonalModel import Director, ZavHoz, Bookkeeper, Updater
+from .models.building_construction import BuildingConstruction
+
 from .models.engineering_communication import EngineeringCommunication
 from .models.indoor_areas import IndoorAreas
 from .models.safety_system import SafetySystem
 from .models.services import get_model_fields
-from main.serializers.serializers import *
 from .models.territory_improvement import TerritoryImprovement
+from .models.sports_facilities import SportsFacilities
+from .models.accessible_environment import AccessibleEnvironment
 
 Models = [School, Building, Director, ZavHoz, Bookkeeper, Updater, Temperature]
 
@@ -90,7 +94,19 @@ class Filters(APIView):
         return Response(res)
 
 
-class EngCom(APIView):
+class BuildingConstructionFields(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        fields = list(get_model_fields(BuildingConstruction))
+        print(fields)
+        ans = []
+        for f in fields:
+            ans.append({f.name: f.verbose_name})
+        return Response(data=ans)
+
+
+class EngineeringCommunicationFields(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
@@ -131,6 +147,30 @@ class TerritoryImprovementFields(APIView):
 
     def get(self, request):
         fields = list(get_model_fields(TerritoryImprovement))
+        print(fields)
+        ans = []
+        for f in fields:
+            ans.append({f.name: f.verbose_name})
+        return Response(data=ans)
+
+
+class SportsFacilitiesFields(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        fields = list(get_model_fields(SportsFacilities))
+        print(fields)
+        ans = []
+        for f in fields:
+            ans.append({f.name: f.verbose_name})
+        return Response(data=ans)
+
+
+class AccessibleEnvironmentFields(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        fields = list(get_model_fields(AccessibleEnvironment))
         print(fields)
         ans = []
         for f in fields:

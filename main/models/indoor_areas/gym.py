@@ -5,10 +5,14 @@ from main.MyModelFile import MyModel
 
 class Gym(MyModel):
     gym_room_total_count = models.IntegerField(verbose_name="Общее количество спортзалов", blank=True, null=True)
-    gym_technical_condition = models.CharField(verbose_name="Техническое состояние спортзалов",
-                                               max_length=50, null=True, blank=True)
-    gym_percent_of_technical_condition_field = models.FloatField(
-        verbose_name="Процент спортзалов, относящихся к полю технического состояния", blank=True, null=True)
+
+    gym_ok_percent = models.FloatField(
+        verbose_name="Процент спортзалов с работоспособным состоянием", blank=True, null=True)
+    gym_warning_percent = models.FloatField(
+        verbose_name="Процент спортзалов с ограниченно работоспособным состоянием", blank=True, null=True)
+    gym_emergency_percent = models.FloatField(
+        verbose_name="Процент спортзалов с аварийным состоянием", blank=True, null=True)
+
     gym_exhaust_ventilation = models.BooleanField(verbose_name="Наличие вытяжной вентиляции в спортзалах",
                                                   null=True, blank=True)
     gym_exhaust_ventilation_is_workable = models.BooleanField(

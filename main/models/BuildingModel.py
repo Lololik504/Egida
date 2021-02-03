@@ -5,10 +5,13 @@ from annoying.fields import AutoOneToOneField
 from django.db import models
 
 from main.MyModelFile import MyModel
+
+from main.models.accessible_environment import AccessibleEnvironment
 from main.models.building_construction import BuildingConstruction
 from main.models.engineering_communication import EngineeringCommunication
 from main.models.indoor_areas import IndoorAreas
 from main.models.safety_system import SafetySystem
+from main.models.sports_facilities import SportsFacilities
 from main.models.territory_improvement import TerritoryImprovement
 
 
@@ -76,7 +79,13 @@ class Building(MyModel):
     #################################
     territory_improvement = AutoOneToOneField(TerritoryImprovement, verbose_name="Система безопасности",
                                               on_delete=models.CASCADE, default=None, null=True, blank=True)
-
+    #################################
+    sports_facilities = AutoOneToOneField(SportsFacilities, verbose_name="Спортивные сооружения",
+                                          on_delete=models.CASCADE, default=None, null=True, blank=True)
+    #################################
+    accessible_environment = AutoOneToOneField(AccessibleEnvironment, verbose_name="Спортивные сооружения",
+                                               on_delete=models.CASCADE, default=None, null=True, blank=True)
+    #################################
 
     def get_choices(self):
         res = {
