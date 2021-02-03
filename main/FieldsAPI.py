@@ -99,7 +99,6 @@ class BuildingConstructionFields(APIView):
 
     def get(self, request):
         fields = list(get_model_fields(BuildingConstruction))
-        print(fields)
         ans = []
         for f in fields:
             ans.append({f.name: f.verbose_name})
@@ -111,7 +110,6 @@ class EngineeringCommunicationFields(APIView):
 
     def get(self, request):
         fields = list(get_model_fields(EngineeringCommunication))
-        print(fields)
         ans = []
         for f in fields:
             ans.append({f.name: f.verbose_name})
@@ -123,7 +121,6 @@ class IndoorAreasFields(APIView):
 
     def get(self, request):
         fields = list(get_model_fields(IndoorAreas))
-        print(fields)
         ans = []
         for f in fields:
             ans.append({f.name: f.verbose_name})
@@ -135,7 +132,6 @@ class SafetySystemFields(APIView):
 
     def get(self, request):
         fields = list(get_model_fields(SafetySystem))
-        print(fields)
         ans = []
         for f in fields:
             ans.append({f.name: f.verbose_name})
@@ -147,7 +143,6 @@ class TerritoryImprovementFields(APIView):
 
     def get(self, request):
         fields = list(get_model_fields(TerritoryImprovement))
-        print(fields)
         ans = []
         for f in fields:
             ans.append({f.name: f.verbose_name})
@@ -159,7 +154,6 @@ class SportsFacilitiesFields(APIView):
 
     def get(self, request):
         fields = list(get_model_fields(SportsFacilities))
-        print(fields)
         ans = []
         for f in fields:
             ans.append({f.name: f.verbose_name})
@@ -171,7 +165,6 @@ class AccessibleEnvironmentFields(APIView):
 
     def get(self, request):
         fields = list(get_model_fields(AccessibleEnvironment))
-        print(fields)
         ans = []
         for f in fields:
             ans.append({f.name: f.verbose_name})

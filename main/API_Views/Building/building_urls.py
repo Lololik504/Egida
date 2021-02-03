@@ -8,7 +8,7 @@ urlpatterns = [
     path('indoor_areas/', IndoorAreasAPI.as_view()),
     path('safety_system/', SafetySystemAPI.as_view()),
     path('territory_improvement/', TerritoryImprovementAPI.as_view()),
-    path('sport_facilities/', SportsFacilitiesAPI.as_view()),
+    path('sports_facilities/', SportsFacilitiesAPI.as_view()),
     path('accessible_environment/', AccessibleEnvironmentAPI.as_view()),
     path('all/', SchoolBuildingsInfo.as_view()),
     path('', BuildingInfo.as_view())

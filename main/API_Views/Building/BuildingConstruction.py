@@ -27,7 +27,6 @@ class BuildingConstructionAPI(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         ans = [BuildingConstructionSerializer(building_constr, many=False).data]
-        print(ans)
         return Response(status=status.HTTP_200_OK, data=ans)
 
     def put(self, request):
