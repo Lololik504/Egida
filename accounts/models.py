@@ -37,6 +37,7 @@ class MyUser(User):
         }, settings.SECRET_KEY, algorithm='HS256')
 
         # return token.decode('utf-8')
+        #for empty commit
         return token
 
     @classmethod
