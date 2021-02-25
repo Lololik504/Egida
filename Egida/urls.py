@@ -49,3 +49,5 @@ urlpatterns = [
 ]
 
 urlpatterns += custom_admin_urls
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(settings.DOCUMENT_ROOT, document_root=settings.DOCUMENT_ROOT)

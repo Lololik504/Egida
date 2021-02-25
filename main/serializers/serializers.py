@@ -65,3 +65,14 @@ class RequisitesSerializer(ModelSerializer):
     class Meta:
         model = Requisites
         fields = '__all__'
+
+
+class DocumentsSerializer(ModelSerializer):
+    class Meta:
+        encoder = 'ascii'
+        model = Document
+        fields = ['passport_BTI',
+                  'topographic_plan',
+                  'teplosnabj_MK',
+                  'vodosnabj_MK',
+                  'electrosnabj_MK']

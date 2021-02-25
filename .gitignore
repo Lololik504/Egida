@@ -133,5 +133,5 @@ dmypy.json
 .idea/
 
 log/*
-main/docs/
 Egida/local_settings.py
+media/docs

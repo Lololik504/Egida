@@ -6,6 +6,7 @@ from main.models.BuildingModel import Building
 from main.models.PersonalModel import ZavHoz, Personal, Bookkeeper, Director
 from main.models.RequisitesModel import Requisites
 from main.models.TemperatureModel import Temperature
+from main.models.DocumentsModel import Document
 
 __all__ = [
     "Personal",
@@ -14,4 +15,5 @@ __all__ = [
     "School",
     "Building",
     "Requisites",
+    "Document"
 ]

@@ -9,6 +9,7 @@ from main.API_Views.Requisites import RequisitesInfo
 from main.API_Views.School import SchoolInfo
 from main.API_Views.TEST import TEST
 from main.API_Views.Temperature import TemperatureInfo
+from main.API_Views.Documents import DocumentsView
 
 urlpatterns = [
     path('fields/', include("main.fields_url")),
@@ -23,5 +24,6 @@ urlpatterns = [
     path('temperature/', TemperatureInfo.as_view()),
     path('requisites/', RequisitesInfo.as_view()),
     path('export/', ExportExcel.as_view()),
+    path('docs/', DocumentsView.as_view()),
     path('TEST/', TEST.as_view(), name="test1"),
 ]

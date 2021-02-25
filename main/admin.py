@@ -15,6 +15,7 @@ from .models.territory_improvement import TerritoryImprovement
 from .models.accessible_environment import AccessibleEnvironment
 from .models.indoor_areas import IndoorAreas
 from .models.sports_facilities import SportsFacilities
+from .models.DocumentsModel import Document
 
 admin.site.register(District)
 
@@ -35,4 +36,5 @@ admin.site.register(TerritoryImprovement)
 admin.site.register(AccessibleEnvironment)
 admin.site.register(IndoorAreas)
 admin.site.register(SportsFacilities)
+admin.site.register(Document)
 

@@ -170,7 +170,9 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder'
 )
 
-DOCUMENT_ROOT = os.path.join(BASE_DIR, "main/docs")
+DOCUMENT_ROOT = os.path.join(BASE_DIR, "media/docs")
+
+DOCUMENT_URL = 'docs'
 
 if not os.path.exists(DOCUMENT_ROOT):
     os.mkdir(DOCUMENT_ROOT)
