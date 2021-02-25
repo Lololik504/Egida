@@ -37,8 +37,12 @@ class MyUser(User):
         }, settings.SECRET_KEY, algorithm='HS256')
 
         # return token.decode('utf-8')
-        #for empty commit
-        return token
+        # for empty commit
+        if isinstance(token, bytes):
+            return token.decode('utf-8')
+        else:
+            return token.encode().decode('utf-8')
+        # return token.encode().decode('utf-8')
 
     @classmethod
     def authenticate(cls, username, password):
@@ -60,7 +64,6 @@ class SchoolUser(MyUser):
     class Meta:
         verbose_name = "Пользователь школы"
         verbose_name_plural = "Пользователи школ"
-
 
 
 class DistrictUser(MyUser):
@@ -103,5 +106,3 @@ class AdminUser(MyUser):
     class Meta:
         verbose_name = "Админ сайта"
         verbose_name_plural = "Админы сайта"
-
-
