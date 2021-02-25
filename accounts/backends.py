@@ -37,7 +37,7 @@ class MyAuthentication(authentication.BaseAuthentication):
         try:
             payload = jwt.decode(token, settings.SECRET_KEY)
         except:
-            msg = 'Invalid authentication. Could not decode token.'
+            msg = f'Invalid authentication. Could not decode token. {token} {settings.SECRET_KEY}'
             raise exceptions.AuthenticationFailed(msg)
 
         try:
