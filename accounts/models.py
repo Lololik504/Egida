@@ -36,13 +36,11 @@ class MyUser(User):
             'pass': self.password
         }, settings.SECRET_KEY, algorithm='HS256')
 
-        # return token.decode('utf-8')
-        # for empty commit
+
         if isinstance(token, bytes):
             return token.decode('utf-8')
         else:
             return token.encode().decode('utf-8')
-        # return token.encode().decode('utf-8')
 
     @classmethod
     def authenticate(cls, username, password):
