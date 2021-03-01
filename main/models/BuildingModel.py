@@ -40,19 +40,19 @@ class Building(MyModel):
     construction_year = models.IntegerField(verbose_name="Год постройки здания", choices=YEAR_CHOICES, default=2000,
                                             blank=True,
                                             null=True)
-    building_square = models.IntegerField(verbose_name="Площадь здания", blank=True, null=True)
-    land_square = models.IntegerField(verbose_name="Площадь земельного участка", blank=True, null=True)
+    building_square = models.FloatField(verbose_name="Площадь здания", blank=True, null=True)
+    land_square = models.FloatField(verbose_name="Площадь земельного участка", blank=True, null=True)
     number_of_storeys = models.IntegerField(verbose_name="Этажность", blank=True, null=True)
-    build_height = models.IntegerField(verbose_name="Высота здания", blank=True, null=True)
+    build_height = models.FloatField(verbose_name="Высота здания", blank=True, null=True)
     # build_configure = models.ImageField(verbose_name="Конфигурация здания")
     occupancy_proj = models.IntegerField(verbose_name="Наполняемость проектная", blank=True, null=True)
     occupancy_fact = models.IntegerField(verbose_name="Наполняемость фактическая", blank=True, null=True)
-    arend_square = models.IntegerField(verbose_name="Площадь зданий/помещений, сдаваемых в аренду", blank=True,
+    arend_square = models.FloatField(verbose_name="Площадь зданий/помещений, сдаваемых в аренду", blank=True,
                                        null=True)
     arend_use_type = models.CharField(verbose_name="Вид исспользования", max_length=50, blank=True, null=True)
-    unused_square = models.IntegerField(verbose_name="Площадь неиспользуемых зданий/помещений м.кв", blank=True,
+    unused_square = models.FloatField(verbose_name="Площадь неиспользуемых зданий/помещений м.кв", blank=True,
                                         null=True)
-    repair_need_square = models.IntegerField(verbose_name="Площадь, требующая ремонта", blank=True, null=True)
+    repair_need_square = models.FloatField(verbose_name="Площадь, требующая ремонта", blank=True, null=True)
 
     class TECHNICAL_CONDITION(models.TextChoices):
         WORKING = "Работоспособное"
