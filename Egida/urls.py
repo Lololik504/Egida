@@ -34,7 +34,9 @@ extra_urlpatterns = [
                             name='schema-json'),
                         url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
                         url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-                    ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+                    ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
+                    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
+                    + static(settings.DOCUMENT_URL, document_root=settings.DOCUMENT_ROOT)
 
 custom_admin_urls = (
     path('admin/main/schools/export/', export, name="export"),
@@ -50,4 +52,5 @@ urlpatterns = [
 
 urlpatterns += custom_admin_urls
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.DOCUMENT_URL, document_root=settings.DOCUMENT_ROOT)
 # urlpatterns += static(settings.DOCUMENT_ROOT, document_root=settings.DOCUMENT_ROOT)
