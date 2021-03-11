@@ -10,7 +10,7 @@ from main.API_Views.School import SchoolInfo
 from main.API_Views.TEST import TEST
 from main.API_Views.Temperature import TemperatureInfo
 from main.API_Views.Documents import DocumentsView
-
+from main.API_Views.Orders import RospotrebView, GospozhView, RostechView, SudebView, OtherOrdersView
 urlpatterns = [
     path('fields/', include("main.fields_url")),
     path('filters/', FieldsAPI.Filters.as_view()),
@@ -26,4 +26,9 @@ urlpatterns = [
     path('export/', ExportExcel.as_view()),
     path('docs/', DocumentsView.as_view()),
     path('TEST/', TEST.as_view(), name="test1"),
+    path('orders/rospotreb/', RospotrebView.as_view()),
+    path('orders/gospozh/', GospozhView.as_view()),
+    path('orders/rostech/', RostechView.as_view()),
+    path('orders/sudeb/', SudebView.as_view()),
+    path('orders/otherorders/', OtherOrdersView.as_view()),
 ]

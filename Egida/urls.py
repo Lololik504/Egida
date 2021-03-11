@@ -36,8 +36,13 @@ extra_urlpatterns = [
                         url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
                     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
                     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
-                    + static(settings.DOCUMENT_URL, document_root=settings.DOCUMENT_ROOT)
-
+                    + static(settings.DOCUMENT_URL, document_root=settings.DOCUMENT_ROOT) \
+                    + static(settings.ORDERS_URL, document_root=settings.ORDERS_ROOT) \
+                    + static(settings.ROSPOTREB_URL, document_root=settings.ROSPOTREB_ROOT)\
+                    + static(settings.GOSPOZH_URL, document_root=settings.GOSPOZH_ROOT)\
+                    + static(settings.ROSTECH_URL, document_root=settings.ROSTECH_ROOT)\
+                    + static(settings.SUDEB_URL, document_root=settings.SUDEB_ROOT)\
+                    + static(settings.OTHER_ORDERS_URL, document_root=settings.OTHER_ORDERS_ROOT)
 custom_admin_urls = (
     path('admin/main/schools/export/', export, name="export"),
     path('admin/main/schools/update/', update, name="update"),

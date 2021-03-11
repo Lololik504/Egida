@@ -16,6 +16,8 @@ from .models.accessible_environment import AccessibleEnvironment
 from .models.indoor_areas import IndoorAreas
 from .models.sports_facilities import SportsFacilities
 from .models.DocumentsModel import Document
+from .models.OrdersModel import Rospotreb, Gospozh, Rostech, Sudeb, OtherOrders
+
 
 admin.site.register(District)
 
@@ -37,4 +39,8 @@ admin.site.register(AccessibleEnvironment)
 admin.site.register(IndoorAreas)
 admin.site.register(SportsFacilities)
 admin.site.register(Document)
-
+admin.site.register(Rospotreb)
+admin.site.register(Gospozh)
+admin.site.register(Rostech)
+admin.site.register(Sudeb)
+admin.site.register(OtherOrders)

@@ -1,5 +1,6 @@
 import os
 
+
 STATIC_URL = "/back-end/admin/staticfiles/"
 
 if os.environ.get('DB_LOCATION') == 'EGIDA':

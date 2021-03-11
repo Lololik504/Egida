@@ -76,3 +76,38 @@ class DocumentsSerializer(ModelSerializer):
                   'teplosnabj_MK',
                   'vodosnabj_MK',
                   'electrosnabj_MK']
+
+
+class RospotrebSerializer(ModelSerializer):
+    class Meta:
+        encoder = 'ascii'
+        model = Rospotreb
+        fields = '__all__'
+
+
+class GospozhSerializer(ModelSerializer):
+    class Meta:
+        encoder = 'ascii'
+        model = Gospozh
+        fields = '__all__'
+
+
+class RostechSerializer(ModelSerializer):
+    class Meta:
+        encoder = 'ascii'
+        model = Rostech
+        fields = '__all__'
+
+
+class SudebSerializer(ModelSerializer):
+    class Meta:
+        encoder = 'ascii'
+        model = Sudeb
+        fields = '__all__'
+
+
+class OtherOrdersSerializer(ModelSerializer):
+    class Meta:
+        encoder = 'ascii'
+        model = OtherOrders
+        fields = '__all__'

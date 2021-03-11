@@ -174,11 +174,36 @@ DOCUMENT_ROOT = os.path.join(BASE_DIR, "media/docs")
 
 DOCUMENT_URL = 'docs'
 
+ORDERS_ROOT = os.path.join(BASE_DIR, "media/orders")
+
+ORDERS_URL = 'orders'
+
+ROSPOTREB_ROOT = os.path.join(BASE_DIR, "media/orders/rospotrebnadzor")
+GOSPOZH_ROOT = os.path.join(BASE_DIR, "media/orders/gospozhnadzor")
+ROSTECH_ROOT = os.path.join(BASE_DIR, "media/orders/rostechnadzor")
+SUDEB_ROOT = os.path.join(BASE_DIR, "media/orders/sudebresh")
+OTHER_ORDERS_ROOT = os.path.join(BASE_DIR, "media/orders/otherorders")
+
+ROSPOTREB_URL = 'rospotreb'
+GOSPOZH_URL = 'gospozh'
+ROSTECH_URL = 'rostechnadzor'
+SUDEB_URL = 'sudebresh'
+OTHER_ORDERS_URL = 'otherorders'
+
+
 if not os.path.exists(MEDIA_ROOT):
     os.mkdir(MEDIA_ROOT)
 
 if not os.path.exists(DOCUMENT_ROOT):
     os.mkdir(DOCUMENT_ROOT)
+
+if not os.path.exists(ORDERS_ROOT):
+    os.mkdir(ORDERS_ROOT)
+
+for i in [ROSPOTREB_ROOT, GOSPOZH_ROOT, ROSTECH_ROOT, SUDEB_ROOT, OTHER_ORDERS_ROOT]:
+    if not os.path.exists(i):
+        os.mkdir(i)
+
 
 if PROD:
     from .prod_settings import *
