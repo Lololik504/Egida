@@ -1,3 +1,6 @@
+import json
+
+from django.http import QueryDict
 from rest_framework.views import APIView
 from rest_framework import permissions, status
 from rest_framework.response import Response
@@ -16,10 +19,13 @@ class RospotrebView(APIView):
         INN = data['INN']
         user = request.my_user
         get_all = data.get('get_all')
+        logger.debug(data)
         if get_all:
             try:
                 school = find_school_and_allow_user(INN, user)
                 rospotreb = school.rospotreb_set.select_related()
+                logger.debug(rospotreb)
+                logger.debug(rospotreb.__dict__)
             except BaseException as ex:
                 logger.exception(ex)
                 return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -40,14 +46,18 @@ class RospotrebView(APIView):
 
     def put(self, request, *args, **kwargs):
         data = request.headers
+        data2 = request.data
+        data2: dict = data2.dict()
+        data2 = json.dumps(data2)
+        data2 = json.loads(data2)
         INN = data['INN']
         user = request.my_user
-        date_order = data.get('date-order')
-        type_work = data.get('type-work')
-        summa = data.get('summa')
-        period_execution = data.get('period-execution')
-        vkluchenie = data.get('vkluchenie')
-        executed = data.get('executed')
+        date_order = data2.get('date-order')
+        type_work = data2.get('type-work')
+        summa = data2.get('summa')
+        period_execution = data2.get('period-execution')
+        vkluchenie = data2.get('vkluchenie')
+        executed = data2.get('executed')
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -78,17 +88,21 @@ class RospotrebView(APIView):
         rospotreb.save()
         return Response(status=status.HTTP_200_OK)
 
-
     def post(self, request, *args, **kwargs):
         data = request.headers
+        data2 = request.data
+        data2: dict = data2.dict()
+        data2 = json.dumps(data2)
+        data2 = json.loads(data2)
         INN = data['INN']
         user = request.my_user
-        date_order = data.get('date-order')
-        type_work = data.get('type-work')
-        summa = data.get('summa')
-        period_execution = data.get('period-execution')
-        vkluchenie = data.get('vkluchenie')
-        executed = data.get('executed')
+        date_order = data2.get('date-order')
+        type_work = data2.get('type-work')
+        summa = data2.get('summa')
+        period_execution = data2.get('period-execution')
+        vkluchenie = True if data2.get('vkluchenie') == 'true' else False
+        executed = True if data2.get('executed') == 'true' else False
+        logger.debug(summa)
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -96,6 +110,7 @@ class RospotrebView(APIView):
             # order_id = int(data['order-id'])
             school = find_school_and_allow_user(INN, user)
             rospotreb = school.rospotreb_set.create()
+            # rospotreb.school = school
             # rospotreb = school.rospotreb_set.get_or_create(id=order_id)[0]
         except BaseException as ex:
             logger.exception(ex)
@@ -118,6 +133,7 @@ class RospotrebView(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         rospotreb.save()
+        logger.debug(rospotreb.__dict__)
         return Response(status=status.HTTP_200_OK)
 
     def delete(self, request, *args, **kwargs):
@@ -193,13 +209,17 @@ class GospozhView(APIView):
     def put(self, request, *args, **kwargs):
         data = request.headers
         INN = data['INN']
+        data2 = request.data
+        data2: dict = data2.dict()
+        data2 = json.dumps(data2)
+        data2 = json.loads(data2)
         user = request.my_user
-        date_order = data.get('date-order')
-        type_work = data.get('type-work')
-        summa = data.get('summa')
-        period_execution = data.get('period-execution')
-        vkluchenie = data.get('vkluchenie')
-        executed = data.get('executed')
+        date_order = data2.get('date-order')
+        type_work = data2.get('type-work')
+        summa = data2.get('summa')
+        period_execution = data2.get('period-execution')
+        vkluchenie = data2.get('vkluchenie')
+        executed = data2.get('executed')
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -234,12 +254,17 @@ class GospozhView(APIView):
         data = request.headers
         INN = data['INN']
         user = request.my_user
-        date_order = data.get('date-order')
-        type_work = data.get('type-work')
-        summa = data.get('summa')
-        period_execution = data.get('period-execution')
-        vkluchenie = data.get('vkluchenie')
-        executed = data.get('executed')
+        data2 = request.data
+        data2: dict = data2.dict()
+        data2 = json.dumps(data2)
+        data2 = json.loads(data2)
+        user = request.my_user
+        date_order = data2.get('date-order')
+        type_work = data2.get('type-work')
+        summa = data2.get('summa')
+        period_execution = data2.get('period-execution')
+        vkluchenie = data2.get('vkluchenie')
+        executed = data2.get('executed')
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -344,13 +369,17 @@ class RostechView(APIView):
     def put(self, request, *args, **kwargs):
         data = request.headers
         INN = data['INN']
+        data2 = request.data
+        data2: dict = data2.dict()
+        data2 = json.dumps(data2)
+        data2 = json.loads(data2)
         user = request.my_user
-        date_order = data.get('date-order')
-        type_work = data.get('type-work')
-        summa = data.get('summa')
-        period_execution = data.get('period-execution')
-        vkluchenie = data.get('vkluchenie')
-        executed = data.get('executed')
+        date_order = data2.get('date-order')
+        type_work = data2.get('type-work')
+        summa = data2.get('summa')
+        period_execution = data2.get('period-execution')
+        vkluchenie = data2.get('vkluchenie')
+        executed = data2.get('executed')
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -384,13 +413,17 @@ class RostechView(APIView):
     def post(self, request, *args, **kwargs):
         data = request.headers
         INN = data['INN']
+        data2 = request.data
+        data2: dict = data2.dict()
+        data2 = json.dumps(data2)
+        data2 = json.loads(data2)
         user = request.my_user
-        date_order = data.get('date-order')
-        type_work = data.get('type-work')
-        summa = data.get('summa')
-        period_execution = data.get('period-execution')
-        vkluchenie = data.get('vkluchenie')
-        executed = data.get('executed')
+        date_order = data2.get('date-order')
+        type_work = data2.get('type-work')
+        summa = data2.get('summa')
+        period_execution = data2.get('period-execution')
+        vkluchenie = data2.get('vkluchenie')
+        executed = data2.get('executed')
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -495,13 +528,17 @@ class SudebView(APIView):
     def put(self, request, *args, **kwargs):
         data = request.headers
         INN = data['INN']
+        data2 = request.data
+        data2: dict = data2.dict()
+        data2 = json.dumps(data2)
+        data2 = json.loads(data2)
         user = request.my_user
-        date_order = data.get('date-order')
-        type_work = data.get('type-work')
-        period_execution = data.get('period-execution')
-        vkluchenie = data.get('vkluchenie')
-        executed = data.get('executed')
-        summa = data.get('summa')
+        date_order = data2.get('date-order')
+        type_work = data2.get('type-work')
+        summa = data2.get('summa')
+        period_execution = data2.get('period-execution')
+        vkluchenie = data2.get('vkluchenie')
+        executed = data2.get('executed')
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -536,12 +573,17 @@ class SudebView(APIView):
         data = request.headers
         INN = data['INN']
         user = request.my_user
-        date_order = data.get('date-order')
-        type_work = data.get('type-work')
-        period_execution = data.get('period-execution')
-        vkluchenie = data.get('vkluchenie')
-        executed = data.get('executed')
-        summa = data.get('summa')
+        data2 = request.data
+        data2: dict = data2.dict()
+        data2 = json.dumps(data2)
+        data2 = json.loads(data2)
+        user = request.my_user
+        date_order = data2.get('date-order')
+        type_work = data2.get('type-work')
+        summa = data2.get('summa')
+        period_execution = data2.get('period-execution')
+        vkluchenie = data2.get('vkluchenie')
+        executed = data2.get('executed')
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -647,12 +689,17 @@ class OtherOrdersView(APIView):
         data = request.headers
         INN = data['INN']
         user = request.my_user
-        date_order = data.get('date-order')
-        type_work = data.get('type-work')
-        period_execution = data.get('period-execution')
-        vkluchenie = data.get('vkluchenie')
-        executed = data.get('executed')
-        summa = data.get('summa')
+        data2 = request.data
+        data2: dict = data2.dict()
+        data2 = json.dumps(data2)
+        data2 = json.loads(data2)
+        user = request.my_user
+        date_order = data2.get('date-order')
+        type_work = data2.get('type-work')
+        summa = data2.get('summa')
+        period_execution = data2.get('period-execution')
+        vkluchenie = data2.get('vkluchenie')
+        executed = data2.get('executed')
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -687,12 +734,17 @@ class OtherOrdersView(APIView):
         data = request.headers
         INN = data['INN']
         user = request.my_user
-        date_order = data.get('date-order')
-        type_work = data.get('type-work')
-        period_execution = data.get('period-execution')
-        vkluchenie = data.get('vkluchenie')
-        executed = data.get('executed')
-        summa = data.get('summa')
+        data2 = request.data
+        data2: dict = data2.dict()
+        data2 = json.dumps(data2)
+        data2 = json.loads(data2)
+        user = request.my_user
+        date_order = data2.get('date-order')
+        type_work = data2.get('type-work')
+        summa = data2.get('summa')
+        period_execution = data2.get('period-execution')
+        vkluchenie = data2.get('vkluchenie')
+        executed = data2.get('executed')
         order = None
         if request.FILES:
             order = request.FILES['file']
