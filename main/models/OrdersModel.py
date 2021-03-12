@@ -27,6 +27,7 @@ class Rospotreb(MyModel):
     school = models.ForeignKey(to="main.School", verbose_name="Школа", on_delete=models.CASCADE, default=None)
     date_order = models.DateField(verbose_name='Дата вынесения предписания', default=None, null=True, blank=True)
     type_work = models.TextField(verbose_name='Вид работ', default=None, null=True, blank=True)
+    summa = models.FloatField(verbose_name='Сумма', default=None, null=True, blank=True)
     period_execution = models.DateField(verbose_name='Период исполнения', default=None, null=True, blank=True)
     order = models.FileField(verbose_name='Скан предписания', upload_to=rospotreb_inn_dir_path)
     vkluchenie = models.BooleanField(verbose_name='Включение в приказ текущего года по ремонтным работам', default=None,
@@ -42,6 +43,7 @@ class Gospozh(MyModel):
     school = models.ForeignKey(to="main.School", verbose_name="Школа", on_delete=models.CASCADE, default=None)
     date_order = models.DateField(verbose_name='Дата вынесения предписания', default=None, null=True, blank=True)
     type_work = models.TextField(verbose_name='Вид работ', default=None, null=True, blank=True)
+    summa = models.FloatField(verbose_name='Сумма', default=None, null=True, blank=True)
     period_execution = models.DateField(verbose_name='Период исполнения', default=None, null=True, blank=True)
     order = models.FileField(verbose_name='Скан предписания', upload_to=rospotreb_inn_dir_path)
     vkluchenie = models.BooleanField(verbose_name='Включение в приказ текущего года по ремонтным работам', default=None,
@@ -58,6 +60,7 @@ class Rostech(MyModel):
     school = models.ForeignKey(to="main.School", verbose_name="Школа", on_delete=models.CASCADE, default=None)
     date_order = models.DateField(verbose_name='Дата вынесения предписания', default=None, null=True, blank=True)
     type_work = models.TextField(verbose_name='Вид работ', default=None, null=True, blank=True)
+    summa = models.FloatField(verbose_name='Сумма', default=None, null=True, blank=True)
     period_execution = models.DateField(verbose_name='Период исполнения', default=None, null=True, blank=True)
     order = models.FileField(verbose_name='Скан предписания', upload_to=rospotreb_inn_dir_path)
     vkluchenie = models.BooleanField(verbose_name='Включение в приказ текущего года по ремонтным работам', default=None,
@@ -74,6 +77,7 @@ class Sudeb(MyModel):
     school = models.ForeignKey(to="main.School", verbose_name="Школа", on_delete=models.CASCADE, default=None)
     date_order = models.DateField(verbose_name='Дата вынесения предписания', default=None, null=True, blank=True)
     type_work = models.TextField(verbose_name='Вид работ', default=None, null=True, blank=True)
+    summa = models.FloatField(verbose_name='Сумма', default=None, null=True, blank=True)
     period_execution = models.DateField(verbose_name='Период исполнения', default=None, null=True, blank=True)
     order = models.FileField(verbose_name='Скан предписания', upload_to=rospotreb_inn_dir_path)
     vkluchenie = models.BooleanField(verbose_name='Включение в приказ текущего года по ремонтным работам', default=None,
@@ -90,6 +94,7 @@ class OtherOrders(MyModel):
     school = models.ForeignKey(to="main.School", verbose_name="Школа", on_delete=models.CASCADE, default=None)
     date_order = models.DateField(verbose_name='Дата вынесения предписания', default=None, null=True, blank=True)
     type_work = models.TextField(verbose_name='Вид работ', default=None, null=True, blank=True)
+    summa = models.FloatField(verbose_name='Сумма', default=None, null=True, blank=True)
     period_execution = models.DateField(verbose_name='Период исполнения', default=None, null=True, blank=True)
     order = models.FileField(verbose_name='Скан предписания', upload_to=rospotreb_inn_dir_path)
     vkluchenie = models.BooleanField(verbose_name='Включение в приказ текущего года по ремонтным работам', default=None,
