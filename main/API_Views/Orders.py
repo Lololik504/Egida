@@ -19,13 +19,10 @@ class RospotrebView(APIView):
         INN = data['INN']
         user = request.my_user
         get_all = data.get('get_all')
-        logger.debug(data)
         if get_all:
             try:
                 school = find_school_and_allow_user(INN, user)
                 rospotreb = school.rospotreb_set.select_related()
-                logger.debug(rospotreb)
-                logger.debug(rospotreb.__dict__)
             except BaseException as ex:
                 logger.exception(ex)
                 return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -102,7 +99,6 @@ class RospotrebView(APIView):
         period_execution = data2.get('period-execution')
         vkluchenie = True if data2.get('vkluchenie') == 'true' else False
         executed = True if data2.get('executed') == 'true' else False
-        logger.debug(summa)
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -133,7 +129,6 @@ class RospotrebView(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         rospotreb.save()
-        logger.debug(rospotreb.__dict__)
         return Response(status=status.HTTP_200_OK)
 
     def delete(self, request, *args, **kwargs):
