@@ -140,13 +140,6 @@ class RospotrebView(APIView):
         data = request.headers
         INN = data['INN']
         user = request.my_user
-        field_id = None
-        try:
-            field_id = data['field-id']
-        except BaseException as ex:
-            logger.exception(ex)
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={"detail": ex.__str__()})
         try:
             order_id = int(data['order-id'])
             school = find_school_and_allow_user(INN, user)
@@ -155,24 +148,8 @@ class RospotrebView(APIView):
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
-        if field_id == 'date-order':
-            rospotreb.date_order = None
-        elif field_id == 'type-work':
-            rospotreb.type_work = None
-        elif field_id == 'period-execution':
-            rospotreb.period_execution = None
-        elif field_id == 'order':
-            rospotreb.order.delete()
-        elif field_id == 'vkluchenie':
-            rospotreb.vkluchenie = None
-        elif field_id == 'executed':
-            rospotreb.executed = None
-        elif field_id == 'summa':
-            rospotreb.summa = None
-        else:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={"detail": "No such field_id"})
-        rospotreb.save()
+        rospotreb.delete()
+
         return Response(status=status.HTTP_200_OK)
 
 
@@ -300,13 +277,6 @@ class GospozhView(APIView):
         data = request.headers
         INN = data['INN']
         user = request.my_user
-        field_id = None
-        try:
-            field_id = data['field-id']
-        except BaseException as ex:
-            logger.exception(ex)
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={"detail": ex.__str__()})
         try:
             order_id = int(data['order-id'])
             school = find_school_and_allow_user(INN, user)
@@ -315,24 +285,7 @@ class GospozhView(APIView):
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
-        if field_id == 'date-order':
-            gospozh.date_order = None
-        elif field_id == 'type-work':
-            gospozh.type_work = None
-        elif field_id == 'period-execution':
-            gospozh.period_execution = None
-        elif field_id == 'order':
-            gospozh.order.delete()
-        elif field_id == 'vkluchenie':
-            gospozh.vkluchenie = None
-        elif field_id == 'executed':
-            gospozh.executed = None
-        elif field_id == 'summa':
-            gospozh.summa = None
-        else:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={"detail": "No such field_id"})
-        gospozh.save()
+        gospozh.delete()
         return Response(status=status.HTTP_200_OK)
 
 
@@ -459,13 +412,7 @@ class RostechView(APIView):
         data = request.headers
         INN = data['INN']
         user = request.my_user
-        field_id = None
-        try:
-            field_id = data['field-id']
-        except BaseException as ex:
-            logger.exception(ex)
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={"detail": ex.__str__()})
+
         try:
             order_id = int(data['order-id'])
             school = find_school_and_allow_user(INN, user)
@@ -474,24 +421,8 @@ class RostechView(APIView):
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
-        if field_id == 'date-order':
-            rostech.date_order = None
-        elif field_id == 'type-work':
-            rostech.type_work = None
-        elif field_id == 'period-execution':
-            rostech.period_execution = None
-        elif field_id == 'order':
-            rostech.order.delete()
-        elif field_id == 'vkluchenie':
-            rostech.vkluchenie = None
-        elif field_id == 'executed':
-            rostech.executed = None
-        elif field_id == 'summa':
-            rostech.summa = None
-        else:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={"detail": "No such field_id"})
-        rostech.save()
+
+        rostech.delete()
         return Response(status=status.HTTP_200_OK)
 
 
@@ -619,13 +550,6 @@ class SudebView(APIView):
         data = request.headers
         INN = data['INN']
         user = request.my_user
-        field_id = None
-        try:
-            field_id = data['field-id']
-        except BaseException as ex:
-            logger.exception(ex)
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={"detail": ex.__str__()})
         try:
             order_id = int(data['order-id'])
             school = find_school_and_allow_user(INN, user)
@@ -634,24 +558,7 @@ class SudebView(APIView):
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
-        if field_id == 'date-order':
-            sudeb.date_order = None
-        elif field_id == 'type-work':
-            sudeb.type_work = None
-        elif field_id == 'period-execution':
-            sudeb.period_execution = None
-        elif field_id == 'order':
-            sudeb.order.delete()
-        elif field_id == 'vkluchenie':
-            sudeb.vkluchenie = None
-        elif field_id == 'executed':
-            sudeb.executed = None
-        elif field_id == 'summa':
-            sudeb.summa = None
-        else:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={"detail": "No such field_id"})
-        sudeb.save()
+        sudeb.delete()
         return Response(status=status.HTTP_200_OK)
 
 
@@ -780,13 +687,6 @@ class OtherOrdersView(APIView):
         data = request.headers
         INN = data['INN']
         user = request.my_user
-        field_id = None
-        try:
-            field_id = data['field-id']
-        except BaseException as ex:
-            logger.exception(ex)
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={"detail": ex.__str__()})
         try:
             order_id = int(data['order-id'])
             school = find_school_and_allow_user(INN, user)
@@ -795,22 +695,5 @@ class OtherOrdersView(APIView):
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
-        if field_id == 'date-order':
-            otherorders.date_order = None
-        elif field_id == 'type-work':
-            otherorders.type_work = None
-        elif field_id == 'period-execution':
-            otherorders.period_execution = None
-        elif field_id == 'order':
-            otherorders.order.delete()
-        elif field_id == 'vkluchenie':
-            otherorders.vkluchenie = None
-        elif field_id == 'executed':
-            otherorders.executed = None
-        elif field_id == 'summa':
-            otherorders.summa = None
-        else:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            data={"detail": "No such field_id"})
-        otherorders.save()
+        otherorders.delete()
         return Response(status=status.HTTP_200_OK)
