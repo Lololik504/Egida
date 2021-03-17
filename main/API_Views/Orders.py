@@ -19,13 +19,10 @@ class RospotrebView(APIView):
         INN = data['INN']
         user = request.my_user
         get_all = data.get('get_all')
-        logger.debug(data)
         if get_all:
             try:
                 school = find_school_and_allow_user(INN, user)
                 rospotreb = school.rospotreb_set.select_related()
-                logger.debug(rospotreb)
-                logger.debug(rospotreb.__dict__)
             except BaseException as ex:
                 logger.exception(ex)
                 return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -48,16 +45,15 @@ class RospotrebView(APIView):
         data = request.headers
         data2 = request.data
         data2: dict = data2.dict()
-        data2 = json.dumps(data2)
-        data2 = json.loads(data2)
+        data2.pop('file')
         INN = data['INN']
         user = request.my_user
-        date_order = data2.get('date-order')
-        type_work = data2.get('type-work')
-        summa = data2.get('summa')
-        period_execution = data2.get('period-execution')
-        vkluchenie = data2.get('vkluchenie')
-        executed = data2.get('executed')
+        date_order = data2.get('date_order') if data2.get('date_order') != 'null' else None
+        type_work = data2.get('type_work')
+        summa = data2.get('summa') if data2.get('summa') != 'null' else None
+        period_execution = data2.get('period_execution') if data2.get('period_execution') != 'null' else None
+        vkluchenie = True if data2.get('vkluchenie') == 'true' else False
+        executed = True if data2.get('executed') == 'true' else False
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -70,10 +66,6 @@ class RospotrebView(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         try:
-            if date_order:
-                date_order = datetime.datetime.strptime(date_order, '%d.%m.%Y').strftime('%Y-%m-%d')
-            if period_execution:
-                period_execution = datetime.datetime.strptime(period_execution, '%d.%m.%Y').strftime('%Y-%m-%d')
             rospotreb.date_order = date_order
             rospotreb.type_work = type_work
             rospotreb.period_execution = period_execution
@@ -92,17 +84,15 @@ class RospotrebView(APIView):
         data = request.headers
         data2 = request.data
         data2: dict = data2.dict()
-        data2 = json.dumps(data2)
-        data2 = json.loads(data2)
+        data2.pop('file')
         INN = data['INN']
         user = request.my_user
-        date_order = data2.get('date-order')
-        type_work = data2.get('type-work')
-        summa = data2.get('summa')
-        period_execution = data2.get('period-execution')
+        date_order = data2.get('date_order') if data2.get('date_order')  != 'null' else None
+        type_work = data2.get('type_work')
+        summa = data2.get('summa') if data2.get('summa') != 'null' else None
+        period_execution = data2.get('period_execution') if data2.get('period_execution') != 'null' else None
         vkluchenie = True if data2.get('vkluchenie') == 'true' else False
         executed = True if data2.get('executed') == 'true' else False
-        logger.debug(summa)
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -117,10 +107,6 @@ class RospotrebView(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         try:
-            if date_order:
-                date_order = datetime.datetime.strptime(date_order, '%d.%m.%Y').strftime('%Y-%m-%d')
-            if period_execution:
-                period_execution = datetime.datetime.strptime(period_execution, '%d.%m.%Y').strftime('%Y-%m-%d')
             rospotreb.date_order = date_order
             rospotreb.type_work = type_work
             rospotreb.period_execution = period_execution
@@ -133,7 +119,6 @@ class RospotrebView(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         rospotreb.save()
-        logger.debug(rospotreb.__dict__)
         return Response(status=status.HTTP_200_OK)
 
     def delete(self, request, *args, **kwargs):
@@ -185,18 +170,17 @@ class GospozhView(APIView):
 
     def put(self, request, *args, **kwargs):
         data = request.headers
-        INN = data['INN']
         data2 = request.data
         data2: dict = data2.dict()
-        data2 = json.dumps(data2)
-        data2 = json.loads(data2)
+        data2.pop('file')
+        INN = data['INN']
         user = request.my_user
-        date_order = data2.get('date-order')
-        type_work = data2.get('type-work')
-        summa = data2.get('summa')
-        period_execution = data2.get('period-execution')
-        vkluchenie = data2.get('vkluchenie')
-        executed = data2.get('executed')
+        date_order = data2.get('date_order') if data2.get('date_order') != 'null' else None
+        type_work = data2.get('type_work')
+        summa = data2.get('summa') if data2.get('summa') != 'null' else None
+        period_execution = data2.get('period_execution') if data2.get('period_execution') != 'null' else None
+        vkluchenie = True if data2.get('vkluchenie') == 'true' else False
+        executed = True if data2.get('executed') == 'true' else False
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -209,10 +193,6 @@ class GospozhView(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         try:
-            if date_order:
-                date_order = datetime.datetime.strptime(date_order, '%d.%m.%Y').strftime('%Y-%m-%d')
-            if period_execution:
-                period_execution = datetime.datetime.strptime(period_execution, '%d.%m.%Y').strftime('%Y-%m-%d')
             gospozh.date_order = date_order
             gospozh.type_work = type_work
             gospozh.period_execution = period_execution
@@ -229,19 +209,17 @@ class GospozhView(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.headers
-        INN = data['INN']
-        user = request.my_user
         data2 = request.data
         data2: dict = data2.dict()
-        data2 = json.dumps(data2)
-        data2 = json.loads(data2)
+        data2.pop('file')
+        INN = data['INN']
         user = request.my_user
-        date_order = data2.get('date-order')
-        type_work = data2.get('type-work')
-        summa = data2.get('summa')
-        period_execution = data2.get('period-execution')
-        vkluchenie = data2.get('vkluchenie')
-        executed = data2.get('executed')
+        date_order = data2.get('date_order') if data2.get('date_order') != 'null' else None
+        type_work = data2.get('type_work')
+        summa = data2.get('summa') if data2.get('summa') != 'null' else None
+        period_execution = data2.get('period_execution') if data2.get('period_execution') != 'null' else None
+        vkluchenie = True if data2.get('vkluchenie') == 'true' else False
+        executed = True if data2.get('executed') == 'true' else False
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -255,10 +233,6 @@ class GospozhView(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         try:
-            if date_order:
-                date_order = datetime.datetime.strptime(date_order, '%d.%m.%Y').strftime('%Y-%m-%d')
-            if period_execution:
-                period_execution = datetime.datetime.strptime(period_execution, '%d.%m.%Y').strftime('%Y-%m-%d')
             gospozh.date_order = date_order
             gospozh.type_work = type_work
             gospozh.period_execution = period_execution
@@ -321,18 +295,17 @@ class RostechView(APIView):
 
     def put(self, request, *args, **kwargs):
         data = request.headers
-        INN = data['INN']
         data2 = request.data
         data2: dict = data2.dict()
-        data2 = json.dumps(data2)
-        data2 = json.loads(data2)
+        data2.pop('file')
+        INN = data['INN']
         user = request.my_user
-        date_order = data2.get('date-order')
-        type_work = data2.get('type-work')
-        summa = data2.get('summa')
-        period_execution = data2.get('period-execution')
-        vkluchenie = data2.get('vkluchenie')
-        executed = data2.get('executed')
+        date_order = data2.get('date_order') if data2.get('date_order') != 'null' else None
+        type_work = data2.get('type_work')
+        summa = data2.get('summa') if data2.get('summa') != 'null' else None
+        period_execution = data2.get('period_execution') if data2.get('period_execution') != 'null' else None
+        vkluchenie = True if data2.get('vkluchenie') == 'true' else False
+        executed = True if data2.get('executed') == 'true' else False
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -345,10 +318,6 @@ class RostechView(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         try:
-            if date_order:
-                date_order = datetime.datetime.strptime(date_order, '%d.%m.%Y').strftime('%Y-%m-%d')
-            if period_execution:
-                period_execution = datetime.datetime.strptime(period_execution, '%d.%m.%Y').strftime('%Y-%m-%d')
             rostech.date_order = date_order
             rostech.type_work = type_work
             rostech.period_execution = period_execution
@@ -365,18 +334,17 @@ class RostechView(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.headers
-        INN = data['INN']
         data2 = request.data
         data2: dict = data2.dict()
-        data2 = json.dumps(data2)
-        data2 = json.loads(data2)
+        data2.pop('file')
+        INN = data['INN']
         user = request.my_user
-        date_order = data2.get('date-order')
-        type_work = data2.get('type-work')
-        summa = data2.get('summa')
-        period_execution = data2.get('period-execution')
-        vkluchenie = data2.get('vkluchenie')
-        executed = data2.get('executed')
+        date_order = data2.get('date_order') if data2.get('date_order') != 'null' else None
+        type_work = data2.get('type_work')
+        summa = data2.get('summa') if data2.get('summa') != 'null' else None
+        period_execution = data2.get('period_execution') if data2.get('period_execution') != 'null' else None
+        vkluchenie = True if data2.get('vkluchenie') == 'true' else False
+        executed = True if data2.get('executed') == 'true' else False
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -390,10 +358,6 @@ class RostechView(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         try:
-            if date_order:
-                date_order = datetime.datetime.strptime(date_order, '%d.%m.%Y').strftime('%Y-%m-%d')
-            if period_execution:
-                period_execution = datetime.datetime.strptime(period_execution, '%d.%m.%Y').strftime('%Y-%m-%d')
             rostech.date_order = date_order
             rostech.type_work = type_work
             rostech.period_execution = period_execution
@@ -458,18 +422,17 @@ class SudebView(APIView):
 
     def put(self, request, *args, **kwargs):
         data = request.headers
-        INN = data['INN']
         data2 = request.data
         data2: dict = data2.dict()
-        data2 = json.dumps(data2)
-        data2 = json.loads(data2)
+        data2.pop('file')
+        INN = data['INN']
         user = request.my_user
-        date_order = data2.get('date-order')
-        type_work = data2.get('type-work')
-        summa = data2.get('summa')
-        period_execution = data2.get('period-execution')
-        vkluchenie = data2.get('vkluchenie')
-        executed = data2.get('executed')
+        date_order = data2.get('date_order') if data2.get('date_order') != 'null' else None
+        type_work = data2.get('type_work')
+        summa = data2.get('summa') if data2.get('summa') != 'null' else None
+        period_execution = data2.get('period_execution') if data2.get('period_execution') != 'null' else None
+        vkluchenie = True if data2.get('vkluchenie') == 'true' else False
+        executed = True if data2.get('executed') == 'true' else False
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -482,10 +445,6 @@ class SudebView(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         try:
-            if date_order:
-                date_order = datetime.datetime.strptime(date_order, '%d.%m.%Y').strftime('%Y-%m-%d')
-            if period_execution:
-                period_execution = datetime.datetime.strptime(period_execution, '%d.%m.%Y').strftime('%Y-%m-%d')
             sudeb.date_order = date_order
             sudeb.type_work = type_work
             sudeb.period_execution = period_execution
@@ -502,19 +461,17 @@ class SudebView(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.headers
-        INN = data['INN']
-        user = request.my_user
         data2 = request.data
         data2: dict = data2.dict()
-        data2 = json.dumps(data2)
-        data2 = json.loads(data2)
+        data2.pop('file')
+        INN = data['INN']
         user = request.my_user
-        date_order = data2.get('date-order')
-        type_work = data2.get('type-work')
-        summa = data2.get('summa')
-        period_execution = data2.get('period-execution')
-        vkluchenie = data2.get('vkluchenie')
-        executed = data2.get('executed')
+        date_order = data2.get('date_order') if data2.get('date_order') != 'null' else None
+        type_work = data2.get('type_work')
+        summa = data2.get('summa') if data2.get('summa') != 'null' else None
+        period_execution = data2.get('period_execution') if data2.get('period_execution') != 'null' else None
+        vkluchenie = True if data2.get('vkluchenie') == 'true' else False
+        executed = True if data2.get('executed') == 'true' else False
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -528,10 +485,6 @@ class SudebView(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         try:
-            if date_order:
-                date_order = datetime.datetime.strptime(date_order, '%d.%m.%Y').strftime('%Y-%m-%d')
-            if period_execution:
-                period_execution = datetime.datetime.strptime(period_execution, '%d.%m.%Y').strftime('%Y-%m-%d')
             sudeb.date_order = date_order
             sudeb.type_work = type_work
             sudeb.period_execution = period_execution
@@ -594,19 +547,17 @@ class OtherOrdersView(APIView):
 
     def put(self, request, *args, **kwargs):
         data = request.headers
-        INN = data['INN']
-        user = request.my_user
         data2 = request.data
         data2: dict = data2.dict()
-        data2 = json.dumps(data2)
-        data2 = json.loads(data2)
+        data2.pop('file')
+        INN = data['INN']
         user = request.my_user
-        date_order = data2.get('date-order')
-        type_work = data2.get('type-work')
-        summa = data2.get('summa')
-        period_execution = data2.get('period-execution')
-        vkluchenie = data2.get('vkluchenie')
-        executed = data2.get('executed')
+        date_order = data2.get('date_order') if data2.get('date_order') != 'null' else None
+        type_work = data2.get('type_work')
+        summa = data2.get('summa') if data2.get('summa') != 'null' else None
+        period_execution = data2.get('period_execution') if data2.get('period_execution') != 'null' else None
+        vkluchenie = True if data2.get('vkluchenie') == 'true' else False
+        executed = True if data2.get('executed') == 'true' else False
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -619,10 +570,6 @@ class OtherOrdersView(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         try:
-            if date_order:
-                date_order = datetime.datetime.strptime(date_order, '%d.%m.%Y').strftime('%Y-%m-%d')
-            if period_execution:
-                period_execution = datetime.datetime.strptime(period_execution, '%d.%m.%Y').strftime('%Y-%m-%d')
             otherorders.date_order = date_order
             otherorders.type_work = type_work
             otherorders.period_execution = period_execution
@@ -639,19 +586,17 @@ class OtherOrdersView(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.headers
-        INN = data['INN']
-        user = request.my_user
         data2 = request.data
         data2: dict = data2.dict()
-        data2 = json.dumps(data2)
-        data2 = json.loads(data2)
+        data2.pop('file')
+        INN = data['INN']
         user = request.my_user
-        date_order = data2.get('date-order')
-        type_work = data2.get('type-work')
-        summa = data2.get('summa')
-        period_execution = data2.get('period-execution')
-        vkluchenie = data2.get('vkluchenie')
-        executed = data2.get('executed')
+        date_order = data2.get('date_order') if data2.get('date_order') != 'null' else None
+        type_work = data2.get('type_work')
+        summa = data2.get('summa') if data2.get('summa') != 'null' else None
+        period_execution = data2.get('period_execution') if data2.get('period_execution') != 'null' else None
+        vkluchenie = True if data2.get('vkluchenie') == 'true' else False
+        executed = True if data2.get('executed') == 'true' else False
         order = None
         if request.FILES:
             order = request.FILES['file']
@@ -665,10 +610,6 @@ class OtherOrdersView(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         try:
-            if date_order:
-                date_order = datetime.datetime.strptime(date_order, '%d.%m.%Y').strftime('%Y-%m-%d')
-            if period_execution:
-                period_execution = datetime.datetime.strptime(period_execution, '%d.%m.%Y').strftime('%Y-%m-%d')
             otherorders.date_order = date_order
             otherorders.type_work = type_work
             otherorders.period_execution = period_execution
