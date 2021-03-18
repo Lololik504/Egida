@@ -190,6 +190,8 @@ ROSTECH_URL = 'rostechnadzor'
 SUDEB_URL = 'sudebresh'
 OTHER_ORDERS_URL = 'otherorders'
 
+BUILDING_MEDIA_ROOT = os.path.join(BASE_DIR, "media/building_media")
+BUILDING_MEDIA_URL = 'building_media'
 
 if not os.path.exists(MEDIA_ROOT):
     os.mkdir(MEDIA_ROOT)
@@ -203,6 +205,9 @@ if not os.path.exists(ORDERS_ROOT):
 for i in [ROSPOTREB_ROOT, GOSPOZH_ROOT, ROSTECH_ROOT, SUDEB_ROOT, OTHER_ORDERS_ROOT]:
     if not os.path.exists(i):
         os.mkdir(i)
+
+if not os.path.exists(BUILDING_MEDIA_ROOT):
+    os.mkdir(BUILDING_MEDIA_ROOT)
 
 
 if PROD:
