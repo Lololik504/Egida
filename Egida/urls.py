@@ -43,7 +43,10 @@ extra_urlpatterns = [
                     + static(settings.ROSTECH_URL, document_root=settings.ROSTECH_ROOT)\
                     + static(settings.SUDEB_URL, document_root=settings.SUDEB_ROOT)\
                     + static(settings.OTHER_ORDERS_URL, document_root=settings.OTHER_ORDERS_ROOT) \
-                    + static(settings.BUILDING_MEDIA_URL, document_root=settings.BUILDING_MEDIA_ROOT)
+                    + static(settings.BUILDING_MEDIA_URL, document_root=settings.BUILDING_MEDIA_ROOT) \
+                    + static(settings.ENGINEERING_COMMUNICATION_URL, document_root=settings.ENGINEERING_COMMUNICATION_ROOT)\
+                    + static(settings.INDOOR_AREAS_URL, document_root=settings.INDOOR_AREAS_ROOT)
+
 custom_admin_urls = (
     path('admin/main/schools/export/', export, name="export"),
     path('admin/main/schools/update/', update, name="update"),

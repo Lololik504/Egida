@@ -33,6 +33,9 @@ class EngineeringCommunicationAPI(APIView):
         data = request.data
         building_id = data['id']
         user = request.my_user
+        if request.FILES:
+            files = request.FILES
+            data.update(files)
         try:
             building = find_building_and_allow_user(id=building_id, user=user)
             eng_communication = EngineeringCommunication.objects.get_or_create(building=building)

@@ -1,5 +1,5 @@
 from django.db import models
-
+from .helpers import inn_dir_path
 from main.MyModelFile import MyModel
 
 
@@ -19,6 +19,8 @@ class EmergencyExit(MyModel):
 
     auto_opening_of_emergency_exits_system = models.BooleanField(
         verbose_name="Наличие системы автоматического открывания эвакуационных выходов", null=True, blank=True)
+
+    emergency_exit_act = models.FileField(verbose_name="Акт обследования технического состояния", upload_to=inn_dir_path, default=None, null=True, blank=True)
 
     class Meta:
         abstract = True

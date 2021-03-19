@@ -193,6 +193,12 @@ OTHER_ORDERS_URL = 'otherorders'
 BUILDING_MEDIA_ROOT = os.path.join(BASE_DIR, "media/building_media")
 BUILDING_MEDIA_URL = 'building_media'
 
+ENGINEERING_COMMUNICATION_ROOT = os.path.join(BASE_DIR, "media/engineering_communication")
+ENGINEERING_COMMUNICATION_URL = 'engineering_communication'
+
+INDOOR_AREAS_ROOT = os.path.join(BASE_DIR, "media/engineering_communication")
+INDOOR_AREAS_URL = 'indoor_areas'
+
 if not os.path.exists(MEDIA_ROOT):
     os.mkdir(MEDIA_ROOT)
 

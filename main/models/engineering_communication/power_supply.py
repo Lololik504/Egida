@@ -1,5 +1,5 @@
 from django.db import models
-
+from .helpers import inn_dir_path, inn_dir_path2
 from main.MyModelFile import MyModel
 
 
@@ -30,6 +30,13 @@ class PowerSupply(MyModel):
     technical_condition_of_the_external_power_supply_system = models.CharField(
         verbose_name="Техническое состояние системы наружного электроснабжения",
         max_length=50, null=True, blank=True)
+    technical_condition_of_the_internal_power_supply_system_act = models.FileField(verbose_name="Акт обследования технического состояния", upload_to=inn_dir_path, default=None, null=True, blank=True)
+    technical_condition_of_the_external_power_supply_system_act = models.FileField(verbose_name="Акт обследования технического состояния", upload_to=inn_dir_path, default=None, null=True, blank=True)
+    power_supply_system_act_balance_razgranich = models.FileField(verbose_name='Акт балансового разграничения', upload_to=inn_dir_path2, default=None, null=True, blank=True)
+    power_supply_system_scheme_balance_razgranich = models.FileField(verbose_name='Схема балансового разграничения', upload_to=inn_dir_path2, default=None, null=True, blank=True)
+    power_supply_system_odnolinein_schema = models.FileField(verbose_name='Однолинейная схема', upload_to=inn_dir_path2, default=None, null=True, blank=True)
+    power_supply_system_photo_vru = models.FileField(verbose_name='Фото ВРУ', upload_to=inn_dir_path2, default=None, null=True, blank=True)
 
+    
     class Meta:
         abstract = True
