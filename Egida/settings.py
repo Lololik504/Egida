@@ -215,6 +215,11 @@ for i in [ROSPOTREB_ROOT, GOSPOZH_ROOT, ROSTECH_ROOT, SUDEB_ROOT, OTHER_ORDERS_R
 if not os.path.exists(BUILDING_MEDIA_ROOT):
     os.mkdir(BUILDING_MEDIA_ROOT)
 
+if not os.path.exists(ENGINEERING_COMMUNICATION_ROOT):
+    os.mkdir(ENGINEERING_COMMUNICATION_ROOT)
+
+if not os.path.exists(INDOOR_AREAS_ROOT):
+    os.mkdir(INDOOR_AREAS_ROOT)
 
 if PROD:
     from .prod_settings import *
