@@ -13,6 +13,6 @@ class WaterSupply(MyModel):
     technical_condition_of_the_water_supply_system_act = models.FileField(verbose_name="Акт обследования технического состояния", upload_to=inn_dir_path, default=None, null=True, blank=True)
     technical_condition_of_the_sewerage_system_act = models.FileField(verbose_name="Акт обследования технического состояния", upload_to=inn_dir_path, default=None, null=True, blank=True)
     water_supply_scheme_balance_razgranich = models.FileField(verbose_name="Схема балансового разграничения", upload_to=inn_dir_path2, default=None, null=True, blank=True)
-
+    water_supply_act_balance_razgranich = models.FileField(verbose_name='Акт балансового разграничения', upload_to=inn_dir_path2, default=None, null=True, blank=True)
     class Meta:
         abstract = True
