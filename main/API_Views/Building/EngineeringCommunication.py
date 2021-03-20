@@ -36,6 +36,9 @@ class EngineeringCommunicationAPI(APIView):
         if request.FILES:
             files = request.FILES
             data.update(files)
+        if  data.get('ground_loop'):
+            data: dict = data.dict()
+            data['ground_loop'] = True if data['ground_loop'] == 'true' else False if data['ground_loop'] == 'false' else None
         try:
             building = find_building_and_allow_user(id=building_id, user=user)
             eng_communication = EngineeringCommunication.objects.get_or_create(building=building)
