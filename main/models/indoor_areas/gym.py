@@ -1,5 +1,5 @@
 from django.db import models
-
+from .helpers import inn_dir_path
 from main.MyModelFile import MyModel
 
 
@@ -25,6 +25,7 @@ class Gym(MyModel):
         verbose_name="Приточная вентиляция в спортзалах работоспособна", null=True, blank=True)
     gym_air_heater_type = models.CharField(verbose_name="Тип воздухонагревателя в спортзалах", max_length=50, null=True,
                                            blank=True)
+    gym_act = models.FileField(verbose_name="Акт обследования технического состояния", upload_to=inn_dir_path, default=None, null=True, blank=True)
 
     class Meta:
         abstract = True

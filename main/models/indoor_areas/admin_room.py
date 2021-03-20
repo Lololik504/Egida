@@ -1,5 +1,5 @@
 from django.db import models
-
+from .helpers import inn_dir_path
 from main.MyModelFile import MyModel
 
 
@@ -17,6 +17,8 @@ class AdminRoom(MyModel):
     admin_room_emergency_status_count = models.IntegerField(
         verbose_name="Количество административных помещений с аварийным состоянием", blank=True,
         null=True)
+
+    admin_room_act = models.FileField(verbose_name="Акт обследования технического состояния", upload_to=inn_dir_path, default=None, null=True, blank=True)
 
     class Meta:
         abstract = True

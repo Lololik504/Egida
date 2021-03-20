@@ -1,5 +1,5 @@
 from django.db import models
-
+from .helpers import inn_dir_path
 from main.MyModelFile import MyModel
 
 
@@ -16,6 +16,7 @@ class Classroom(MyModel):
     classroom_emergency_count = models.IntegerField(
             verbose_name="Количество учебных/игровых помещений с аварийным состоянием", blank=True,
             null=True)
+    classroom_act = models.FileField(verbose_name="Акт обследования технического состояния", upload_to=inn_dir_path, default=None, null=True, blank=True)
 
     class Meta:
         abstract = True

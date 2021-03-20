@@ -1,5 +1,5 @@
 from django.db import models
-
+from .helpers import inn_dir_path, inn_dir_path2
 from main.MyModelFile import MyModel
 
 
@@ -40,6 +40,19 @@ class HeatingSystem(MyModel):
         verbose_name="Техническое состояние системы вентиляции", max_length=50, null=True, blank=True)
     technical_condition_of_the_hot_water_supply_system = models.CharField(
         verbose_name="Техническое состояние системы горячего водоснабжения", max_length=50, null=True, blank=True)
+    technical_condition_of_the_heating_system_act = models.FileField(verbose_name='Акт обследования технического состояния', upload_to=inn_dir_path, default=None, null=True, blank=True)
+    technical_condition_of_the_ventilation_system_act = models.FileField(verbose_name='Акт обследования технического состояния', upload_to=inn_dir_path, default=None, null=True, blank=True)
+    technical_condition_of_the_hot_water_supply_system_act = models.FileField(verbose_name='Акт обследования технического состояния', upload_to=inn_dir_path, default=None, null=True, blank=True)
+
+    passport_vvoda = models.FileField(verbose_name='Паспорт ввода', upload_to=inn_dir_path2, default=None, null=True, blank=True)
+    schema_vvoda = models.FileField(verbose_name='Схема ввода', upload_to=inn_dir_path2, default=None, null=True, blank=True)
+    passport_itp = models.FileField(verbose_name='Паспорт ИТП', upload_to=inn_dir_path2, default=None, null=True, blank=True)
+    schema_itp = models.FileField(verbose_name='Схема ИТП', upload_to=inn_dir_path2, default=None, null=True, blank=True)
+    act_balance_razgranich = models.FileField(verbose_name='Акт балансового разграничения', upload_to=inn_dir_path2, default=None, null=True, blank=True)
+    schema_balance_razgranich = models.FileField(verbose_name='Схема балансового разграничения', upload_to=inn_dir_path2, default=None, null=True, blank=True)
+    spravka_teplov_nagruz = models.FileField(verbose_name='Справка о тепловых нагрузках', upload_to=inn_dir_path2, default=None, null=True, blank=True)
+    raschet_teplov_poter = models.FileField(verbose_name='Расчет тепловых потерь', upload_to=inn_dir_path2, default=None, null=True, blank=True)
+    toposnova = models.FileField(verbose_name='Топоснова', upload_to=inn_dir_path2, default=None, null=True, blank=True)
 
     class Meta:
         abstract = True
