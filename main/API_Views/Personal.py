@@ -60,3 +60,26 @@ class PersonalOfSchoolInfo(APIView):
                             data={"detail": ex.__str__()})
 
         return Response(status=status.HTTP_200_OK)
+
+
+class UpdaterPrikazOnly(APIView):
+    def put(self, request):
+        data = request.data
+        INN = data['INN']
+        user = request.my_user
+        try:
+            school = find_school_and_allow_user(INN, user)
+        except BaseException as ex:
+            logger.exception(ex)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": ex.__str__()})
+        prikaz = data.pop('prikaz')
+        responsible_for_filling = get_updater(school)
+        try:
+            if prikaz:
+                responsible_for_filling.update(prikaz=prikaz)
+        except BaseException as ex:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": ex.__str__()})
+
+        return Response(status=status.HTTP_200_OK)

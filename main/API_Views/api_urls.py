@@ -4,7 +4,7 @@ from main import FieldsAPI
 from main.API_Views.Building import SchoolBuildingsInfo
 from main.API_Views.District import *
 from main.API_Views.Export import ExportExcel
-from main.API_Views.Personal import PersonalOfSchoolInfo
+from main.API_Views.Personal import PersonalOfSchoolInfo, UpdaterPrikazOnly
 from main.API_Views.Requisites import RequisitesInfo
 from main.API_Views.School import SchoolInfo
 from main.API_Views.TEST import TEST
@@ -31,4 +31,5 @@ urlpatterns = [
     path('orders/rostech/', RostechView.as_view()),
     path('orders/sudeb/', SudebView.as_view()),
     path('orders/otherorders/', OtherOrdersView.as_view()),
+    path('personal/updater_prikaz/', UpdaterPrikazOnly.as_view())
 ]
