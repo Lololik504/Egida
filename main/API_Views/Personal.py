@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 
 from main.models.services import get_model_name
 from main.serializers.serializers import PersonalAllInfoSerializer
-from main.services import find_school_and_allow_user, get_director, get_bookkeeper, get_updater, get_zavhoz
+from main.services import find_school_and_allow_user, get_director, get_bookkeeper, get_updater, get_zavhoz, get_and_update_updater
 from ..models.PersonalModel import Updater, Personal
 
 class PersonalOfSchoolInfo(APIView):
@@ -75,12 +75,11 @@ class UpdaterPrikazOnly(APIView):
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
-        prikaz = data.pop('prikaz')
-        responsible_for_filling = get_updater(school)
+        prikaz = data.pop('prikaz')[0]
+
         try:
             if prikaz:
-                responsible_for_filling.prikaz = prikaz
-                responsible_for_filling.save()
+                get_and_update_updater(school, prikaz)
         except BaseException as ex:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})

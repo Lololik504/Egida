@@ -89,6 +89,16 @@ def get_updater(school: School):
         updater = Updater.objects.create(school=school)
     return updater
 
+def get_and_update_updater(school: School, prikaz):
+    try:
+        updater = Updater.objects.get(school=school)
+        updater.prikaz = prikaz
+        updater.save()
+    except Updater.DoesNotExist as ex:
+        updater = Updater.objects.create(school=school)
+        updater.prikaz = prikaz
+        updater.save()
+    return updater
 
 def get_zavhoz(school: School):
     try:

@@ -64,7 +64,7 @@ class Bookkeeper(Personal):
         app_label = "main"
 
 
-class Updater(Personal):
+class Updater(Personal, MyModel):
     school = models.OneToOneField(School, on_delete=models.SET_NULL, null=True)
     prikaz = models.FileField(verbose_name='Приказ', upload_to=inn_dir_path, default=None, null=True, blank=True)
 
