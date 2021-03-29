@@ -47,11 +47,14 @@ class PersonalOfSchoolInfo(APIView):
         bookkeeper = get_bookkeeper(school)
         responsible_for_filling = get_updater(school)
         zavhoz = get_zavhoz(school)
+        prikaz = data.pop('prikaz')
         try:
             director.update(data[get_model_name(director)])
             zavhoz.update(data.pop(get_model_name(zavhoz)))
             bookkeeper.update(data.pop(get_model_name(bookkeeper)))
             responsible_for_filling.update(data.pop(get_model_name(responsible_for_filling)))
+            if prikaz:
+                responsible_for_filling.update(prikaz=prikaz)
         except BaseException as ex:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
