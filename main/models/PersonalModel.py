@@ -2,7 +2,10 @@ from django.db import models
 
 from main.MyModelFile import MyModel
 from main.models import School
+from Egida.settings import UPDADTER_PRIKAZ_URL
 
+def inn_dir_path(instance, filename):
+    return UPDADTER_PRIKAZ_URL + '/id_{}/{}'.format(instance.id, filename)
 
 class Personal(MyModel):
     first_name = models.CharField(verbose_name="Имя", max_length=30, default=None, null=True)
@@ -63,6 +66,7 @@ class Bookkeeper(Personal):
 
 class Updater(Personal):
     school = models.OneToOneField(School, on_delete=models.SET_NULL, null=True)
+    prikaz = models.FileField(verbose_name='Приказ', upload_to=inn_dir_path, default=None, null=True, blank=True)
 
     class Meta:
         verbose_name = "Ответственный за заполнение"
