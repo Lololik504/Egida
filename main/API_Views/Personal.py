@@ -63,6 +63,8 @@ class PersonalOfSchoolInfo(APIView):
 
 
 class UpdaterPrikazOnly(APIView):
+    permission_classes = [permissions.AllowAny]
+
     def put(self, request):
         data = request.data
         INN = data['INN']
