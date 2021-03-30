@@ -31,5 +31,5 @@ urlpatterns = [
     path('orders/rostech/', RostechView.as_view()),
     path('orders/sudeb/', SudebView.as_view()),
     path('orders/otherorders/', OtherOrdersView.as_view()),
-    path('personal/updater_prikaz/', UpdaterPrikazOnly.as_view())
+    path('personal/updater/', UpdaterPrikazOnly.as_view())
 ]
