@@ -77,7 +77,7 @@ class UpdaterPrikazOnly(APIView):
         return Response({'prikaz': prikaz})
 
     def put(self, request):
-        data = request.data
+        data = request.headers
         INN = data['INN']
         user = request.my_user
         try:
