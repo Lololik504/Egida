@@ -13,6 +13,7 @@ class Personal(MyModel):
     patronymic = models.CharField(verbose_name="Отчество", max_length=30, default=None, null=True)
     phone = models.CharField(verbose_name="Телефон", max_length=30, default=None, null=True)
     email = models.CharField(verbose_name="Email", max_length=50, default=None, null=True)
+    prikaz = models.FileField(verbose_name='Приказ', upload_to=inn_dir_path, default=None, null=True, blank=True)
 
     class Meta:
         verbose_name = "Персонал"
@@ -66,7 +67,6 @@ class Bookkeeper(Personal):
 
 class Updater(Personal, MyModel):
     school = models.OneToOneField(School, on_delete=models.SET_NULL, null=True)
-    prikaz = models.FileField(verbose_name='Приказ', upload_to=inn_dir_path, default=None, null=True, blank=True)
 
     class Meta:
         verbose_name = "Ответственный за заполнение"
