@@ -58,41 +58,41 @@ class PersonalOfSchoolInfo(APIView):
 
         return Response(status=status.HTTP_200_OK)
 #
-#
-# class UpdaterPrikazOnly(APIView):
-#     permission_classes = [permissions.AllowAny]
-#
-#     def get(self, request):
-#         data = request.headers
-#         INN = data['INN']
-#         user = request.my_user
-#         try:
-#             school = find_school_and_allow_user(INN, user)
-#         except BaseException as ex:
-#             logger.exception(ex)
-#             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-#                             data={"detail": ex.__str__()})
-#         updater = get_updater(school)
-#         prikaz = str(updater.prikaz)
-#         return Response({'prikaz': prikaz})
-#
-#     def put(self, request):
-#         data = request.data
-#         INN = data['INN']
-#         user = request.my_user
-#         try:
-#             school = find_school_and_allow_user(INN, user)
-#         except BaseException as ex:
-#             logger.exception(ex)
-#             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-#                             data={"detail": ex.__str__()})
-#         prikaz = data.pop('prikaz')[0]
-#
-#         try:
-#             if prikaz:
-#                 get_and_update_updater(school, prikaz)
-#         except BaseException as ex:
-#             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-#                             data={"detail": ex.__str__()})
-#
-#         return Response(status=status.HTTP_200_OK)
+
+class UpdaterPrikazOnly(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        data = request.headers
+        INN = data['INN']
+        user = request.my_user
+        try:
+            school = find_school_and_allow_user(INN, user)
+        except BaseException as ex:
+            logger.exception(ex)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": ex.__str__()})
+        updater = get_updater(school)
+        prikaz = str(updater.prikaz)
+        return Response({'prikaz': prikaz})
+
+    def put(self, request):
+        data = request.data
+        INN = data['INN']
+        user = request.my_user
+        try:
+            school = find_school_and_allow_user(INN, user)
+        except BaseException as ex:
+            logger.exception(ex)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": ex.__str__()})
+        prikaz = data.pop('prikaz')[0]
+
+        try:
+            if prikaz:
+                get_and_update_updater(school, prikaz)
+        except BaseException as ex:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": ex.__str__()})
+
+        return Response(status=status.HTTP_200_OK)
