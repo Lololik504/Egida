@@ -24,12 +24,12 @@ class HeatingSystem(MyModel):
     Temperature_graph = models.CharField(verbose_name="Температурный график", max_length=50, null=True, blank=True)
     heating_system_wiring_type = models.CharField(verbose_name="Тип разводки системы отопления", max_length=50,
                                                   null=True, blank=True)
-    thermal_loads_heating = models.IntegerField(verbose_name="Тепловая нагрузка (Отопление)", null=True, blank=True)
-    thermal_loads_hot_water_supply = models.IntegerField(verbose_name="Тепловая нагрузка (Горячее водоснабжение)",
+    thermal_loads_heating = models.FloatField(verbose_name="Тепловая нагрузка (Отопление)", null=True, blank=True)
+    thermal_loads_hot_water_supply = models.FloatField(verbose_name="Тепловая нагрузка (Горячее водоснабжение)",
                                                          null=True, blank=True)
-    thermal_loads_ventilation = models.IntegerField(verbose_name="Тепловая нагрузка (Вентиляция)", null=True,
+    thermal_loads_ventilation = models.FloatField(verbose_name="Тепловая нагрузка (Вентиляция)", null=True,
                                                     blank=True)
-    thermal_loads_total = models.IntegerField(verbose_name="Тепловая нагрузка (Суммарная)", null=True, blank=True)
+    thermal_loads_total = models.FloatField(verbose_name="Тепловая нагрузка (Суммарная)", null=True, blank=True)
     number_of_automatic_heat_control_systems = models.IntegerField(
         verbose_name="Количество систем автоматического регулирования тепла", null=True, blank=True)
     number_of_automatic_control_systems_for_the_air_handling_unit = models.IntegerField(
