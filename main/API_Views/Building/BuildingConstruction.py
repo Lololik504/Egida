@@ -49,3 +49,47 @@ class BuildingConstructionAPI(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         return Response(status=status.HTTP_200_OK)
+
+    def delete(self, request):
+        data = request.data
+        building_id = data['id']
+        user = request.my_user
+        doc_id = data['doc_id']
+        try:
+            building = find_building_and_allow_user(building_id, user)
+            building_constr = BuildingConstruction.objects.get_or_create(building=building)
+            if building_constr[1]:
+                building.building_construction = building_constr[0]
+                building.save()
+            building_constr = building_constr[0]
+        except BaseException as ex:
+            logger.exception(ex)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": ex.__str__()})
+        if doc_id == 'blind_area_act':
+            building_constr.blind_area_act.delete()
+        elif doc_id == 'blind_area_photo':
+            building_constr.blind_area_photo.delete()
+        elif doc_id == 'facade_photo':
+            building_constr.facade_photo.delete()
+        elif doc_id == 'facade_act':
+            building_constr.facade_act.delete()
+        elif doc_id == 'attic_overlapping_act':
+            building_constr.attic_overlapping_act.delete()
+        elif doc_id == 'basement_overlapping_act':
+            building_constr.basement_overlapping_act.delete()
+        elif doc_id == 'roof_photo':
+            building_constr.roof_photo.delete()
+        elif doc_id == 'roof_act':
+            building_constr.roof_act.delete()
+        elif doc_id == 'window_act':
+            building_constr.window_act.delete()
+        elif doc_id == 'foundation_photo':
+            building_constr.foundation_photo.delete()
+        elif doc_id == 'foundation_act':
+            building_constr.foundation_act.delete()
+        else:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": "No such doc_id"})
+        building_constr.save()
+        return Response(status=status.HTTP_200_OK)

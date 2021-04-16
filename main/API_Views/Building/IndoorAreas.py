@@ -69,3 +69,45 @@ class IndoorAreasAPI(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
         return Response(status=status.HTTP_200_OK)
+
+    def delete(self, request):
+        data = request.headers
+        building_id = data['id']
+        user = request.my_user
+        doc_id = data['doc_id']
+        try:
+            building = find_building_and_allow_user(building_id, user)
+            ind_areas = IndoorAreas.objects.get_or_create(building=building)
+            if ind_areas[1]:
+                building.indoor_areas = ind_areas[0]
+                building.save()
+            ind_areas = ind_areas[0]
+        except BaseException as ex:
+            logger.exception(ex)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": ex.__str__()})
+        if doc_id == 'admin_room_act':
+            ind_areas.admin_room_act.delete()
+        elif doc_id == 'auditorium_act':
+            ind_areas.auditorium_act.delete()
+        elif doc_id == 'bathroom_act':
+            ind_areas.bathroom_act.delete()
+        elif doc_id == 'classroom_act':
+            ind_areas.classroom_act.delete()
+        elif doc_id == 'corridors_act':
+            ind_areas.corridors_act.delete()
+        elif doc_id == 'emergency_exit_act':
+            ind_areas.emergency_exit_act.delete()
+        elif doc_id == 'food_block_act':
+            ind_areas.food_block_act.delete()
+        elif doc_id == 'gym_act':
+            ind_areas.gym_act.delete()
+        elif doc_id == 'laundry_act':
+            ind_areas.laundry_act.delete()
+        elif doc_id == 'pantry_act':
+            ind_areas.pantry_act.delete()
+        else:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            data={"detail": "No such doc_id"})
+        ind_areas.save()
+        return Response(status=status.HTTP_200_OK)
