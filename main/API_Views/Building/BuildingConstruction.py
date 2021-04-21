@@ -51,7 +51,7 @@ class BuildingConstructionAPI(APIView):
         return Response(status=status.HTTP_200_OK)
 
     def delete(self, request):
-        data = request.data
+        data = request.headers
         building_id = data['id']
         user = request.my_user
         doc_id = data['doc_id']
