@@ -8,7 +8,7 @@ from main.models import School
 
 
 class Requisites(MyModel):
-    school = models.ForeignKey(School, verbose_name="Школа", on_delete=models.CASCADE, default=None)
+    school = models.OneToOneField(School, verbose_name="Школа", on_delete=models.CASCADE, default=None)
     district = models.ForeignKey(District, verbose_name="Территориальная принадлежность", on_delete=models.CASCADE,
                                     default=None, null=True)
     official_site = models.CharField(verbose_name="Оффициальный сайт", max_length=100, blank=True, null=True)
