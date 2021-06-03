@@ -14,7 +14,7 @@ class PowerSupply(MyModel):
         verbose_name="Категория надежности электроснабжения (Фактическая)", null=True, blank=True)
     availability_of_backup_power_supplies = models.CharField(verbose_name="Наличие резервных источников электропитания",
                                                              max_length=50, null=True, blank=True)
-    permitted_power = models.IntegerField(verbose_name="Разрешенная мощность", null=True, blank=True)
+    permitted_power = models.FloatField(verbose_name="Разрешенная мощность", null=True, blank=True)
     ground_loop = models.BooleanField(verbose_name="Наличие контура заземления", null=True, blank=True)
     count_of_energy_saving_lamps_for_indoor_lighting = models.IntegerField(
         verbose_name="Количество энергосберегающих ламп внутреннего освещения", null=True, blank=True)

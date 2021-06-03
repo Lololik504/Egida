@@ -13,10 +13,15 @@ class DistrictsInfo(APIView):
 
     def get(self, request):
         user = request.my_user
-        if not departament_allow(user):
-            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
-                            data={'detail': 'You dont have permission to do this'})
-        else:
+        if district_allow(user, user.district):
+            district = user.district
+            dist_schools = district.school_set.all()
+            ans = [{
+                'name': DistrictsSerializer(district, many=False).data,
+                'schools': SchoolInfoSerializer(dist_schools, many=True).data
+            }]
+            return Response(ans)
+        elif departament_allow(user):
             districts = District.objects.all()
             ans = []
             for district in districts:
@@ -27,6 +32,9 @@ class DistrictsInfo(APIView):
                 })
             logger.success(str.format("{0} Получил информацию о всех районах", user))
             return Response(ans)
+        else:
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
+                            data={'detail': 'You dont have permission to do this'})
 
 
 class OneDistrictInfo(APIView):
@@ -63,6 +71,6 @@ class DistrictsQuery(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-            districts = District.objects.all()
-            ans = DistrictsSerializer(districts, many=True).data
-            return Response(ans)
+        districts = District.objects.all()
+        ans = DistrictsSerializer(districts, many=True).data
+        return Response(ans)
