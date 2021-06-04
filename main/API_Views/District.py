@@ -13,15 +13,7 @@ class DistrictsInfo(APIView):
 
     def get(self, request):
         user = request.my_user
-        if district_allow(user, user.district):
-            district = user.district
-            dist_schools = district.school_set.all()
-            ans = [{
-                'name': DistrictsSerializer(district, many=False).data,
-                'schools': SchoolInfoSerializer(dist_schools, many=True).data
-            }]
-            return Response(ans)
-        elif departament_allow(user):
+        if departament_allow(user):
             districts = District.objects.all()
             ans = []
             for district in districts:
@@ -31,6 +23,14 @@ class DistrictsInfo(APIView):
                     'schools': SchoolInfoSerializer(dist_schools, many=True).data
                 })
             logger.success(str.format("{0} Получил информацию о всех районах", user))
+            return Response(ans)
+        elif district_allow(user, user.district):
+            district = user.district
+            dist_schools = district.school_set.all()
+            ans = [{
+                'name': DistrictsSerializer(district, many=False).data,
+                'schools': SchoolInfoSerializer(dist_schools, many=True).data
+            }]
             return Response(ans)
         else:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
