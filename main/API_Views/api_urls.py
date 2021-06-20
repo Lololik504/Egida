@@ -11,6 +11,8 @@ from main.API_Views.TEST import TEST
 from main.API_Views.Temperature import TemperatureInfo
 from main.API_Views.Documents import DocumentsView
 from main.API_Views.Orders import RospotrebView, GospozhView, RostechView, SudebView, OtherOrdersView
+from main.API_Views.Mandate import MandateAssemblyView, MandateCouncilView
+
 urlpatterns = [
     path('fields/', include("main.fields_url")),
     path('filters/', FieldsAPI.Filters.as_view()),
@@ -32,4 +34,6 @@ urlpatterns = [
     path('orders/sudeb/', SudebView.as_view()),
     path('orders/otherorders/', OtherOrdersView.as_view()),
     path('personal/updater/', UpdaterPrikazOnly.as_view()),
+    path('mandate/mandatecouncil/', MandateCouncilView.as_view()),
+    path('mandate/mandateassembly', MandateAssemblyView.as_view()),
 ]

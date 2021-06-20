@@ -8,7 +8,7 @@ from main.models.RequisitesModel import Requisites
 from main.models.TemperatureModel import Temperature
 from main.models.DocumentsModel import Document
 from main.models.OrdersModel import Rospotreb, Gospozh, Rostech, Sudeb, OtherOrders
-
+from main.models.Mandate import MandateAssembly, MandateCouncil
 
 __all__ = [
     "Personal",
@@ -22,5 +22,7 @@ __all__ = [
     "Gospozh",
     "Rostech",
     "Sudeb",
-    "OtherOrders"
+    "OtherOrders",
+    'MandateCouncil',
+    'MandateAssembly',
 ]

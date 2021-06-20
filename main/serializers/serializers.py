@@ -111,3 +111,15 @@ class OtherOrdersSerializer(ModelSerializer):
         encoder = 'ascii'
         model = OtherOrders
         fields = '__all__'
+
+class MandateCouncilSerializer(ModelSerializer):
+    class Meta:
+        encoder = 'ascii'
+        model = MandateCouncil
+        fields = '__all__'
+
+class MandateAssemblySerializer(ModelSerializer):
+    class Meta:
+        encoder = 'ascii'
+        model = MandateAssembly
+        fields = '__all__'

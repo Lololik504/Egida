@@ -202,6 +202,8 @@ INDOOR_AREAS_URL = 'indoor_areas'
 UPDADTER_PRIKAZ_ROOT = os.path.join(BASE_DIR, 'media/updater_prikaz')
 UPDADTER_PRIKAZ_URL = 'updater_prikaz'
 
+MANDATE_ROOT = os.path.join(BASE_DIR, 'media/mandate')
+MANDATE_URL = 'mandate'
 
 if not os.path.exists(MEDIA_ROOT):
     os.mkdir(MEDIA_ROOT)
@@ -227,6 +229,9 @@ if not os.path.exists(INDOOR_AREAS_ROOT):
 
 if not os.path.exists(UPDADTER_PRIKAZ_ROOT):
     os.mkdir(UPDADTER_PRIKAZ_ROOT)
+
+if not os.path.exists(MANDATE_ROOT):
+    os.mkdir(MANDATE_ROOT)
 
 if PROD:
     from .prod_settings import *

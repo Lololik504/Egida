@@ -46,7 +46,8 @@ extra_urlpatterns = [
                     + static(settings.BUILDING_MEDIA_URL, document_root=settings.BUILDING_MEDIA_ROOT) \
                     + static(settings.ENGINEERING_COMMUNICATION_URL, document_root=settings.ENGINEERING_COMMUNICATION_ROOT)\
                     + static(settings.INDOOR_AREAS_URL, document_root=settings.INDOOR_AREAS_ROOT) \
-                    + static(settings.UPDADTER_PRIKAZ_URL, document_root=settings.UPDADTER_PRIKAZ_ROOT)
+                    + static(settings.UPDADTER_PRIKAZ_URL, document_root=settings.UPDADTER_PRIKAZ_ROOT) \
+                    + static(settings.MANDATE_URL, document_root=settings.MANDATE_ROOT)
 
 custom_admin_urls = (
     path('admin/main/schools/export/', export, name="export"),
