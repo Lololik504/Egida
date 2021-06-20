@@ -74,7 +74,7 @@ class IndoorAreasAPI(APIView):
         data = request.headers
         building_id = data['id']
         user = request.my_user
-        doc_id = data['doc_id']
+        doc_id = data['docId']
         try:
             building = find_building_and_allow_user(building_id, user)
             ind_areas = IndoorAreas.objects.get_or_create(building=building)

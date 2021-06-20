@@ -57,7 +57,7 @@ class EngineeringCommunicationAPI(APIView):
         data = request.headers
         building_id = data['id']
         user = request.my_user
-        doc_id = data['doc_id']
+        doc_id = data['docId']
         try:
             building = find_building_and_allow_user(building_id, user)
             eng_communication = EngineeringCommunication.objects.get_or_create(building=building)

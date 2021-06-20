@@ -54,7 +54,7 @@ class BuildingConstructionAPI(APIView):
         data = request.headers
         building_id = data['id']
         user = request.my_user
-        doc_id = data['doc_id']
+        doc_id = data['docId']
         try:
             building = find_building_and_allow_user(building_id, user)
             building_constr = BuildingConstruction.objects.get_or_create(building=building)

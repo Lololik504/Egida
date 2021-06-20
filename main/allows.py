@@ -33,13 +33,14 @@ def building_allow(building:Building, user):
 
 
 def district_allow(user, district):
+    if user is None:
+        return False
     if user.permission > MyUser.Permissions.DISTRICT.value:
         return False
     if isinstance(user, DistrictUser):
         if user.district != district:
             return False
-    else:
-        return True
+    return True
 
 
 def departament_allow(user):
