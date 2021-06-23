@@ -139,7 +139,7 @@ class MandateAssemblyView(APIView):
         file = None
         if request.FILES:
             file = request.FILES['file']
-        data['file'] = file
+            data['file'] = file
         try:
             mandate_id = data.get('mandate-id')
             school = find_school_and_allow_user(INN, user)
@@ -166,7 +166,7 @@ class MandateAssemblyView(APIView):
         file = None
         if request.FILES:
             file = request.FILES['file']
-        data['file'] = file
+            data['file'] = file
         try:
             mandate_id = data.get('mandate-id')
             school = find_school_and_allow_user(INN, user)
