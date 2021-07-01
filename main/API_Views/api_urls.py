@@ -35,5 +35,5 @@ urlpatterns = [
     path('orders/otherorders/', OtherOrdersView.as_view()),
     path('personal/updater/', UpdaterPrikazOnly.as_view()),
     path('mandate/mandatecouncil/', MandateCouncilView.as_view()),
-    path('mandate/mandateassembly', MandateAssemblyView.as_view()),
+    path('mandate/mandateassembly/', MandateAssemblyView.as_view()),
 ]

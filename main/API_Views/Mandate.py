@@ -39,12 +39,13 @@ class MandateCouncilView(APIView):
 
     def put(self, request, *args, **kwargs):
         data: dict = request.headers
+        data1: dict = request.data
+        logger.debug(data1)
         INN = data['INN']
         user = request.my_user
         file = None
         if request.FILES:
             file = request.FILES['file']
-        data['file'] = file
         try:
             mandate_id = data.get('mandate-id')
             school = find_school_and_allow_user(INN, user)
@@ -57,7 +58,7 @@ class MandateCouncilView(APIView):
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
-        mandate.update(data)
+        mandate.update(data1)
         if file:
             mandate.file = file
         mandate.save()
@@ -66,12 +67,13 @@ class MandateCouncilView(APIView):
 
     def post(self, request, *args, **kwargs):
         data: dict = request.headers
+        data1: dict = request.data
         INN = data['INN']
         user = request.my_user
+        logger.debug(data1)
         file = None
         if request.FILES:
             file = request.FILES['file']
-        data['file'] = file
         try:
             mandate_id = data.get('mandate-id')
             school = find_school_and_allow_user(INN, user)
@@ -80,7 +82,7 @@ class MandateCouncilView(APIView):
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
-        mandate.update(data)
+        mandate.update(data1)
         if file:
             mandate.file = file
         mandate.save()
@@ -134,12 +136,12 @@ class MandateAssemblyView(APIView):
 
     def put(self, request, *args, **kwargs):
         data: dict = request.headers
+        data1: dict = request.data
         INN = data['INN']
         user = request.my_user
         file = None
         if request.FILES:
             file = request.FILES['file']
-        data['file'] = file
         try:
             mandate_id = data.get('mandate-id')
             school = find_school_and_allow_user(INN, user)
@@ -152,7 +154,7 @@ class MandateAssemblyView(APIView):
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
-        mandate.update(data)
+        mandate.update(data1)
         if file:
             mandate.file = file
         mandate.save()
@@ -161,12 +163,12 @@ class MandateAssemblyView(APIView):
 
     def post(self, request, *args, **kwargs):
         data: dict = request.headers
+        data1: dict = request.data
         INN = data['INN']
         user = request.my_user
         file = None
         if request.FILES:
             file = request.FILES['file']
-        data['file'] = file
         try:
             mandate_id = data.get('mandate-id')
             school = find_school_and_allow_user(INN, user)
@@ -175,7 +177,7 @@ class MandateAssemblyView(APIView):
             logger.exception(ex)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})
-        mandate.update(data)
+        mandate.update(data1)
         if file:
             mandate.file = file
         mandate.save()
