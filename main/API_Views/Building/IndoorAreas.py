@@ -12,6 +12,9 @@ def find_and_change_bool_vars(data):
     change_dict = False
     array_of_bool_vars = ['food_block_exhaust_ventilation', 'food_block_exhaust_ventilation_is_workable',
                           'food_block_supply_ventilation', 'food_block_supply_ventilation_is_workable',
+                          'food_block_equipment_cost', 'food_block_combine_availability',
+                          'food_block_dining_availability',
+                          'food_block_production_availability',
                           'gym_exhaust_ventilation', 'gym_exhaust_ventilation_is_workable', 'gym_supply_ventilation',
                           'gym_supply_ventilation_is_workable', 'auditorium_exhaust_ventilation',
                           'auditorium_exhaust_ventilation_is_workable', 'auditorium_supply_ventilation',
