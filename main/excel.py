@@ -1,8 +1,14 @@
 import datetime
 import json
+import shutil
 
 import xlrd
 import xlwt
+import xlutils
+from django.db.models import Q
+from xlutils.copy import copy
+
+import openpyxl
 from django.db import models
 from django.utils.dateparse import parse_date
 from loguru import logger
@@ -89,7 +95,9 @@ class ExcelWriter(xlwt.Workbook):
         self.column = START_COLUMN
         self.shit: Worksheet = self.add_sheet("export", cell_overwrite_ok=True)
         self.schools = list(School.objects.all())
-        self.full_path = settings.DOCUMENT_ROOT + "/export.xls"
+        self.buildings = list(Building.objects.all())
+        self.template_path = settings.DOCUMENT_ROOT+'/template.xlsx'
+        self.full_path = settings.DOCUMENT_ROOT + "/export.xlsx"
 
     def add_buildings_to_excel(self, temperature_data: dict = None, data=None, full=False):
         global end, temperature_fields
@@ -241,6 +249,13 @@ class ExcelWriter(xlwt.Workbook):
                                   self.schools)
             self.schools = filter(lambda f_school: cur_filter[f_school.district.id.__str__()], self.schools)
 
+    def filter_buildings(self, filters: dict):
+        if filters.__contains__(District._meta.model_name):
+            cur_filter: dict = filters[District._meta.model_name]
+            self.buildings = filter(lambda f_building: cur_filter.__contains__(f_building.school.district.id.__str__()),
+                                  self.buildings)
+            self.buildings = filter(lambda f_building: cur_filter[f_building.school.district.id.__str__()], self.buildings)
+
     def filter_by_date_field(self, objects, start: datetime = None, end: datetime = None):
         if not start is None:
             objects = list(filter(lambda o: o.date >= start, objects))
@@ -248,28 +263,151 @@ class ExcelWriter(xlwt.Workbook):
             objects = list(filter(lambda o: o.date <= end, objects))
         return objects
 
+    # def make_export_file(self, data: dict):
+    #     if data.__contains__("filters"):
+    #         self.filter_schools(data["filters"])
+    #     self.schools = list(self.schools)
+    #     if data.__contains__(School._meta.model_name):
+    #         self.add_schools_to_excel(data=data[School._meta.model_name])
+    #     if data.__contains__(Building._meta.model_name):
+    #         if data.__contains__(Temperature._meta.model_name):
+    #             self.add_buildings_to_excel(data=data[Building._meta.model_name],
+    #                                         temperature_data=data[Temperature._meta.model_name])
+    #         else:
+    #             self.add_buildings_to_excel(data=data[Building._meta.model_name])
+    #     if data.__contains__(Director._meta.model_name):
+    #         self.add_one_model_to_excel(data=data[Director._meta.model_name], model=Director())
+    #     self.save(self.full_path)
+    #     return self.full_path
+
+    # def make_full_export_file(self):
+    #     self.add_schools_to_excel(full=True)
+    #     self.add_foreign_model_to_excel(model=Building(), full=True)
+    #     self.save(self.full_path)
+    #     return self.full_path
+
+    def make_full_export_file(self):
+        shutil.copy(self.template_path, self.full_path)
+        read_book = openpyxl.load_workbook(self.full_path)
+        legal_worksheet = read_book.worksheets[0]
+        for school in self.schools:
+            values = []
+            values.append(school.INN)
+            values.append(school.district.name)
+            values.append(school.form_type)
+            values.append(school.edu_type)
+            values.append(school.name)
+            values.append(school.shortname)
+            director = school.director
+            values.append(f'{director.last_name} {director.first_name} {director.patronymic}')
+            values.append(director.phone)
+            zavhoz = school.zavhoz
+            values.append(f'{zavhoz.last_name} {zavhoz.first_name} {zavhoz.patronymic}')
+            values.append(zavhoz.phone)
+            bookkeeper = school.bookkeeper
+            values.append(f'{bookkeeper.last_name} {bookkeeper.first_name} {bookkeeper.patronymic}')
+            values.append(bookkeeper.phone)
+            requisites = school.requisites
+            values.append(requisites.formation_date)
+            buildings_outstanding = school.building_set.filter(type=Building.TYPE.FREE_STANDING)
+            buildings_all = school.building_set.all()
+            buildings_not_outstanding = school.building_set.filter(~Q(type=Building.TYPE.FREE_STANDING))
+            values.append(len(buildings_outstanding))
+            values.append(sum([i.building_square if i.building_square is not None else 0 for i in buildings_all]))
+            values.append(
+                sum([i.building_square if i.building_square is not None else 0 for i in buildings_not_outstanding]))
+            legal_worksheet.append(values)
+        building_worksheet = read_book.worksheets[1]
+        for building in self.buildings:
+            values2 = []
+            values2.append(building.school.INN)
+            values2.append(building.school.district.name)
+            values2.append(building.school.form_type)
+            values2.append(building.school.edu_type)
+            values2.append(building.school.shortname)
+            values2.append(f'{building.street} {building.street_number}')
+            values2.append(building.type)
+            values2.append(building.purpose)
+            values2.append(building.construction_year)
+            values2.append(building.building_square)
+            values2.append(building.land_square)
+            values2.append(building.number_of_storeys)
+            values2.append(building.build_height)
+            values2.append(building.occupancy_proj)
+            values2.append(building.occupancy_fact)
+            values2.append(building.arend_square)
+            values2.append(building.arend_use_type)
+            values2.append(building.unused_square)
+            values2.append(building.repair_need_square)
+            values2.append(building.technical_condition)
+            values2.append(building.last_repair_year)
+            building_worksheet.append(values2)
+        read_book.save(self.full_path)
+        return self.full_path
+
     def make_export_file(self, data: dict):
         if data.__contains__("filters"):
             self.filter_schools(data["filters"])
+            self.filter_buildings(data["filters"])
         self.schools = list(self.schools)
-        if data.__contains__(School._meta.model_name):
-            self.add_schools_to_excel(data=data[School._meta.model_name])
-        if data.__contains__(Building._meta.model_name):
-            if data.__contains__(Temperature._meta.model_name):
-                self.add_buildings_to_excel(data=data[Building._meta.model_name],
-                                            temperature_data=data[Temperature._meta.model_name])
-            else:
-                self.add_buildings_to_excel(data=data[Building._meta.model_name])
-        if data.__contains__(Director._meta.model_name):
-            self.add_one_model_to_excel(data=data[Director._meta.model_name], model=Director())
-        self.save(self.full_path)
+        self.buildings = list(self.buildings)
+        shutil.copy(self.template_path, self.full_path)
+        read_book = openpyxl.load_workbook(self.full_path)
+        legal_worksheet = read_book.worksheets[0]
+        for school in self.schools:
+            values = []
+            values.append(school.INN)
+            values.append(school.district.name)
+            values.append(school.form_type)
+            values.append(school.edu_type)
+            values.append(school.name)
+            values.append(school.shortname)
+            director = school.director
+            values.append(f'{director.last_name} {director.first_name} {director.patronymic}')
+            values.append(director.phone)
+            zavhoz = school.zavhoz
+            values.append(f'{zavhoz.last_name} {zavhoz.first_name} {zavhoz.patronymic}')
+            values.append(zavhoz.phone)
+            bookkeeper = school.bookkeeper
+            values.append(f'{bookkeeper.last_name} {bookkeeper.first_name} {bookkeeper.patronymic}')
+            values.append(bookkeeper.phone)
+            requisites = school.requisites
+            values.append(requisites.formation_date)
+            buildings_outstanding = school.building_set.filter(type=Building.TYPE.FREE_STANDING)
+            buildings_all = school.building_set.all()
+            buildings_not_outstanding = school.building_set.filter(~Q(type=Building.TYPE.FREE_STANDING))
+            values.append(len(buildings_outstanding))
+            values.append(sum([i.building_square if i.building_square is not None else 0 for i in buildings_all]))
+            values.append(sum([i.building_square if i.building_square is not None else 0 for i in buildings_not_outstanding]))
+            legal_worksheet.append(values)
+        building_worksheet = read_book.worksheets[1]
+        for building in self.buildings:
+            values2 = []
+            values2.append(building.school.INN)
+            values2.append(building.school.district.name)
+            values2.append(building.school.form_type)
+            values2.append(building.school.edu_type)
+            values2.append(building.school.shortname)
+            values2.append(f'{building.street} {building.street_number}')
+            values2.append(building.type)
+            values2.append(building.purpose)
+            values2.append(building.construction_year)
+            values2.append(building.building_square)
+            values2.append(building.land_square)
+            values2.append(building.number_of_storeys)
+            values2.append(building.build_height)
+            values2.append(building.occupancy_proj)
+            values2.append(building.occupancy_fact)
+            values2.append(building.arend_square)
+            values2.append(building.arend_use_type)
+            values2.append(building.unused_square)
+            values2.append(building.repair_need_square)
+            values2.append(building.technical_condition)
+            values2.append(building.last_repair_year)
+            building_worksheet.append(values2)
+        read_book.save(self.full_path)
         return self.full_path
 
-    def make_full_export_file(self):
-        self.add_schools_to_excel(full=True)
-        self.add_foreign_model_to_excel(model=Building(), full=True)
-        self.save(self.full_path)
-        return self.full_path
 
 
 def make_export_file(data: dict):

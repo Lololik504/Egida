@@ -54,3 +54,5 @@ whitenoise
 win32-setctime
 xlrd
 xlwt
+xlutils
+openpyxl
