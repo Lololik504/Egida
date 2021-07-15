@@ -25,14 +25,14 @@ def imp(f):
 def full_export():
     content = excel.make_full_export_file()
     response = HttpResponse(open(content, 'rb'), content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = "filename=export.xls"
+    response['Content-Disposition'] = "filename=export.xlsx"
     return response
 
 
 def export(data):
     content = excel.make_export_file(data)
     response = HttpResponse(open(content, 'rb'), content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = "filename=export.xls"
+    response['Content-Disposition'] = "filename=export.xlsx"
     return response
 
 
