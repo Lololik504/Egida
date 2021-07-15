@@ -296,17 +296,32 @@ class ExcelWriter(xlwt.Workbook):
             values.append(school.edu_type)
             values.append(school.name)
             values.append(school.shortname)
-            director = school.director
-            values.append(f'{director.last_name} {director.first_name} {director.patronymic}')
-            values.append(director.phone)
-            zavhoz = school.zavhoz
-            values.append(f'{zavhoz.last_name} {zavhoz.first_name} {zavhoz.patronymic}')
-            values.append(zavhoz.phone)
-            bookkeeper = school.bookkeeper
-            values.append(f'{bookkeeper.last_name} {bookkeeper.first_name} {bookkeeper.patronymic}')
-            values.append(bookkeeper.phone)
-            requisites = school.requisites
-            values.append(requisites.formation_date)
+            try:
+                director = school.director
+                values.append(f'{director.last_name} {director.first_name} {director.patronymic}')
+                values.append(director.phone)
+            except:
+                values.append('-')
+                values.append('-')
+            try:
+                zavhoz = school.zavhoz
+                values.append(f'{zavhoz.last_name} {zavhoz.first_name} {zavhoz.patronymic}')
+                values.append(zavhoz.phone)
+            except:
+                values.append('-')
+                values.append('-')
+            try:
+                bookkeeper = school.bookkeeper
+                values.append(f'{bookkeeper.last_name} {bookkeeper.first_name} {bookkeeper.patronymic}')
+                values.append(bookkeeper.phone)
+            except:
+                values.append('-')
+                values.append('-')
+            try:
+                requisites = school.requisites
+                values.append(requisites.formation_date)
+            except:
+                values.append('-')
             buildings_outstanding = school.building_set.filter(type=Building.TYPE.FREE_STANDING)
             buildings_all = school.building_set.all()
             buildings_not_outstanding = school.building_set.filter(~Q(type=Building.TYPE.FREE_STANDING))
@@ -360,23 +375,39 @@ class ExcelWriter(xlwt.Workbook):
             values.append(school.edu_type)
             values.append(school.name)
             values.append(school.shortname)
-            director = school.director
-            values.append(f'{director.last_name} {director.first_name} {director.patronymic}')
-            values.append(director.phone)
-            zavhoz = school.zavhoz
-            values.append(f'{zavhoz.last_name} {zavhoz.first_name} {zavhoz.patronymic}')
-            values.append(zavhoz.phone)
-            bookkeeper = school.bookkeeper
-            values.append(f'{bookkeeper.last_name} {bookkeeper.first_name} {bookkeeper.patronymic}')
-            values.append(bookkeeper.phone)
-            requisites = school.requisites
-            values.append(requisites.formation_date)
+            try:
+                director = school.director
+                values.append(f'{director.last_name} {director.first_name} {director.patronymic}')
+                values.append(director.phone)
+            except:
+                values.append('-')
+                values.append('-')
+            try:
+                zavhoz = school.zavhoz
+                values.append(f'{zavhoz.last_name} {zavhoz.first_name} {zavhoz.patronymic}')
+                values.append(zavhoz.phone)
+            except:
+                values.append('-')
+                values.append('-')
+            try:
+                bookkeeper = school.bookkeeper
+                values.append(f'{bookkeeper.last_name} {bookkeeper.first_name} {bookkeeper.patronymic}')
+                values.append(bookkeeper.phone)
+            except:
+                values.append('-')
+                values.append('-')
+            try:
+                requisites = school.requisites
+                values.append(requisites.formation_date)
+            except:
+                values.append('-')
             buildings_outstanding = school.building_set.filter(type=Building.TYPE.FREE_STANDING)
             buildings_all = school.building_set.all()
             buildings_not_outstanding = school.building_set.filter(~Q(type=Building.TYPE.FREE_STANDING))
             values.append(len(buildings_outstanding))
             values.append(sum([i.building_square if i.building_square is not None else 0 for i in buildings_all]))
-            values.append(sum([i.building_square if i.building_square is not None else 0 for i in buildings_not_outstanding]))
+            values.append(
+                sum([i.building_square if i.building_square is not None else 0 for i in buildings_not_outstanding]))
             legal_worksheet.append(values)
         building_worksheet = read_book.worksheets[1]
         for building in self.buildings:
