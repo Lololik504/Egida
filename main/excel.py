@@ -4,9 +4,7 @@ import shutil
 
 import xlrd
 import xlwt
-import xlutils
 from django.db.models import Q
-from xlutils.copy import copy
 
 import openpyxl
 from django.db import models
