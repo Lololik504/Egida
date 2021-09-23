@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models.BuildingModel import Building
 from .models.DistrictModel import District
-from .models.PersonalModel import Director, ZavHoz, Bookkeeper, Updater
+from .models.PersonalModel import Director, ZavHoz, Bookkeeper, Updater, PlumberLocksmith, Electrician
 
 from .models.RequisitesModel import Requisites
 from .models.SchoolModel import School
@@ -28,6 +28,8 @@ admin.site.register(Director)
 admin.site.register(ZavHoz)
 admin.site.register(Bookkeeper)
 admin.site.register(Updater)
+admin.site.register(PlumberLocksmith)
+admin.site.register(Electrician)
 admin.site.register(Temperature)
 admin.site.register(Requisites)
 

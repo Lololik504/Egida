@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from main.serializers.serializers import *
-from .models.PersonalModel import Director, ZavHoz, Bookkeeper, Updater
+from .models.PersonalModel import Director, ZavHoz, Bookkeeper, Updater, PlumberLocksmith, Electrician
 from .models.building_construction import BuildingConstruction
 
 from .models.engineering_communication import EngineeringCommunication
@@ -14,7 +14,7 @@ from .models.territory_improvement import TerritoryImprovement
 from .models.sports_facilities import SportsFacilities
 from .models.accessible_environment import AccessibleEnvironment
 
-Models = [School, Building, Director, ZavHoz, Bookkeeper, Updater, Temperature]
+Models = [School, Building, Director, ZavHoz, Bookkeeper, Updater, PlumberLocksmith, Electrician, Temperature]
 
 
 class BuildingFields(APIView):

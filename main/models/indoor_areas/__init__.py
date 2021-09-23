@@ -8,4 +8,5 @@ from .food_block import FoodBlock
 from .gym import Gym
 from .laundry import Laundry
 from .pantry import Pantry
+from .pool import Pool
 from .IndoorAreas import IndoorAreas

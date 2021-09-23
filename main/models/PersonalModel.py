@@ -4,8 +4,10 @@ from main.MyModelFile import MyModel
 from main.models import School
 from Egida.settings import UPDADTER_PRIKAZ_URL
 
+
 def inn_dir_path(instance, filename):
     return UPDADTER_PRIKAZ_URL + '/id_{}/{}'.format(instance.id, filename)
+
 
 class Personal(MyModel):
     first_name = models.CharField(verbose_name="Имя", max_length=30, default=None, null=True)
@@ -71,4 +73,21 @@ class Updater(Personal, MyModel):
     class Meta:
         verbose_name = "Ответственный за заполнение"
         verbose_name_plural = "Ответственные за заполнение"
+        app_label = "main"
+
+
+class PlumberLocksmith(Personal, MyModel):
+    school = models.OneToOneField(School, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        verbose_name = "Слесарь-сантехник"
+        verbose_name_plural = "Слесари-сантехники"
+        app_label = "main"
+
+class Electrician(Personal, MyModel):
+    school = models.OneToOneField(School, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        verbose_name = "Электрик"
+        verbose_name_plural = "Электрики"
         app_label = "main"

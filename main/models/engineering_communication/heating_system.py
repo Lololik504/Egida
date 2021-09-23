@@ -69,5 +69,7 @@ class HeatingSystem(MyModel):
                                             default=None, null=True, blank=True)
     toposnova = models.FileField(verbose_name='Топоснова', upload_to=inn_dir_path2, default=None, null=True, blank=True)
 
+    obsluzh_organization = models.TextField(verbose_name='Организация, обслуживающая приборы учеты тепловой энергии', null=True, blank=True)
+
     class Meta:
         abstract = True

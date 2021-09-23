@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 
 from main.models.services import get_model_name
 from main.serializers.serializers import PersonalAllInfoSerializer
-from main.services import find_school_and_allow_user, get_director, get_bookkeeper, get_updater, get_zavhoz, get_and_update_updater
+from main.services import find_school_and_allow_user, get_director, get_bookkeeper, get_updater, get_zavhoz, get_and_update_updater, get_plumberlocsmith, get_electrician
 from ..models.PersonalModel import Updater, Personal
 
 class PersonalOfSchoolInfo(APIView):
@@ -25,12 +25,17 @@ class PersonalOfSchoolInfo(APIView):
         bookkeeper = get_bookkeeper(school)
         responsible_for_filling = get_updater(school)
         zavhoz = get_zavhoz(school)
+        plumberloc = get_plumberlocsmith(school)
+        electrician = get_electrician(school)
         ans = {}
         ans.update({get_model_name(director): PersonalAllInfoSerializer(director, many=False).data})
         ans.update({get_model_name(zavhoz): PersonalAllInfoSerializer(zavhoz, many=False).data})
         ans.update({get_model_name(bookkeeper): PersonalAllInfoSerializer(bookkeeper, many=False).data})
         ans.update({get_model_name(responsible_for_filling): PersonalAllInfoSerializer(responsible_for_filling,
                                                                                        many=False).data})
+        ans.update({get_model_name(plumberloc): PersonalAllInfoSerializer(plumberloc, many=False).data})
+        ans.update({get_model_name(electrician): PersonalAllInfoSerializer(electrician, many=False).data})
+
         return Response(data=ans)
 
     def put(self, request):
@@ -47,11 +52,16 @@ class PersonalOfSchoolInfo(APIView):
         bookkeeper = get_bookkeeper(school)
         responsible_for_filling = get_updater(school)
         zavhoz = get_zavhoz(school)
+        plumberloc = get_plumberlocsmith(school)
+        electrician = get_electrician(school)
         try:
             director.update(data[get_model_name(director)])
             zavhoz.update(data.pop(get_model_name(zavhoz)))
             bookkeeper.update(data.pop(get_model_name(bookkeeper)))
             responsible_for_filling.update(data.pop(get_model_name(responsible_for_filling)))
+            plumberloc.update(data.pop(get_model_name(plumberloc)))
+            electrician.update(data.pop(get_model_name(electrician)))
+
         except BaseException as ex:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": ex.__str__()})

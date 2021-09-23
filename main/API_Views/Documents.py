@@ -51,6 +51,10 @@ class DocumentsView(APIView):
             docs.vodosnabj_MK = file
         elif doc_id == 'electrosnabj_MK':
             docs.electrosnabj_MK = file
+        elif doc_id == 'land_title':
+            docs.land_title = file
+        elif doc_id == 'building_title':
+            docs.building_title = file
         else:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": "No such doc_id"})
@@ -80,6 +84,10 @@ class DocumentsView(APIView):
             docs.vodosnabj_MK.delete()
         elif doc_id == 'electrosnabj_MK':
             docs.electrosnabj_MK.delete()
+        elif doc_id == 'land_title':
+            docs.land_title.delete()
+        elif doc_id == 'building_title':
+            docs.building_title.delete()
         else:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             data={"detail": "No such doc_id"})

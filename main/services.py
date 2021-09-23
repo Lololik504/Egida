@@ -7,7 +7,7 @@ from main import excel
 from main.allows import school_allow, building_allow
 from main.models import *
 from main.models import Director, Bookkeeper
-from main.models.PersonalModel import Updater, ZavHoz
+from main.models.PersonalModel import Updater, ZavHoz, PlumberLocksmith, Electrician
 
 
 def imp(f):
@@ -107,3 +107,17 @@ def get_zavhoz(school: School):
         zavhoz = ZavHoz.objects.create(school=school)
     return zavhoz
 
+def get_plumberlocsmith(school: School):
+    try:
+        plumberloc = school.plumberlocksmith
+    except PlumberLocksmith.DoesNotExist as ex:
+        plumberloc = PlumberLocksmith.objects.create(school=school)
+    return plumberloc
+
+
+def get_electrician(school: School):
+    try:
+        electrician = school.electrician
+    except Electrician.DoesNotExist as ex:
+        electrician = Electrician.objects.create(school=school)
+    return electrician
