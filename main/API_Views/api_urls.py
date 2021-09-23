@@ -12,6 +12,7 @@ from main.API_Views.Temperature import TemperatureInfo
 from main.API_Views.Documents import DocumentsView
 from main.API_Views.Orders import RospotrebView, GospozhView, RostechView, SudebView, OtherOrdersView
 from main.API_Views.Mandate import MandateAssemblyView, MandateCouncilView
+from main.API_Views.ZPPP import ZPPPView
 
 urlpatterns = [
     path('fields/', include("main.fields_url")),
@@ -36,4 +37,5 @@ urlpatterns = [
     path('personal/updater/', UpdaterPrikazOnly.as_view()),
     path('mandate/mandatecouncil/', MandateCouncilView.as_view()),
     path('mandate/mandateassembly/', MandateAssemblyView.as_view()),
+    path('zppp/', ZPPPView.as_view()),
 ]

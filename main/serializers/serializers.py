@@ -123,3 +123,9 @@ class MandateAssemblySerializer(ModelSerializer):
         encoder = 'ascii'
         model = MandateAssembly
         fields = '__all__'
+
+class ZPPPSerializer(ModelSerializer):
+    class Meta:
+        encoder = 'ascii'
+        model = ZPPP
+        fields = '__all__'

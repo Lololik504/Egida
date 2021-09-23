@@ -9,6 +9,8 @@ from main.models.TemperatureModel import Temperature
 from main.models.DocumentsModel import Document
 from main.models.OrdersModel import Rospotreb, Gospozh, Rostech, Sudeb, OtherOrders
 from main.models.Mandate import MandateAssembly, MandateCouncil
+from main.models.ZPPPModel import ZPPP
+
 
 __all__ = [
     "Personal",
@@ -25,4 +27,5 @@ __all__ = [
     "OtherOrders",
     'MandateCouncil',
     'MandateAssembly',
+    'ZPPP',
 ]
