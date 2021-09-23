@@ -75,7 +75,9 @@ class DocumentsSerializer(ModelSerializer):
                   'topographic_plan',
                   'teplosnabj_MK',
                   'vodosnabj_MK',
-                  'electrosnabj_MK']
+                  'electrosnabj_MK',
+                  'land_title',
+                  'building_title']
 
 
 class RospotrebSerializer(ModelSerializer):
