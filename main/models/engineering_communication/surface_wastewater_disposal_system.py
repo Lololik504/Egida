@@ -18,12 +18,12 @@ class SurfaceWastewater(MyModel):
         verbose_name="Слив дождевой и талой воды происходит самотеком на пониженный рельеф местности",
         null=True, blank=True)
 
-    roof_square = models.IntegerField(verbose_name='Площадь кровли', null=True, blank=True)
-    paved_square = models.IntegerField(verbose_name='Площадь асфальтированной территории', null=True, blank=True)
-    ground_square = models.IntegerField(verbose_name='Площадь грунтовой поверхности ', null=True, blank=True)
-    lawn_square = models.IntegerField(verbose_name='Площадь газона', null=True, blank=True)
-    rubber_square = models.IntegerField(verbose_name='Площадь резинового покрытия', null=True, blank=True)
-    all_square = models.IntegerField(verbose_name='Общая площадь территории ', null=True, blank=True)
+    roof_square = models.FloatField(verbose_name='Площадь кровли', null=True, blank=True)
+    paved_square = models.FloatField(verbose_name='Площадь асфальтированной территории', null=True, blank=True)
+    ground_square = models.FloatField(verbose_name='Площадь грунтовой поверхности ', null=True, blank=True)
+    lawn_square = models.FloatField(verbose_name='Площадь газона', null=True, blank=True)
+    rubber_square = models.FloatField(verbose_name='Площадь резинового покрытия', null=True, blank=True)
+    all_square = models.FloatField(verbose_name='Общая площадь территории ', null=True, blank=True)
 
     class Meta:
         abstract = True

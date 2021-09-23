@@ -10,9 +10,9 @@ class Pool(MyModel):
     pool_days_in_week = models.IntegerField(verbose_name='Количество дней в неделю', null=True, blank=True)
     pool_people_in_day = models.IntegerField(verbose_name='Количество человек в день', null=True, blank=True)
     pool_bowl_condition = models.TextField(verbose_name='Состояние чаши бассейна', null=True, blank=True)
-    pool_bowl_length = models.IntegerField(verbose_name='Длина чаши бассейна', null=True, blank=True)
-    pool_bowl_width = models.IntegerField(verbose_name='Ширина чаши бассейна', null=True, blank=True)
-    pool_bowl_depth = models.IntegerField(verbose_name='Глубина чаши бассейна', null=True, blank=True)
+    pool_bowl_length = models.FloatField(verbose_name='Длина чаши бассейна', null=True, blank=True)
+    pool_bowl_width = models.FloatField(verbose_name='Ширина чаши бассейна', null=True, blank=True)
+    pool_bowl_depth = models.FloatField(verbose_name='Глубина чаши бассейна', null=True, blank=True)
     nature_of_water_exchange = models.TextField(verbose_name='Характер водообмена', null=True, blank=True)
     filtration_unit = models.BooleanField(verbose_name='Наличие фильтровальной установки', null=True, blank=True)
     filtration_unit_year = models.IntegerField(verbose_name='Год ввода в эксплуатацию фильтровальной установки',
