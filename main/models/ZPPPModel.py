@@ -7,6 +7,8 @@ from django.db import models
 class ZPPP(MyModel):
     school = models.ForeignKey(to="main.School", verbose_name="Школа", on_delete=models.CASCADE, default=None)
     type_ownership = models.TextField(verbose_name='Форма собственности', null=True, blank=True)
+    zppp_type = models.TextField(verbose_name='Тип здания', null=True, blank=True)
+    zppp_adress = models.TextField(verbose_name='Адрес здания', null=True, blank=True)
     zppp_group = models.IntegerField(verbose_name='Группа ЗППП', null=True, blank=True)
     zppp_height = models.FloatField(verbose_name='Высота ЗППП', null=True, blank=True)
     zppp_square = models.FloatField(verbose_name='Общая площадь ЗППП', null=True, blank=True)
