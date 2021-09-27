@@ -13,8 +13,9 @@ from .models.services import get_model_fields
 from .models.territory_improvement import TerritoryImprovement
 from .models.sports_facilities import SportsFacilities
 from .models.accessible_environment import AccessibleEnvironment
+from .models.ZPPPModel import ZPPP
 
-Models = [School, Building, Director, ZavHoz, Bookkeeper, Updater, PlumberLocksmith, Electrician, Temperature]
+Models = [School, Building, Director, ZavHoz, Bookkeeper, Updater, PlumberLocksmith, Electrician, Temperature, ZPPP]
 
 
 class BuildingFields(APIView):
@@ -165,6 +166,17 @@ class AccessibleEnvironmentFields(APIView):
 
     def get(self, request):
         fields = list(get_model_fields(AccessibleEnvironment))
+        ans = []
+        for f in fields:
+            ans.append({f.name: f.verbose_name})
+        return Response(data=ans)
+
+
+class ZPPPFields(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        fields = list(get_model_fields(ZPPP))
         ans = []
         for f in fields:
             ans.append({f.name: f.verbose_name})

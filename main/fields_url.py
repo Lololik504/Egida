@@ -15,4 +15,5 @@ urlpatterns = [
     path('territory_improvement/', FieldsAPI.TerritoryImprovementFields.as_view()),
     path('sports_facilities/', FieldsAPI.SportsFacilitiesFields.as_view()),
     path('accessible_environment/', FieldsAPI.AccessibleEnvironmentFields.as_view()),
+    path('zppp/', FieldsAPI.ZPPPFields.as_view()),
 ]
