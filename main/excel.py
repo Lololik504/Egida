@@ -94,6 +94,7 @@ class ExcelWriter(xlwt.Workbook):
         self.shit: Worksheet = self.add_sheet("export", cell_overwrite_ok=True)
         self.schools = list(School.objects.all())
         self.buildings = list(Building.objects.all())
+        self.zppp = list(ZPPP.objects.all())
         self.template_path = settings.DOCUMENT_ROOT+'/template.xlsx'
         self.full_path = settings.DOCUMENT_ROOT + "/export.xlsx"
 
@@ -254,6 +255,13 @@ class ExcelWriter(xlwt.Workbook):
                                   self.buildings)
             self.buildings = filter(lambda f_building: cur_filter[f_building.school.district.id.__str__()], self.buildings)
 
+    def filter_zppp(self, filters: dict):
+        cur_filter: dict = filters[District._meta.model_name]
+        self.zppp = filter(lambda f_zppp: cur_filter.__contains__(f_zppp.school.district.id.__str__()),
+                                self.zppp)
+        self.zppp = filter(lambda f_zppp: cur_filter[f_zppp.school.district.id.__str__()], self.zppp)
+
+
     def filter_by_date_field(self, objects, start: datetime = None, end: datetime = None):
         if not start is None:
             objects = list(filter(lambda o: o.date >= start, objects))
@@ -355,6 +363,25 @@ class ExcelWriter(xlwt.Workbook):
             values2.append(building.technical_condition)
             values2.append(building.last_repair_year)
             building_worksheet.append(values2)
+        go = read_book.worksheets[2]
+        for z in self.zppp:
+            values3 = []
+            school = z.school
+            values3.append(school.INN)
+            values3.append(z.type_ownership)
+            values3.append(z.zppp_type)
+            values3.append(z.zppp_adress)
+            values3.append(z.zppp_group)
+            values3.append(z.zppp_height)
+            values3.append(z.zppp_square)
+            values3.append(z.zppp_material)
+            values3.append(z.zppp_heating)
+            values3.append(z.zppp_water)
+            values3.append(z.zppp_sewerage)
+            values3.append(z.zppp_light)
+            values3.append(z.zppp_ventilation)
+            values3.append(z.zppp_additional)
+            go.append(values3)
         read_book.save(self.full_path)
         return self.full_path
 
@@ -362,8 +389,10 @@ class ExcelWriter(xlwt.Workbook):
         if data.__contains__("filters"):
             self.filter_schools(data["filters"])
             self.filter_buildings(data["filters"])
+            self.filter_zppp(data["filters"])
         self.schools = list(self.schools)
         self.buildings = list(self.buildings)
+        self.zppp = list(self.zppp)
         shutil.copy(self.template_path, self.full_path)
         read_book = openpyxl.load_workbook(self.full_path)
         legal_worksheet = read_book.worksheets[0]
@@ -434,6 +463,25 @@ class ExcelWriter(xlwt.Workbook):
             values2.append(building.technical_condition)
             values2.append(building.last_repair_year)
             building_worksheet.append(values2)
+        go = read_book.worksheets[2]
+        for z in self.zppp:
+            values3 = []
+            school = z.school
+            values3.append(school.INN)
+            values3.append(z.type_ownership)
+            values3.append(z.zppp_type)
+            values3.append(z.zppp_adress)
+            values3.append(z.zppp_group)
+            values3.append(z.zppp_height)
+            values3.append(z.zppp_square)
+            values3.append(z.zppp_material)
+            values3.append(z.zppp_heating)
+            values3.append(z.zppp_water)
+            values3.append(z.zppp_sewerage)
+            values3.append(z.zppp_light)
+            values3.append(z.zppp_ventilation)
+            values3.append(z.zppp_additional)
+            go.append(values3)
         read_book.save(self.full_path)
         return self.full_path
 
