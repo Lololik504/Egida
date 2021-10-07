@@ -24,8 +24,15 @@ class Pool(MyModel):
                                                 null=True, blank=True)
     heating_lines_system_condition = models.TextField(
         verbose_name='Состояние системы обогрева дорожек в помещении бассейна', null=True, blank=True)
-    ventilation_system_condition = models.TextField(verbose_name='Состояние системы вентиляции в помещении бассейна',
-                                                    null=True, blank=True)
+    # ventilation_system_condition = models.TextField(verbose_name='Состояние системы вентиляции в помещении бассейна',
+    #                                                 null=True, blank=True)
+
+    pool_exhaust_ventilation = models.BooleanField(verbose_name='Наличие вытяжной вентиляции', null=True, blank=True)
+    pool_exhaust_ventilation_condition = models.TextField(verbose_name='Техническое состояние вытяжной вентиляции', null=True, blank=True)
+    pool_ventilation_type = models.TextField(verbose_name='Тип вентиляции', null=True, blank=True)
+    pool_supply_ventilation = models.BooleanField(verbose_name='Наличие приточной вентиляции', null=True, blank=True)
+    pool_supply_ventilation_condition = models.TextField(verbose_name='Техническое состояние приточной вентиляции', null=True, blank=True)
+    pool_air_heater_type = models.TextField(verbose_name='Тип воздухонагревателя', null=True, blank=True)
 
     class Meta:
         abstract = True

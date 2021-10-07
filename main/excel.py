@@ -95,7 +95,7 @@ class ExcelWriter(xlwt.Workbook):
         self.schools = list(School.objects.all())
         self.buildings = list(Building.objects.all())
         self.zppp = list(ZPPP.objects.all())
-        self.template_path = settings.DOCUMENT_ROOT+'/template.xlsx'
+        self.template_path = settings.DOCUMENT_ROOT + '/template.xlsx'
         self.full_path = settings.DOCUMENT_ROOT + "/export.xlsx"
 
     def add_buildings_to_excel(self, temperature_data: dict = None, data=None, full=False):
@@ -252,15 +252,15 @@ class ExcelWriter(xlwt.Workbook):
         if filters.__contains__(District._meta.model_name):
             cur_filter: dict = filters[District._meta.model_name]
             self.buildings = filter(lambda f_building: cur_filter.__contains__(f_building.school.district.id.__str__()),
-                                  self.buildings)
-            self.buildings = filter(lambda f_building: cur_filter[f_building.school.district.id.__str__()], self.buildings)
+                                    self.buildings)
+            self.buildings = filter(lambda f_building: cur_filter[f_building.school.district.id.__str__()],
+                                    self.buildings)
 
     def filter_zppp(self, filters: dict):
         cur_filter: dict = filters[District._meta.model_name]
         self.zppp = filter(lambda f_zppp: cur_filter.__contains__(f_zppp.school.district.id.__str__()),
-                                self.zppp)
+                           self.zppp)
         self.zppp = filter(lambda f_zppp: cur_filter[f_zppp.school.district.id.__str__()], self.zppp)
-
 
     def filter_by_date_field(self, objects, start: datetime = None, end: datetime = None):
         if not start is None:
@@ -382,6 +382,51 @@ class ExcelWriter(xlwt.Workbook):
             values3.append(z.zppp_ventilation)
             values3.append(z.zppp_additional)
             go.append(values3)
+        ventilation = read_book.worksheets[3]
+        for building in self.buildings:
+            values4 = []
+            school = building.school
+            values4.append(school.INN)
+            values4.append(school.district.name)
+            values4.append(school.shortname)
+            values4.append(f'{building.street} {building.street_number}')
+            values4.append(building.type)
+            values4.append(building.purpose)
+            values4.append(building.number_of_automatic_control_systems_for_the_air_handling_unit)
+            values4.append(building.technical_condition_of_the_ventilation_system)
+            values4.append(building.food_block_exhaust_ventilation)
+            values4.append(building.food_block_exhaust_ventilation_is_workable)
+            values4.append(building.food_block_ventilation_type)
+            values4.append(building.food_block_supply_ventilation)
+            values4.append(building.food_block_air_heater_type)
+            values4.append(building.gym_exhaust_ventilation)
+            values4.append(building.gym_exhaust_ventilation_is_workable)
+            values4.append(building.gym_ventilation_type)
+            values4.append(building.gym_supply_ventilation)
+            values4.append(building.gym_air_heater_type)
+            values4.append(building.auditorium_exhaust_ventilation)
+            values4.append(building.auditorium_exhaust_ventilation_is_workable)
+            values4.append(building.auditorium_ventilation_type)
+            values4.append(building.auditorium_supply_ventilation)
+            values4.append(building.auditorium_air_heater_type)
+            values4.append(building.bathroom_exhaust_ventilation)
+            values4.append(building.bathroom_exhaust_ventilation_is_workable)
+            values4.append(building.bathroom_ventilation_type)
+            values4.append(building.laundry_exhaust_ventilation)
+            values4.append(building.laundry_exhaust_ventilation_is_workable)
+            values4.append(building.laundry_ventilation_type)
+            values4.append(building.laundry_supply_ventilation)
+            values4.append(building.laundry_air_heater_type)
+            values4.append(building.pool_exhaust_ventilation)
+            values4.append(building.pool_exhaust_ventilation_condition)
+            values4.append(building.pool_ventilation_type)
+            values4.append(building.pool_supply_ventilation)
+            values4.append(building.pool_air_heater_type)
+
+            values4 = [i if i is not None else '-' for i in values4]
+            values4 = [i if not isinstance(i, bool) else ('Да' if i == True else 'Нет') for i in values4]
+
+            ventilation.append(values4)
         read_book.save(self.full_path)
         return self.full_path
 
@@ -484,7 +529,6 @@ class ExcelWriter(xlwt.Workbook):
             go.append(values3)
         read_book.save(self.full_path)
         return self.full_path
-
 
 
 def make_export_file(data: dict):

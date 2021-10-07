@@ -12,6 +12,12 @@ class Laundry(MyModel):
         verbose_name="Вытяжная вентиляция в прачечной работоспособна", null=True, blank=True)
     laundry_ventilation_type = models.CharField(verbose_name="Тип вентиляции в прачечной", max_length=50, null=True,
                                                 blank=True)
+    laundry_supply_ventilation = models.BooleanField(verbose_name="Наличие приточной вентиляции в прачечной",
+                                                 null=True, blank=True)
+    laundry_supply_ventilation_is_workable = models.BooleanField(
+        verbose_name="Приточная вентиляция в прачечной работоспособна", null=True, blank=True)
+    laundry_air_heater_type = models.CharField(verbose_name="Тип воздухонагревателя в прачечной", max_length=50, null=True,
+                                           blank=True)
     laundry_act = models.FileField(verbose_name="Акт обследования технического состояния", upload_to=inn_dir_path, default=None, null=True, blank=True)
 
     class Meta:
