@@ -527,6 +527,51 @@ class ExcelWriter(xlwt.Workbook):
             values3.append(z.zppp_ventilation)
             values3.append(z.zppp_additional)
             go.append(values3)
+        ventilation = read_book.worksheets[3]
+        for building in self.buildings:
+            values4 = []
+            school = building.school
+            values4.append(school.INN)
+            values4.append(school.district.name)
+            values4.append(school.shortname)
+            values4.append(f'{building.street} {building.street_number}')
+            values4.append(building.type)
+            values4.append(building.purpose)
+            values4.append(building.number_of_automatic_control_systems_for_the_air_handling_unit)
+            values4.append(building.technical_condition_of_the_ventilation_system)
+            values4.append(building.food_block_exhaust_ventilation)
+            values4.append(building.food_block_exhaust_ventilation_is_workable)
+            values4.append(building.food_block_ventilation_type)
+            values4.append(building.food_block_supply_ventilation)
+            values4.append(building.food_block_air_heater_type)
+            values4.append(building.gym_exhaust_ventilation)
+            values4.append(building.gym_exhaust_ventilation_is_workable)
+            values4.append(building.gym_ventilation_type)
+            values4.append(building.gym_supply_ventilation)
+            values4.append(building.gym_air_heater_type)
+            values4.append(building.auditorium_exhaust_ventilation)
+            values4.append(building.auditorium_exhaust_ventilation_is_workable)
+            values4.append(building.auditorium_ventilation_type)
+            values4.append(building.auditorium_supply_ventilation)
+            values4.append(building.auditorium_air_heater_type)
+            values4.append(building.bathroom_exhaust_ventilation)
+            values4.append(building.bathroom_exhaust_ventilation_is_workable)
+            values4.append(building.bathroom_ventilation_type)
+            values4.append(building.laundry_exhaust_ventilation)
+            values4.append(building.laundry_exhaust_ventilation_is_workable)
+            values4.append(building.laundry_ventilation_type)
+            values4.append(building.laundry_supply_ventilation)
+            values4.append(building.laundry_air_heater_type)
+            values4.append(building.pool_exhaust_ventilation)
+            values4.append(building.pool_exhaust_ventilation_condition)
+            values4.append(building.pool_ventilation_type)
+            values4.append(building.pool_supply_ventilation)
+            values4.append(building.pool_air_heater_type)
+
+            values4 = [i if i is not None else '-' for i in values4]
+            values4 = [i if not isinstance(i, bool) else ('Да' if i == True else 'Нет') for i in values4]
+
+            ventilation.append(values4)
         read_book.save(self.full_path)
         return self.full_path
 
