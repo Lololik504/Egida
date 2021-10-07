@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 
 from main.allows import departament_allow
 from main.services import export, full_export
+from loguru import logger
 
 
 class ExportExcel(APIView):
@@ -21,9 +22,12 @@ class ExportExcel(APIView):
         if not (departament_allow(user)):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED,
                             data={'detail': 'You dont have permission to do this'})
-        if not data.__contains__("full"):
-            resp = export(data)
-        else:
-            resp = full_export()
+        try:
+            if not data.__contains__("full"):
+                resp = export(data)
+            else:
+                resp = full_export()
+        except Exception as e:
+            logger.debug(str(e))
         # resp = full_export()
         return resp
