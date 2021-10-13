@@ -21,7 +21,8 @@ def find_and_change_bool_vars(data):
                           'auditorium_supply_ventilation_is_workable', 'bathroom_exhaust_ventilation',
                           'bathroom_exhaust_ventilation_is_workable', 'laundry_exhaust_ventilation',
                           'laundry_exhaust_ventilation_is_workable', 'auto_opening_of_emergency_exits_system',
-                          'pool_available', 'pool_working', 'filtration_unit']
+                          'pool_available', 'pool_working', 'filtration_unit', 'laundry_supply_ventilation',
+                         'laundry_supply_ventilation_is_workable', 'pool_exhaust_ventilation', 'pool_supply_ventilation']
     for key in array_of_bool_vars:
         if data.get(key):
             if not change_dict:
