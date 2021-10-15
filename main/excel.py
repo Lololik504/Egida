@@ -367,8 +367,8 @@ class ExcelWriter(xlwt.Workbook):
         for z in self.zppp:
             values3 = []
             school = z.school
-            values3.append(z.zppp_name_school)
             values3.append(school.INN)
+            values3.append(z.zppp_name_school)
             values3.append(z.type_ownership)
             values3.append(z.zppp_type)
             values3.append(z.zppp_adress)
