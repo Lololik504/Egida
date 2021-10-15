@@ -382,6 +382,7 @@ class ExcelWriter(xlwt.Workbook):
             values3.append(z.zppp_light)
             values3.append(z.zppp_ventilation)
             values3.append(z.zppp_additional)
+            values3 = [i if i is not None else '-' for i in values3]
             values3 = [i if not isinstance(i, bool) else ('Есть' if i == True else 'Нет') for i in values3]
             go.append(values3)
         ventilation = read_book.worksheets[3]
@@ -538,6 +539,7 @@ class ExcelWriter(xlwt.Workbook):
             values3.append(z.zppp_light)
             values3.append(z.zppp_ventilation)
             values3.append(z.zppp_additional)
+            values3 = [i if i is not None else '-' for i in values3]
             values3 = [i if not isinstance(i, bool) else ('Есть' if i == True else 'Нет') for i in values3]
             go.append(values3)
         ventilation = read_book.worksheets[3]
