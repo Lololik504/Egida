@@ -367,6 +367,7 @@ class ExcelWriter(xlwt.Workbook):
         for z in self.zppp:
             values3 = []
             school = z.school
+            values3.append(z.zppp_name_school)
             values3.append(school.INN)
             values3.append(z.type_ownership)
             values3.append(z.zppp_type)
@@ -381,6 +382,7 @@ class ExcelWriter(xlwt.Workbook):
             values3.append(z.zppp_light)
             values3.append(z.zppp_ventilation)
             values3.append(z.zppp_additional)
+            values3 = [i if not isinstance(i, bool) else ('Есть' if i == True else 'Нет') for i in values3]
             go.append(values3)
         ventilation = read_book.worksheets[3]
         for building in self.buildings:
@@ -522,6 +524,7 @@ class ExcelWriter(xlwt.Workbook):
             values3 = []
             school = z.school
             values3.append(school.INN)
+            values3.append(z.zppp_name_school)
             values3.append(z.type_ownership)
             values3.append(z.zppp_type)
             values3.append(z.zppp_adress)

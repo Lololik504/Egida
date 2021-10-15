@@ -6,6 +6,7 @@ from django.db import models
 
 class ZPPP(MyModel):
     school = models.ForeignKey(to="main.School", verbose_name="Школа", on_delete=models.CASCADE, default=None)
+    zppp_name_school = models.TextField(verbose_name='Название учреждения', null=True, blank=True)
     type_ownership = models.TextField(verbose_name='Форма собственности', null=True, blank=True)
     zppp_type = models.TextField(verbose_name='Тип здания', null=True, blank=True)
     zppp_adress = models.TextField(verbose_name='Адрес здания', null=True, blank=True)
